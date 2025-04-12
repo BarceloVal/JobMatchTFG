@@ -1,6 +1,8 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
 using Job_Match.Maui.Models;
+using Job_Match.Maui.ApiService;
+using Job_Match.Data.Models;
 
 namespace Job_Match.Maui.ApiService
 {
@@ -15,10 +17,22 @@ namespace Job_Match.Maui.ApiService
         #region constructor
         public ApiService()
         {
-            _httpClient = new HttpClient
+            var handler = new HttpClientHandler();
+
+#if ANDROID
+            // ⚠️ Acepta cualquier certificado (solo para desarrollo)
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+
+            _httpClient = new HttpClient(handler)
             {
-                BaseAddress = new Uri("https://localhost:7010/") // Cambiar por 10.0.2.2 si estás en Android
+                BaseAddress = new Uri("https://10.0.2.2:7010/")
             };
+#else
+                    _httpClient = new HttpClient(handler)
+                    {
+                        BaseAddress = new Uri("https://localhost:7010/")
+                    };
+#endif
         }
 
         #endregion
@@ -36,10 +50,14 @@ namespace Job_Match.Maui.ApiService
                 };
 
                 var response = await _httpClient.PostAsJsonAsync("api/m_user/login", request);
-
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<LoginResponse>();
+                    var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
+
+                    // Guardar en la sesión global
+                    UserSessionService.Instance.Load(loginResponse);
+
+                    return loginResponse;
                 }
                 else
                 {
@@ -62,5 +80,35 @@ namespace Job_Match.Maui.ApiService
 
         #endregion
 
+        #region m_user
+
+        public async Task<m_user?> GetUserByIdAsync(Guid id_user)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/m_user/{id_user}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<m_user>();
+                }
+                else
+                {
+                    Console.WriteLine($"Error al obtener usuario: {response.StatusCode}");
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine($"Error de red: {httpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inesperado: {ex.Message}");
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 }

@@ -11,29 +11,31 @@ namespace Job_Match.Services.Services
         private readonly job_match_context _context = context;
 
         /// <summary>
-        /// Devuelve una lista de objetos del tipo m_user (todos)
+        /// Obtiene todos los usuarios registrados en el sistema.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Lista de usuarios</returns>
         public async Task<List<m_user>> GetAllAsync()
         {
             return await _context.m_users.ToListAsync();
         }
 
         /// <summary>
-        /// Devuelve un objeto del tipo m_user
+        /// Obtiene un usuario por su ID, incluyendo sus relaciones con clientes y proveedores.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">ID del usuario.</param>
+        /// <returns> Si existe, o null si no se encuentra.</returns>
         public async Task<m_user?> GetByIdAsync(Guid id)
         {
-            return await _context.m_users.FindAsync(id);
+            return await _context.m_users.Include(x => x.m_user_clients)
+                                         .Include(x => x.m_user_providers)
+                                         .FirstOrDefaultAsync(x => x.id == id);
         }
 
         /// <summary>
-        /// Crea un usuario
+        /// Crea un nuevo usuario en la base de datos, aplicando hash a la contraseña.
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
+        /// <param name="user">Usuario a crear.</param>
+        /// <returns>El usuario creado con ID asignado.</returns>
         public async Task<m_user> CreateAsync(m_user user)
         {
             // Hashear la contraseña antes de guardar
@@ -46,11 +48,10 @@ namespace Job_Match.Services.Services
         }
 
         /// <summary>
-        /// Borra un usuario
+        /// Elimina un usuario por su ID.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-
+        /// <param name="id">ID del usuario a eliminar.</param>
+        /// <returns>True si fue eliminado, false si no existe.</returns>
         public async Task<bool> DeleteAsync(Guid id)
         {
             var user = await _context.m_users.FindAsync(id);
@@ -62,11 +63,11 @@ namespace Job_Match.Services.Services
         }
 
         /// <summary>
-        /// Login de Usuario
+        /// Autentica un usuario por su email y contraseña.
         /// </summary>
-        /// <param name="mail"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
+        /// <param name="mail">Correo electrónico del usuario.</param>
+        /// <param name="password">Contraseña sin hashear.</param>
+        /// <returns>Usuario autenticado si es válido, o null si falla la autenticación.</returns>
         public async Task<m_user?> LoginAsync(string mail, string password)
         {
             var user = await _context.m_users.FirstOrDefaultAsync(u => u.mail == mail);
@@ -77,6 +78,18 @@ namespace Job_Match.Services.Services
             bool isValid = PasswordHelper.Verify(password, user.password);
 
             return isValid ? user : null;
+        }
+
+        /// <summary>
+        /// Actualiza los datos de un usuario existente.
+        /// </summary>
+        /// <param name="user">Objeto <see cref="m_user"/> con los datos actualizados.</param>
+        /// <returns>El usuario actualizado.</returns>
+        public async Task<m_user> UpdateAsync(m_user user)
+        {
+            _context.m_users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
 
     }

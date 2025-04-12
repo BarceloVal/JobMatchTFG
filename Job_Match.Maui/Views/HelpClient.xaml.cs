@@ -1,8 +1,8 @@
 namespace Job_Match.Maui.Views;
 
-public partial class HomePage : ContentPage
+public partial class HelpClient : ContentPage
 {
-	public HomePage()
+	public HelpClient()
 	{
 		InitializeComponent();
 	}

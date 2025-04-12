@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Job_Match.Maui.Views.CreateAccount" >
+
+    <Grid BackgroundColor="White" RowDefinitions="*,Auto">
+
+        <VerticalStackLayout Grid.Row="0" Padding="30">
+
+            <!-- Logo -->
+            <Image
+                Source="jobmatchred.png"
+                HeightRequest="130"
+                WidthRequest="130"
+                HorizontalOptions="Center"
+                Margin="0, 0, 0, 35"/>
+
+            <!-- Título -->
+            <Label
+                Text="¡Créate una cuenta!"
+                TextColor="Black"
+                FontSize="35"
+                HorizontalTextAlignment="Center"/>
+
+            <Label
+                Text="¿Cliente o proveedor?"
+                TextColor="Black"
+                FontSize="20"
+                HorizontalTextAlignment="Center"
+                Margin="0, 0, 0, 20"/>
+
+            <!-- Texto explicativo -->
+            <WebView
+                HeightRequest="170"
+                BackgroundColor="Transparent"
+                Margin="0,20,0,0">
+                <WebView.Source>
+                    <HtmlWebViewSource>
+                        <HtmlWebViewSource.Html>
+                            <![CDATA[
+                            <html>
+                                <head>
+                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                    </head>
+                                    <body style="text-align:justify; font-size:17px; color:black; margin:0; padding:0;">
+                                        Regístrate como cliente si buscas contratar servicios, o como proveedor si deseas ofrecer tus servicios profesionales y experiencia. Más adelante, podrás cambiar entre cliente y proveedor desde las configuraciones de tu cuenta.
+                                    </body>
+                                </html>
+                                ]]>
+                        </HtmlWebViewSource.Html>
+                    </HtmlWebViewSource>
+                </WebView.Source>
+            </WebView>
+
+            <!-- Botón cliente -->
+            <Button
+                        x:Name="btnClient"
+                        Text="Cliente"
+                        BackgroundColor="#980c0f"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        CornerRadius="30"
+                        Margin="0, 0, 0, 10"
+                        Clicked="btnClient_Clicked"
+                        HorizontalOptions="FillAndExpand"/>
+
+            <!-- Botón proveedor -->
+            <Button
+                        x:Name="btnProvider"
+                        Text="Proveedor"
+                        BackgroundColor="#980c0f"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        CornerRadius="30"
+                        Margin="0, 10, 0, 10"
+                        Clicked="btnProvider_Clicked"
+                        HorizontalOptions="FillAndExpand"/>
+        </VerticalStackLayout>
+
+        <!-- Footer fijo abajo -->
+        <StackLayout Grid.Row="1" Padding="0,10"  Margin="0, 0, 0, 20" Spacing="2">
+            <Label
+                        Text="© 2025 JobMatch. Todos los derechos reservados."
+                        TextColor="Black"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"/>
+            <Label
+                        Text="Terms of Service | Privacy Policy"
+                        TextColor="Black"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

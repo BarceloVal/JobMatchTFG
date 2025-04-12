@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Job_Match.Maui.Views.CreateClientAccount" >
+
+    <Grid BackgroundColor="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Capa 1: el Path rojo -->
+        <Path
+            Grid.Row="0"
+            Stroke="#000"
+            Fill="#980c0f"
+            Data="m201.48868,122.90001c-117.40352,0 -214.48868,-62.39763 -214.48868,-137.55803c0,-75.1604 95.09685,-142.442 212.50038,-142.442c117.40352,0 211.60564,69.05002 212.50038,142.442c0.89474,73.39197 -93.10855,137.55803 -210.51207,137.55803z" />
+
+        <!-- Capa 2: el logo encima -->
+        <Image
+            Grid.Row="0"
+            Source="jobmatchwhite.png"
+            HeightRequest="80"
+            WidthRequest="80"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+
+        <!-- Título -->
+        <StackLayout Grid.Row="1" Padding="0">
+            <Label
+                Text="¡Créate una cuenta!"
+                TextColor="Black"
+                FontSize="35"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"/>
+
+            <Label
+                Text="Cliente"
+                TextColor="Black"
+                FontSize="20"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"/>
+        </StackLayout>
+
+        <!-- Cuerpo/Formulario -->
+        <ScrollView Grid.Row="2" Margin="20, 50, 20, 20">
+            <Frame
+                Padding="20"
+                CornerRadius="30"
+                BorderColor="Black"
+                HasShadow="False"
+                BackgroundColor="White">
+
+                <!-- Campos -->
+                <VerticalStackLayout>
+                    <!-- Nombre completo-->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Nombre completo"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 10, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 12, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Text="{Binding FullName}"
+                        TextColor="Black"
+                        Placeholder="Introduce tu nombre completo"
+                        BackgroundColor="Transparent">
+                        <Entry.Triggers>
+                            <DataTrigger
+                                TargetType="Entry"
+                                Binding="{Binding IsFullNameValid}"
+                                Value="True">
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                    <Label
+                        Text="{Binding FullNameError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsFullNameValid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Mail/Usuario -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Mail"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Text="{Binding Mail}"
+                        TextColor="Black"
+                        Keyboard="Email"
+                        Placeholder="Introduce tu correo electrónico"
+                        BackgroundColor="Transparent">
+                        <Entry.Triggers>
+                            <DataTrigger
+                                TargetType="Entry"
+                                Binding="{Binding IsMailValid}"
+                                Value="True">
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                    <Label
+                        Text="{Binding MailError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsMailValid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Contraseña -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Contraseña"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Entry
+                            x:Name="ePasswordClient1"
+                            Text="{Binding Password}"
+                            IsPassword="True"
+                            Placeholder="Introduce contraseña"
+                            BackgroundColor="Transparent" />
+                        <ImageButton
+                            x:Name="btnPasswordVisibility1"
+                            Source="passwordoff.png"
+                            WidthRequest="30"
+                            HeightRequest="30"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="End"
+                            Margin="5"
+                            Clicked="btnPasswordVisibility_Clicked" />
+                    </Grid>
+                    <Label
+                        Text="{Binding PasswordError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsPasswordValid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Repetir contraseña -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Repetir contraseña"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Entry
+                            x:Name="ePasswordClient2"
+                            Text="{Binding RepeatPassword}"
+                            IsPassword="True"
+                            Placeholder="Introduce contraseña nuevamente"
+                            BackgroundColor="Transparent" />
+                        <ImageButton
+                            x:Name="btnPasswordVisibility2"
+                            Source="passwordoff.png"
+                            WidthRequest="30"
+                            HeightRequest="30"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="End"
+                            Margin="5"
+                            Clicked="btnPasswordVisibility2_Clicked" />
+                    </Grid>
+                    <Label
+                        Text="{Binding RepeatPasswordError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsRepeatPasswordValid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Tipo de documento -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Tipo de documento"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <!-- Hay que modificarlo para que lea los datos de la BD -->
+                        <Picker x:Name="pickerDocType"
+                                TextColor="Black"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="End"
+                                Margin="0"
+                                FontSize="15">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>DNI</x:String>
+                                    <x:String>Pasaporte</x:String>
+                                    <x:String>Licencia</x:String>
+                                    <x:String>Otro</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+
+                        <!-- Flecha decorativa -->
+                        <Image Source="arrowdown.png"
+                               HeightRequest="20"
+                               WidthRequest="20"
+                               HorizontalOptions="End"
+                               Margin="0,0,10,10"/>
+                    </Grid>
+
+                    <!-- Documento -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Documento"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Placeholder="Introduce tu documento"
+                        BackgroundColor="Transparent" />
+
+                    <!-- Dirección -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Dirección"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Text="{Binding Address}"
+                        Placeholder="Introduce tu dirección"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"/>
+                    <Label
+                        Text="{Binding AddressError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsAddressValid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Código postal -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Código postal"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <!-- Hay que modificarlo para que lea los datos de la BD -->
+                        <Picker x:Name="pickerPostCode"
+                                TextColor="Black"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="End"
+                                Margin="0"
+                                FontSize="15">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>46220</x:String>
+                                    <x:String>46007</x:String>
+                                    <x:String>46002</x:String>
+                                    <x:String>Otro</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+
+                        <!-- Flecha decorativa -->
+                        <Image Source="arrowdown.png"
+                               HeightRequest="20"
+                               WidthRequest="20"
+                               HorizontalOptions="End"
+                               Margin="0,0,10,10"/>
+                    </Grid>
+
+                    <!-- Teléfono 1 -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Teléfono 1"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Text="{Binding Phone1}"
+                        Placeholder="Introduce tu teléfono"
+                        Keyboard="Telephone"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"/>
+                    <Label Text="{Binding Phone1Error}" TextColor="Red" FontSize="13" IsVisible="{Binding IsPhone1Valid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Teléfono 2 -->
+                    <Label
+                        Text="Teléfono 2"
+                        TextColor="Black"
+                        FontSize="15"
+                        Margin="0, 25, 0, 0"/>
+                    <Entry
+                        Text="{Binding Phone2}"
+                        Placeholder="Introduce otro teléfono (opcional)"
+                        Keyboard="Telephone"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"/>
+                    <Label Text="{Binding Phone2Error}" TextColor="Red" FontSize="13" IsVisible="{Binding IsPhone2Valid, Converter={StaticResource InverseBoolConverter}}" />
+                </VerticalStackLayout>
+            </Frame>
+        </ScrollView>
+
+        <Button
+            Grid.Row="3"
+            x:Name="btnCreateClient"
+            Text="Sing up"
+            BackgroundColor="#980c0f"
+            TextColor="White"
+            FontAttributes="Bold"
+            FontSize="18"
+            CornerRadius="30"
+            WidthRequest="350"
+            Margin="0, 10, 0, 20"
+            Clicked="btnCreateClient_Clicked"/>
+
+    </Grid>
+
+</ContentPage>

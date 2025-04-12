@@ -56,9 +56,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\arrowdown.png" />
+	  <None Remove="Resources\Images\help.png" />
+	  <None Remove="Resources\Images\home.png" />
+	  <None Remove="Resources\Images\iconoffers.png" />
+	  <None Remove="Resources\Images\jobmatchred.png" />
 	  <None Remove="Resources\Images\jobmatchwhite.png" />
 	  <None Remove="Resources\Images\mail.png" />
+	  <None Remove="Resources\Images\menu.png" />
+	  <None Remove="Resources\Images\myoffers.png" />
 	  <None Remove="Resources\Images\password.png" />
+	  <None Remove="Resources\Images\passwordoff.png" />
+	  <None Remove="Resources\Images\passwordon.png" />
+	  <None Remove="Resources\Images\profile.png" />
+	  <None Remove="Resources\Images\request.png" />
+	  <None Remove="Resources\Images\requestservice.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -69,12 +81,79 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="LoginPage.xaml">
+	  <MauiXaml Update="MainShellClient.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\HomePage.xaml">
+	  <MauiXaml Update="MainShellProvider.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="UserControls\FlyoutHeaderControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="UserControls\HeaderControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CreateClientAccount.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CreateAccount.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CreateProviderAccount.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HelpClient.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HelpProvider.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HomeClient.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HomeProvider.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\OfferClient.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\OfferProvider.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ProfileClient.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ProfileProvider.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RequestServiceClient.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RequestServiceProvider.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Job_Match.Data\Job_Match.Data.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="MainShellProvider.xaml.cs">
+	    <DependentUpon>MainShellProvider.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CreateClientAccount.xaml.cs">
+	    <DependentUpon>CreateClientAccount.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\HelpProvider.xaml.cs">
+	    <DependentUpon>HelpProvider.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\RequestServiceClient.xaml.cs">
+	    <DependentUpon>RequestServiceClient.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>

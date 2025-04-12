@@ -60,6 +60,24 @@ namespace Job_Match.API.Controllers
 
         #region methods PUT
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] m_user updatedUser)
+        {
+            var existingUser = await _userService.GetByIdAsync(id);
+            if (existingUser == null) return NotFound();
+
+            existingUser.first_name = updatedUser.first_name;
+            existingUser.last_name = updatedUser.last_name;
+            existingUser.is_provider = updatedUser.is_provider;
+            existingUser.is_client = updatedUser.is_client;
+            existingUser.last_update = DateTime.Now;
+
+            var result = await _userService.UpdateAsync(existingUser);
+
+            return Ok(result);
+        }
+
+
         #endregion
 
         #region methods DELETE
@@ -91,9 +109,16 @@ namespace Job_Match.API.Controllers
                 user = new
                 {
                     user.id,
+                    user.id_mask,
                     user.mail,
                     user.first_name,
-                    user.last_name
+                    user.last_name,
+                    user.is_provider,
+                    user.is_client,
+                    user.last_access,
+                    user.active,
+                    user.created_on,
+                    user.last_update
                 }
             });
         }

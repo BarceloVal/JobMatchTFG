@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Job_Match.Maui.UserControls"
+             x:Class="Job_Match.Maui.Views.HomeClient"
+             Shell.NavBarIsVisible="False">
+
+    <VerticalStackLayout Spacing="0">
+        <!-- Mi encabezado personalizado -->
+        <controls:HeaderControl />
+
+        <!-- Buscar solicitudes -->
+        <Grid Margin="0, 30, 0, 50">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Image
+                Grid.Row="0"
+                Source="requestservice.png"
+                WidthRequest="200"
+                HeightRequest="200"/>
+
+            <Button
+                x:Name="btnrequest"
+                Grid.Row="1"
+                Text="Buscar servicios"
+                BackgroundColor="#980c0f"
+                TextColor="White"
+                Margin="20"
+                Clicked="btnrequest_Clicked"/>
+
+        </Grid>
+
+        <!-- Ofertas -->
+        <Grid VerticalOptions="End">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Image
+                Grid.Row="0"
+                Source="myoffers.png"
+                WidthRequest="150"
+                HeightRequest="150"/>
+
+            <Button
+                x:Name="btnoffers"
+                Grid.Row="1"
+                Text="Ver mis ofertas abiertas"
+                BackgroundColor="#980c0f"
+                TextColor="White"
+                Margin="20"
+                Clicked="btnoffers_Clicked"/>
+
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Job_Match.Maui.UserControls.HeaderControl"
+             BackgroundColor="#980c0f" HeightRequest="50">
+
+    <Grid Padding="10" ColumnDefinitions="Auto,*,Auto">
+        <!-- Botón de menú (hamburguesa) -->
+        <ImageButton
+            x:Name="OnMenuClicked"
+            Source="menu.png"
+            BackgroundColor="Transparent"
+            Clicked="OnMenuClicked_Clicked"
+            WidthRequest="30"
+            HeightRequest="30"
+            Margin="5, 0, 5, 0"/>
+
+        <!-- Título de la app -->
+        <Label
+            Grid.Column="1"
+            Text="JobMatch"
+            FontAttributes="Bold"
+            FontSize="18"
+            TextColor="White"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+
+        <!-- Tipo de usuario -->
+        <Label
+            x:Name="lblUserType"
+            Grid.Column="2"
+            Text="Tipo"
+            FontSize="14"
+            TextColor="White"
+            VerticalOptions="Center"
+            HorizontalOptions="End"
+            Margin="0, 0, 5, 0"/>
+    </Grid>
+
+</ContentPage>

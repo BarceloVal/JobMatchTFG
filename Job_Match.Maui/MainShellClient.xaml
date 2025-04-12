@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:Job_Match.Maui.Views"
+       xmlns:controls="clr-namespace:Job_Match.Maui.UserControls"
+       x:Class="Job_Match.Maui.MainShellClient"
+       Shell.FlyoutBehavior="Flyout">
+
+    <Shell.FlyoutHeader>
+        <controls:FlyoutHeaderControl />
+    </Shell.FlyoutHeader>
+
+    <!-- Menú de la página de cliente -->
+    <!-- Página del inicio del cliente -->
+    <FlyoutItem Title="Home" Route="HomeClient" FlyoutIcon="home.png">
+        <ShellContent ContentTemplate="{DataTemplate views:HomeClient}" />
+    </FlyoutItem>
+
+    <!-- Página para ver el perfil del cliente -->
+    <FlyoutItem Title="Perfil" Route="ProfileClient" FlyoutIcon="profile.png">
+        <ShellContent ContentTemplate="{DataTemplate views:ProfileClient}" />
+    </FlyoutItem>
+
+    <!-- Página para ver las solicitudes de servicios -->
+    <FlyoutItem Title="Buscar servicios" Route="RequestServiceClient" FlyoutIcon="request.png">
+        <ShellContent ContentTemplate="{DataTemplate views:RequestServiceClient}" />
+    </FlyoutItem>
+
+    <!-- Página para ver las ofertas del proveedor-->
+    <FlyoutItem Title="Ver mis ofertas abiertas" Route="OfferClient" FlyoutIcon="iconoffers.png">
+        <ShellContent ContentTemplate="{DataTemplate views:OfferClient}" />
+    </FlyoutItem>
+
+    <!-- Ayuda para el usuario sobre la página de cliente -->
+    <FlyoutItem Title="Ayuda" Route="HelpClient" FlyoutIcon="help.png">
+        <ShellContent ContentTemplate="{DataTemplate views:HelpClient}" />
+    </FlyoutItem>
+
+    <!-- Botón para salir de la sesión de cliente -->
+    <Shell.FlyoutFooter>
+        <Grid Padding="10">
+            <Button
+                x:Name="btnLogOut"
+                Text="Cerrar sesión"
+                TextColor="White"
+                BackgroundColor="#980c0f"
+                Clicked="btnLogOut_Clicked"/>
+        </Grid>
+    </Shell.FlyoutFooter>
+</Shell>

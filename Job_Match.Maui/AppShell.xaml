@@ -3,12 +3,10 @@
     x:Class="Job_Match.Maui.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Job_Match.Maui"
+    xmlns:views="clr-namespace:Job_Match.Maui.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="Job_Match.Maui">
+    Shell.NavBarIsVisible="False">
 
-    <ShellContent
-        ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="LoginPage" />
+    <ShellContent ContentTemplate="{DataTemplate views:LoginPage}" />
 
 </Shell>

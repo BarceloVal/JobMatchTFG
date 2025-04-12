@@ -1,0 +1,193 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Job_Match.Maui.Views.LoginPage">
+
+    <Grid BackgroundColor="White" RowDefinitions="*,Auto">
+
+        <!-- Contenido principal -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout>
+
+                <!-- Forma decorativa roja -->
+                <Grid HeightRequest="220">
+                    <Path
+                        Stroke="#000"
+                        Fill="#980c0f"
+                        Data="m202.59145,194.89999c-123.48078,0 -225.59145,-67.52315 -225.59145,-148.85743c0,-81.33428 100.01943,-154.14258 223.50023,-154.14258c123.48078,0 222.55917,74.72198 223.50023,154.14258c0.94106,79.42059 -97.92821,148.85743 -221.40899,148.85743l-0.00001,0z"/>
+                    <Image
+                        Source="jobmatchwhite.png"
+                        HeightRequest="130"
+                        WidthRequest="130"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Margin="0, 0, 0, 45"/>
+                </Grid>
+
+                <!-- Título -->
+                <Label
+                    Text="¡Bienvenido!"
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    FontSize="35"
+                    FontAttributes="Bold"
+                    Margin="0, 20, 0, 0"/>
+
+                <!-- Subtítulo -->
+                <Label
+                    Text="Inicia sesión para continuar"
+                    HorizontalOptions="Center"
+                    FontSize="20"
+                    Margin="0, 0, 0, 20"/>
+
+                <!-- Campos de entrada de datos -->
+                <StackLayout Margin="30, 10, 30, 10">
+
+                    <!-- Usuario/Mail -->
+                    <Frame
+                        BackgroundColor="Transparent"
+                        BorderColor="Black"
+                        Padding="10,0"
+                        CornerRadius="30"
+                        HasShadow="False">
+                        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                            <!-- Ícono -->
+                            <Image
+                                Source="mail.png"
+                                WidthRequest="28"
+                                HeightRequest="28"
+                                VerticalOptions="Center"
+                                Margin="5,0"/>
+                            <!-- Entrada de datos -->
+                            <Entry
+                                x:Name="eMail"
+                                Text="{Binding Mail}"
+                                Grid.Column="1"
+                                Keyboard="Email"
+                                Placeholder="Introduce tu mail"
+                                TextColor="Black"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="Center"
+                                Margin="10,0" />
+
+                        </Grid>
+                    </Frame>
+
+                    <!-- Mensaje de error -->
+                    <Label
+                        Text="{Binding MailError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        Padding="10,0"
+                        Margin="0, 5, 0, 5"
+                        IsVisible="{Binding IsMailValid, Converter={StaticResource InverseBoolConverter}}"/>
+
+                    <!-- Contraseña -->
+                    <Frame
+                        BackgroundColor="Transparent"
+                        BorderColor="Black"
+                        Padding="10,0"
+                        CornerRadius="30"
+                        HasShadow="False"
+                        Margin="0,10,0,0">
+                        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                            <!-- Ícono -->
+                            <Image
+                                Source="password.png"
+                                WidthRequest="28"
+                                VerticalOptions="Center"
+                                Margin="5,0"/>
+                            <!-- Entrada de datos -->
+                            <Entry
+                                x:Name="ePassword"
+                                Text="{Binding Password}"
+                                IsPassword="True"
+                                Grid.Column="1"
+                                Placeholder="Introduce tu contraseña"
+                                TextColor="Black"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                Margin="10,0"/>
+                            <!-- Ojito (visibilidad de la contraseña) -->
+                            <ImageButton
+                                x:Name="btnPasswordVisibility"
+                                Source="passwordoff.png"
+                                WidthRequest="30"
+                                HeightRequest="30"
+                                BackgroundColor="Transparent"
+                                Clicked="btnPasswordVisibility_Clicked"
+                                Grid.Column="2"
+                                VerticalOptions="Center"
+                                Margin="5,0"/>
+                        </Grid>
+                    </Frame>
+
+                    <!-- Mensaje de error -->
+                    <Label
+                        Text="{Binding PasswordError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        Padding="10,0"
+                        Margin="0, 5, 0, 5"
+                        IsVisible="{Binding IsPasswordValid, Converter={StaticResource InverseBoolConverter}}"/>
+                </StackLayout>
+
+                <!-- Recordar contraseña -->
+                <StackLayout Orientation="Horizontal"  Margin="30, 10, 30, 10" Padding="0">
+                    <CheckBox IsChecked="False" />
+                    <Label Text="Recuerdame la contraseña" TextColor="Black" FontSize="15" VerticalTextAlignment="Center" />
+                </StackLayout>
+
+                <!-- Botón iniciar sesión -->
+                <Button
+                    x:Name="btnSesion"
+                    Text="Iniciar sesión"
+                    BackgroundColor="#980c0f"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    CornerRadius="30"
+                    WidthRequest="330"
+                    Margin="30, 10, 30, 10"
+                    Clicked="btnSesion_Clicked"/>
+
+                <!-- Link crear cuenta -->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0, 30, 0, 0">
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span
+                                    Text="¿Eres nuevo/a? "
+                                    TextColor="Black"
+                                    FontSize="15"/>
+                                <Span
+                                    Text="Créate una cuenta"
+                                    TextColor="Blue"
+                                    FontAttributes="Bold"
+                                    FontSize="15">
+                                    <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                                    </Span.GestureRecognizers>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Footer fijo abajo -->
+        <StackLayout Grid.Row="1" Padding="0,10" Margin="0, 0, 0, 20" Spacing="2">
+            <Label Text="© 2025 JobMatch. Todos los derechos reservados."
+                   TextColor="Black"
+                   FontSize="14"
+                   HorizontalTextAlignment="Center"/>
+            <Label Text="Terms of Service | Privacy Policy"
+                   TextColor="Black"
+                   FontSize="14"
+                   HorizontalTextAlignment="Center"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>
