@@ -5,10 +5,69 @@
              xmlns:controls="clr-namespace:Job_Match.Maui.UserControls"
              Shell.NavBarIsVisible="False">
 
-    <VerticalStackLayout Spacing="0">
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+            <!-- Mi encabezado personalizado -->
+            <controls:HeaderControl/>
 
-        <!-- Mi encabezado personalizado -->
-        <controls:HeaderControl/>
+            <!-- Contenido con estilos -->
+            <!-- Datos del usuario -->
+            <VerticalStackLayout Padding="20" Spacing="10">
 
-    </VerticalStackLayout>
+                <Label Text="{Binding FullName}" FontSize="25" TextColor="#980c0f" HorizontalOptions="Center" FontAttributes="Bold" />
+
+                <Grid ColumnSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Etiquetas -->
+                    <Label Grid.Row="0" Grid.Column="0" Text="Nombre:" FontAttributes="Bold"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Apellido/s:" FontAttributes="Bold"/>
+                    <Label Grid.Row="2" Grid.Column="0" Text="Mail:" FontAttributes="Bold"/>
+                    <Label Grid.Row="3" Grid.Column="0" Text="Documento:" FontAttributes="Bold"/>
+                    <Label Grid.Row="4" Grid.Column="0" Text="Dirección:" FontAttributes="Bold"/>
+                    <Label Grid.Row="5" Grid.Column="0" Text="Código Postal:" FontAttributes="Bold"/>
+                    <Label Grid.Row="6" Grid.Column="0" Text="Teléfono 1:" FontAttributes="Bold"/>
+                    <Label Grid.Row="7" Grid.Column="0" Text="Teléfono 2:" FontAttributes="Bold"/>
+
+                    <!-- Valores -->
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Nombre}" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Apellido}" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Mail}" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Documento}" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Direccion}" />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding CodigoPostal}" />
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding Telefono1}" />
+                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Telefono2}" />
+                </Grid>
+
+            </VerticalStackLayout>
+
+            <!-- Botón para cambiar perfil -->
+            <Button
+                x:Name="btnSwitchUser"
+                Text="Cambiar perfil a proveedor"
+                BackgroundColor="#980c0f"
+                TextColor="White"
+                CornerRadius="15"
+                Padding="10"
+                HorizontalOptions="Center"
+                Clicked="btnSwitchUser_Clicked"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
