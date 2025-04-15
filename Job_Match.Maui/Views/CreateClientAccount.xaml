@@ -30,7 +30,7 @@
         <!-- Título -->
         <StackLayout Grid.Row="1" Padding="0">
             <Label
-                Text="¡Créate una cuenta!"
+                Text="Créate una cuenta"
                 TextColor="Black"
                 FontSize="35"
                 VerticalTextAlignment="Center"
@@ -55,10 +55,10 @@
 
                 <!-- Campos -->
                 <VerticalStackLayout>
-                    <!-- Nombre completo-->
+                    <!-- Nombre-->
                     <HorizontalStackLayout>
                         <Label
-                            Text="Nombre completo"
+                            Text="Nombre"
                             TextColor="Black"
                             FontSize="15"
                             Margin="0, 10, 0, 0"/>
@@ -69,23 +69,55 @@
                             Margin="8, 12, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
-                        Text="{Binding FullName}"
+                        Text="{Binding FirstName}"
                         TextColor="Black"
-                        Placeholder="Introduce tu nombre completo"
+                        Placeholder="Introduce tu nombre"
                         BackgroundColor="Transparent">
                         <Entry.Triggers>
                             <DataTrigger
                                 TargetType="Entry"
-                                Binding="{Binding IsFullNameValid}"
+                                Binding="{Binding IsFirstNameValid}"
                                 Value="True">
                             </DataTrigger>
                         </Entry.Triggers>
                     </Entry>
                     <Label
-                        Text="{Binding FullNameError}"
+                        Text="{Binding FirstNameError}"
                         TextColor="Red"
                         FontSize="13"
-                        IsVisible="{Binding IsFullNameValid, Converter={StaticResource InverseBoolConverter}}" />
+                        IsVisible="{Binding IsFirstNameValid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Apellido-->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Apellido"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 10, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 12, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Text="{Binding LastName}"
+                        TextColor="Black"
+                        Placeholder="Introduce tu apellido"
+                        BackgroundColor="Transparent">
+                        <Entry.Triggers>
+                            <DataTrigger
+                                TargetType="Entry"
+                                Binding="{Binding IsLastNameValid}"
+                                Value="True">
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                    <Label
+                        Text="{Binding LastNameError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsLastNameValid, Converter={StaticResource InverseBoolConverter}}" />
 
                     <!-- Mail/Usuario -->
                     <HorizontalStackLayout>
@@ -209,23 +241,11 @@
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="*,Auto">
 
-                        <!-- Hay que modificarlo para que lea los datos de la BD -->
-                        <Picker x:Name="pickerDocType"
-                                TextColor="Black"
-                                BackgroundColor="Transparent"
-                                HorizontalOptions="FillAndExpand"
-                                VerticalOptions="End"
-                                Margin="0"
-                                FontSize="15">
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>DNI</x:String>
-                                    <x:String>Pasaporte</x:String>
-                                    <x:String>Licencia</x:String>
-                                    <x:String>Otro</x:String>
-                                </x:Array>
-                            </Picker.ItemsSource>
-                        </Picker>
+                        <Picker
+                            Title="Selecciona un tipo de documento"
+                            ItemsSource="{Binding DocTypes}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding SelectedDocType}" />
 
                         <!-- Flecha decorativa -->
                         <Image Source="arrowdown.png"
@@ -249,8 +269,23 @@
                             Margin="8, 27, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
+                        Text="{Binding Document}"
+                        TextColor="Black"
                         Placeholder="Introduce tu documento"
-                        BackgroundColor="Transparent" />
+                        BackgroundColor="Transparent">
+                        <Entry.Triggers>
+                            <DataTrigger
+                                TargetType="Entry"
+                                Binding="{Binding IsDocumentValid}"
+                                Value="True">
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                    <Label
+                        Text="{Binding DocumentError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsDocumentValid, Converter={StaticResource InverseBoolConverter}}" />
 
                     <!-- Dirección -->
                     <HorizontalStackLayout>

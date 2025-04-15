@@ -10,29 +10,29 @@ namespace Job_Match.Maui.ViewModels
 {
     public class ProfileClientViewModel
     {
-        public string FullName { get; set; }
-
         // Estas son las propiedades que el XAML usará con Binding
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Mail { get; set; }
-        public string Documento { get; set; }
-        public string Direccion { get; set; }
-        public string CodigoPostal { get; set; }
-        public string Telefono1 { get; set; }
-        public string Telefono2 { get; set; }
+        public string Password { get; set; }
+        public string DocType { get; set; }
+        public string Doc { get; set; }
+        public string Address { get; set; }
+        public string PostalCode { get; set; }
+        public string Phone1 { get; set; }
+        public string Phone2 { get; set; }
 
         public ProfileClientViewModel(_UserDto user)
         {
-            FullName = $"{user.first_name} {user.last_name}";
-            Nombre = user.first_name;
-            Apellido = user.last_name;
+            FirstName = user.first_name;
+            LastName = user.last_name;
             Mail = user.mail;
-            Documento = "Y1234567J"; // temporal
-            Direccion = "Calle 123"; // temporal
-            CodigoPostal = "46220";  // temporal
-            Telefono1 = "622 58 55 11"; // temporal
-            Telefono2 = ""; // por ahora vacío
+            //Password = user.password;
+            //Doc = user.
+            //Direccion = "Calle 123"; 
+            //CodigoPostal = "46220";  
+            //Telefono1 = "622 58 55 11"; 
+            //Telefono2 = ""; 
         }
     }
 }

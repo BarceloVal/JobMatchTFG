@@ -5,64 +5,120 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
+using Job_Match.Data.Models;
+using Job_Match.Maui.ApiService;
+using ApiServiceClass = Job_Match.Maui.ApiService.ApiService;
+using Job_Match.Maui.Models;
+using System.Runtime.CompilerServices;
 
 namespace Job_Match.Maui.ViewModels
 {
     public class CreateClientAccountViewModel : INotifyPropertyChanged
     {
+        public CreateClientAccountViewModel()
+        {
+            LoadDocTypesAsync();
+        }
+
         // Evento que notifica a la interfaz de usuario cuando una propiedad cambia
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Método auxiliar para lanzar el evento PropertyChanged
-        private void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
-        // -----------------------
-        // --- Nombre completo ---
-        // -----------------------
-        private string _fullName;
-        public string FullName
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            get => _fullName;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private readonly ApiServiceClass _apiService = new();
+
+        // -----------------------
+        // ------- Nombre -------
+        // -----------------------
+        private string _firstName;
+        public string FirstName
+        {
+            get => _firstName;
             set
             {
-                if (_fullName != value)
+                if (_firstName != value)
                 {
-                    _fullName = value;
-                    OnPropertyChanged(nameof(FullName));
-                    ValidateFullName();
+                    _firstName = value;
+                    OnPropertyChanged(nameof(FirstName));
+                    ValidateFirstName();
                 }
             }
         }
 
-        private string _fullNameError;
-        public string FullNameError
+        private string _firstNameError;
+        public string FirstNameError
         {
-            get => _fullNameError;
+            get => _firstNameError;
             set
             {
-                _fullNameError = value;
-                OnPropertyChanged(nameof(FullNameError));
-                OnPropertyChanged(nameof(IsFullNameValid));
+                _firstNameError = value;
+                OnPropertyChanged(nameof(FirstNameError));
+                OnPropertyChanged(nameof(IsFirstNameValid));
             }
         }
 
-        public bool IsFullNameValid => string.IsNullOrEmpty(FullNameError);
+        public bool IsFirstNameValid => string.IsNullOrEmpty(FirstNameError);
 
-        private void ValidateFullName()
+        private void ValidateFirstName()
         {
-            if (string.IsNullOrWhiteSpace(FullName))
-                FullNameError = "Campo obligatorio.";
-            else if (FullName.Length > 100)
-                FullNameError = "Máximo 100 caracteres.";
+            if (string.IsNullOrWhiteSpace(FirstName))
+                FirstNameError = "Campo obligatorio.";
+            else if (FirstName.Length > 30)
+                FirstNameError = "Máximo 30 caracteres.";
             else
-                FullNameError = string.Empty;
+                FirstNameError = string.Empty;
+        }
+
+        // -----------------------
+        // ------ Apellido ------
+        // -----------------------
+        private string _lastName;
+        public string LastName
+        {
+            get => _lastName;
+            set
+            {
+                if (_lastName != value)
+                {
+                    _lastName = value;
+                    OnPropertyChanged(nameof(LastName));
+                    ValidateLastName();
+                }
+            }
+        }
+
+        private string _lastNameError;
+        public string LastNameError
+        {
+            get => _lastNameError;
+            set
+            {
+                _lastNameError = value;
+                OnPropertyChanged(nameof(LastNameError));
+                OnPropertyChanged(nameof(IsLastNameValid));
+            }
+        }
+
+        public bool IsLastNameValid => string.IsNullOrEmpty(LastNameError);
+
+        private void ValidateLastName()
+        {
+            if (string.IsNullOrWhiteSpace(LastName))
+                LastNameError = "Campo obligatorio.";
+            else if (LastName.Length > 30)
+                LastNameError = "Máximo 30 caracteres.";
+            else
+                LastNameError = string.Empty;
         }
 
 
         // ---------------
-        // --- Mail ---
+        // ---- Mail ----
         // ---------------
         private string _mail;
         public string Mail
@@ -99,6 +155,8 @@ namespace Job_Match.Maui.ViewModels
                 MailError = "Campo obligatorio.";
             else if (!Regex.IsMatch(Mail, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
                 MailError = "El formato del correo no es válido.";
+            else if (Mail.Length > 100)
+                MailError = "Máximo 100 caracteres.";
             else
                 MailError = string.Empty;
 
@@ -107,7 +165,7 @@ namespace Job_Match.Maui.ViewModels
 
 
         // ---------------------
-        // --- Contraseña ---
+        // ---- Contraseña ----
         // ---------------------
         private string _password;
         public string Password
@@ -141,13 +199,18 @@ namespace Job_Match.Maui.ViewModels
 
         private void ValidatePassword()
         {
-            PasswordError = string.IsNullOrWhiteSpace(Password) ? "Campo obligatorio." : string.Empty;
+            if (string.IsNullOrWhiteSpace(Password))
+                PasswordError = "Campo obligatorio.";
+            else if (Password.Length > 100)
+                PasswordError = "Máximo 100 caracteres.";
+            else
+                PasswordError = string.Empty;
             OnPropertyChanged(nameof(IsPasswordValid));
         }
 
 
         // --------------------------------
-        // --- Repetir contraseña ---
+        // ----- Repetir contraseña -----
         // --------------------------------
         private string _repeatPassword;
         public string RepeatPassword
@@ -189,8 +252,135 @@ namespace Job_Match.Maui.ViewModels
         }
 
 
+        // --------------------------------
+        // ------- Tipo Documento -------
+        // --------------------------------
+        public ObservableCollection<DocType> DocTypes { get; set; } = new();
+
+        private DocType _selectedDocType;
+        public DocType SelectedDocType
+        {
+            get => _selectedDocType;
+            set
+            {
+                _selectedDocType = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private async void LoadDocTypesAsync()
+        {
+            var result = await _apiService.GetDocTypesAsync();
+            if (result != null)
+            {
+                DocTypes.Clear();
+
+                foreach (var item in result)
+                {
+                    Console.WriteLine($"Cargando tipo: {item.IdMask} - {item.Name}");
+                    DocTypes.Add(item);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No se recibieron datos del servidor.");
+            }
+        }
+
         // -------------------
-        // --- Dirección ---
+        // ---- Documento ----
+        // -------------------
+        private string _document;
+        public string Document
+        {
+            get => _document;
+            set
+            {
+                if (_document != value)
+                {
+                    _document = value;
+                    OnPropertyChanged(nameof(Document));
+                    ValidateDocument();
+                }
+            }
+        }
+
+        private string _documentError;
+        public string DocumentError
+        {
+            get => _documentError;
+            set
+            {
+                _documentError = value;
+                OnPropertyChanged(nameof(DocumentError));
+                OnPropertyChanged(nameof(IsDocumentValid));
+            }
+        }
+
+        public bool IsDocumentValid => string.IsNullOrEmpty(DocumentError);
+
+        private void ValidateDocument()
+        {
+            if (string.IsNullOrWhiteSpace(Document))
+            {
+                DocumentError = "Campo obligatorio.";
+                return;
+            }
+
+            if (SelectedDocType == null)
+            {
+                DocumentError = "Selecciona un tipo de documento.";
+                return;
+            }
+
+            var doc = Document.ToUpper().Trim();
+            var tipo = SelectedDocType.IdMask.ToUpper();
+
+            switch (tipo)
+            {
+                case "DNI":
+                    if (!Regex.IsMatch(Document, @"^\d{8}[A-Za-z]$"))
+                    {
+                        DocumentError = "DNI no válido. Debe tener 8 números y 1 letra.";
+                    }
+                    else if (!Regex.IsMatch(Document, @"^\d{8}[A-Z]$"))
+                    {
+                        DocumentError = "La letra del DNI debe estar en mayúscula.";
+                    }
+                    else
+                    {
+                        DocumentError = "";
+                    }
+                    break;
+
+                case "NIE":
+                    if (!Regex.IsMatch(Document, @"^[XYZxyz]\d{7}[A-Za-z]$"))
+                    {
+                        DocumentError = "NIE no válido. Formato: X1234567T.";
+                    }
+                    else if (!Regex.IsMatch(Document, @"^[XYZ]\d{7}[A-Z]$"))
+                    {
+                        DocumentError = "Las letras del NIE deben estar en mayúscula.";
+                    }
+                    else
+                    {
+                        DocumentError = "";
+                    }
+                    break;
+
+                case "PAS":
+                    DocumentError = doc.Length >= 5 ? "" : "Pasaporte demasiado corto.";
+                    break;
+
+                default:
+                    DocumentError = "";
+                    break;
+            }
+
+        }
+
+        // -------------------
+        // ---- Dirección ----
         // -------------------
         private string _address;
         public string Address
@@ -233,7 +423,7 @@ namespace Job_Match.Maui.ViewModels
 
 
         // --------------------
-        // --- Teléfono 1 ---
+        // ---- Teléfono 1 ----
         // --------------------
         private string _phone1;
         public string Phone1
@@ -278,7 +468,7 @@ namespace Job_Match.Maui.ViewModels
 
 
         // --------------------
-        // --- Teléfono 2 ---
+        // ---- Teléfono 2 ----
         // --------------------
         private string _phone2;
         public string Phone2

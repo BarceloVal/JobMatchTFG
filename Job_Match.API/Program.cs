@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Job_Match.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IMDocTypeService, MDocTypeService>();
 
 // Configurar EF + Contexto
 builder.Services.AddDbContext<job_match_context>(options =>

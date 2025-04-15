@@ -17,7 +17,7 @@
 
             <!-- Título -->
             <Label
-                Text="¡Créate una cuenta!"
+                Text="Créate una cuenta"
                 TextColor="Black"
                 FontSize="35"
                 HorizontalTextAlignment="Center"/>

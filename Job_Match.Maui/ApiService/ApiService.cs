@@ -110,5 +110,37 @@ namespace Job_Match.Maui.ApiService
         }
 
         #endregion
+
+        #region m_doc_type
+
+        public async Task<List<DocType>?> GetDocTypesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/doc-types");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<DocType>>();
+                }
+                else
+                {
+                    Console.WriteLine($"Error al obtener tipos de documento: {response.StatusCode}");
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine($"Error de red: {httpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inesperado: {ex.Message}");
+            }
+
+            return null;
+        }
+
+        #endregion
+
     }
 }
