@@ -311,10 +311,68 @@
                         FontSize="13"
                         IsVisible="{Binding IsAddressValid, Converter={StaticResource InverseBoolConverter}}" />
 
+                    <!-- Comunidad autónoma -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Comunidad autónoma"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Picker
+                            Title="Selecciona un comunidad autónoma"
+                            ItemsSource="{Binding }"
+                            ItemDisplayBinding="{Binding }"
+                            SelectedItem="{Binding }" />
+
+                        <!-- Flecha decorativa -->
+                        <Image Source="arrowdown.png"
+                               HeightRequest="20"
+                               WidthRequest="20"
+                               HorizontalOptions="End"
+                               Margin="0,0,10,10"/>
+                    </Grid>
+
+                    <!-- Provincia -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Provincia"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 25, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 27, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Picker
+                            Title="Selecciona una provincia"
+                            ItemsSource="{Binding }"
+                            ItemDisplayBinding="{Binding }"
+                            SelectedItem="{Binding }" />
+
+                        <!-- Flecha decorativa -->
+                        <Image Source="arrowdown.png"
+                               HeightRequest="20"
+                               WidthRequest="20"
+                               HorizontalOptions="End"
+                               Margin="0,0,10,10"/>
+                    </Grid>
+
                     <!-- Código postal -->
                     <HorizontalStackLayout>
                         <Label
-                            Text="Código postal"
+                            Text="Código postal (localidad)"
                             TextColor="Black"
                             FontSize="15"
                             Margin="0, 25, 0, 0"/>

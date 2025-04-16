@@ -1,4 +1,7 @@
 using Job_Match.Maui.ViewModels;
+using System.Globalization;
+using Microsoft.Maui.Maps;
+using Microsoft.Maui.Controls.Maps;
 
 namespace Job_Match.Maui.Views;
 

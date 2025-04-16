@@ -5,20 +5,120 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
+using Job_Match.Data.Models;
+using Job_Match.Maui.ApiService;
+using ApiServiceClass = Job_Match.Maui.ApiService.ApiService;
+using Job_Match.Maui.Models;
+using System.Runtime.CompilerServices;
+using System.Globalization;
 
 namespace Job_Match.Maui.ViewModels
 {
     public class CreateProviderAccountViewModel : INotifyPropertyChanged
     {
+        public CreateProviderAccountViewModel()
+        {
+            LoadDocTypesAsync();
+        }
+
         // Evento que notifica a la interfaz de usuario cuando una propiedad cambia
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Lanza el evento cuando una propiedad cambia
-        private void OnPropertyChanged(string propertyName) =>
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private readonly ApiServiceClass _apiService = new();
 
         // -----------------------
-        // --- Nombre comercial ---
+        // ------- Nombre -------
+        // -----------------------
+        private string _firstName;
+        public string FirstName
+        {
+            get => _firstName;
+            set
+            {
+                if (_firstName != value)
+                {
+                    _firstName = value;
+                    OnPropertyChanged(nameof(FirstName));
+                    ValidateFirstName();
+                }
+            }
+        }
+
+        private string _firstNameError;
+        public string FirstNameError
+        {
+            get => _firstNameError;
+            set
+            {
+                _firstNameError = value;
+                OnPropertyChanged(nameof(FirstNameError));
+                OnPropertyChanged(nameof(IsFirstNameValid));
+            }
+        }
+
+        public bool IsFirstNameValid => string.IsNullOrEmpty(FirstNameError);
+
+        private void ValidateFirstName()
+        {
+            if (string.IsNullOrWhiteSpace(FirstName))
+                FirstNameError = "Campo obligatorio.";
+            else if (FirstName.Length > 30)
+                FirstNameError = "Máximo 30 caracteres.";
+            else
+                FirstNameError = string.Empty;
+        }
+
+        // -----------------------
+        // ------ Apellido ------
+        // -----------------------
+        private string _lastName;
+        public string LastName
+        {
+            get => _lastName;
+            set
+            {
+                if (_lastName != value)
+                {
+                    _lastName = value;
+                    OnPropertyChanged(nameof(LastName));
+                    ValidateLastName();
+                }
+            }
+        }
+
+        private string _lastNameError;
+        public string LastNameError
+        {
+            get => _lastNameError;
+            set
+            {
+                _lastNameError = value;
+                OnPropertyChanged(nameof(LastNameError));
+                OnPropertyChanged(nameof(IsLastNameValid));
+            }
+        }
+
+        public bool IsLastNameValid => string.IsNullOrEmpty(LastNameError);
+
+        private void ValidateLastName()
+        {
+            if (string.IsNullOrWhiteSpace(LastName))
+                LastNameError = "Campo obligatorio.";
+            else if (LastName.Length > 30)
+                LastNameError = "Máximo 30 caracteres.";
+            else
+                LastNameError = string.Empty;
+        }
+
+        // -----------------------
+        // -- Nombre comercial --
         // -----------------------
         private string _tradeName;
         public string TradeName
@@ -58,7 +158,6 @@ namespace Job_Match.Maui.ViewModels
             else
                 TradeNameError = string.Empty;
         }
-
 
         // ---------------
         // --- Mail ---
@@ -106,7 +205,7 @@ namespace Job_Match.Maui.ViewModels
 
 
         // ---------------------
-        // --- Contraseña ---
+        // ---- Contraseña ----
         // ---------------------
         private string _password;
         public string Password
@@ -146,7 +245,7 @@ namespace Job_Match.Maui.ViewModels
 
 
         // --------------------------------
-        // --- Repetir contraseña ---
+        // ----- Repetir contraseña -----
         // --------------------------------
         private string _repeatPassword;
         public string RepeatPassword
@@ -187,6 +286,182 @@ namespace Job_Match.Maui.ViewModels
             OnPropertyChanged(nameof(IsRepeatPasswordValid));
         }
 
+        // --------------------------------
+        // ------- Tipo Documento -------
+        // --------------------------------
+        public ObservableCollection<DocType> DocTypes { get; set; } = new();
+
+        private DocType _selectedDocType;
+        public DocType SelectedDocType
+        {
+            get => _selectedDocType;
+            set
+            {
+                _selectedDocType = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private async void LoadDocTypesAsync()
+        {
+            var result = await _apiService.GetDocTypesAsync();
+            if (result != null)
+            {
+                DocTypes.Clear();
+
+                foreach (var item in result)
+                {
+                    Console.WriteLine($"Cargando tipo: {item.IdMask} - {item.Name}");
+                    DocTypes.Add(item);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No se recibieron datos del servidor.");
+            }
+        }
+
+        // -------------------
+        // ---- Documento ----
+        // -------------------
+        private string _document;
+        public string Document
+        {
+            get => _document;
+            set
+            {
+                if (_document != value)
+                {
+                    _document = value;
+                    OnPropertyChanged(nameof(Document));
+                    ValidateDocument();
+                }
+            }
+        }
+
+        private string _documentError;
+        public string DocumentError
+        {
+            get => _documentError;
+            set
+            {
+                _documentError = value;
+                OnPropertyChanged(nameof(DocumentError));
+                OnPropertyChanged(nameof(IsDocumentValid));
+            }
+        }
+
+        public bool IsDocumentValid => string.IsNullOrEmpty(DocumentError);
+
+        private void ValidateDocument()
+        {
+            if (string.IsNullOrWhiteSpace(Document))
+            {
+                DocumentError = "Campo obligatorio.";
+                return;
+            }
+
+            if (SelectedDocType == null)
+            {
+                DocumentError = "Selecciona un tipo de documento.";
+                return;
+            }
+
+            var doc = Document.ToUpper().Trim();
+            var tipo = SelectedDocType.IdMask.ToUpper();
+
+            switch (tipo)
+            {
+                case "DNI":
+                    if (!Regex.IsMatch(Document, @"^\d{8}[A-Za-z]$"))
+                    {
+                        DocumentError = "DNI no válido. Debe tener 8 números y 1 letra.";
+                    }
+                    else if (!Regex.IsMatch(Document, @"^\d{8}[A-Z]$"))
+                    {
+                        DocumentError = "La letra del DNI debe estar en mayúscula.";
+                    }
+                    else
+                    {
+                        DocumentError = "";
+                    }
+                    break;
+
+                case "NIE":
+                    if (!Regex.IsMatch(Document, @"^[XYZxyz]\d{7}[A-Za-z]$"))
+                    {
+                        DocumentError = "NIE no válido. Formato: X1234567T.";
+                    }
+                    else if (!Regex.IsMatch(Document, @"^[XYZ]\d{7}[A-Z]$"))
+                    {
+                        DocumentError = "Las letras del NIE deben estar en mayúscula.";
+                    }
+                    else
+                    {
+                        DocumentError = "";
+                    }
+                    break;
+
+                case "PAS":
+                    DocumentError = doc.Length >= 5 ? "" : "Pasaporte demasiado corto.";
+                    break;
+
+                default:
+                    DocumentError = "";
+                    break;
+            }
+
+        }
+
+        // -----------------------
+        // ------- Website -------
+        // -----------------------
+        private string _website;
+        public string Website
+        {
+            get => _website;
+            set
+            {
+                if (_website != value)
+                {
+                    _website = value;
+                    OnPropertyChanged(nameof(Website));
+                    ValidateWebsite();
+                }
+            }
+        }
+
+        private string _websiteError;
+        public string WebsiteError
+        {
+            get => _websiteError;
+            set
+            {
+                _websiteError = value;
+                OnPropertyChanged(nameof(WebsiteError));
+                OnPropertyChanged(nameof(IsWebsiteValid));
+            }
+        }
+
+        public bool IsWebsiteValid => string.IsNullOrEmpty(WebsiteError);
+
+        private void ValidateWebsite()
+        {
+            if (string.IsNullOrWhiteSpace(Website))
+            {
+                WebsiteError = string.Empty; // Campo no obligatorio
+            }
+            else if (!Uri.TryCreate(Website, UriKind.Absolute, out Uri? uriResult)
+                     || string.IsNullOrEmpty(uriResult.Host)
+                     || (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps))
+            {
+                WebsiteError = "Debe ser una URL válida (con http o https).";
+            }
+            else
+            {
+                WebsiteError = string.Empty;
+            }
+        }
 
         // -------------------
         // --- Dirección ---
@@ -230,6 +505,66 @@ namespace Job_Match.Maui.ViewModels
                 AddressError = string.Empty;
         }
 
+        // ---------------------
+        // --- Coordenadas ---
+        // ---------------------
+        private string _mapCoordinates;
+        public string MapCoordinates
+        {
+            get => _mapCoordinates;
+            set
+            {
+                if (_mapCoordinates != value)
+                {
+                    _mapCoordinates = value;
+                    OnPropertyChanged();
+                    ValidateMapCoordinates();
+                }
+            }
+        }
+
+        private string _mapCoordinatesError;
+        public string MapCoordinatesError
+        {
+            get => _mapCoordinatesError;
+            set
+            {
+                if (_mapCoordinatesError != value)
+                {
+                    _mapCoordinatesError = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(HasMapCoordinatesError));
+                    OnPropertyChanged(nameof(IsMapCoordinatesValid));
+                }
+            }
+        }
+
+        public bool HasMapCoordinatesError => !string.IsNullOrEmpty(MapCoordinatesError);
+        public bool IsMapCoordinatesValid => string.IsNullOrEmpty(MapCoordinatesError);
+
+        private void ValidateMapCoordinates()
+        {
+            if (string.IsNullOrWhiteSpace(MapCoordinates))
+            {
+                MapCoordinatesError = string.Empty; // no es obligatorio
+                return;
+            }
+
+            var parts = MapCoordinates.Split(',');
+
+            if (parts.Length != 2 ||
+                !double.TryParse(parts[0], CultureInfo.InvariantCulture, out double lat) ||
+                !double.TryParse(parts[1], CultureInfo.InvariantCulture, out double lon) ||
+                lat < -90 || lat > 90 ||
+                lon < -180 || lon > 180)
+            {
+                MapCoordinatesError = "Formato inválido. Usa 'latitud,longitud'.";
+            }
+            else
+            {
+                MapCoordinatesError = string.Empty;
+            }
+        }
 
         // ---------------------
         // --- Descripción ---

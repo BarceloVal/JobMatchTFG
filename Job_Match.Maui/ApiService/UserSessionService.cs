@@ -14,7 +14,7 @@ namespace Job_Match.Maui.ApiService
         public bool IsClient { get; private set; }
         public bool IsProvider { get; private set; }
 
-        public string FullName => $"{FirstName} {LastName}";
+        //public string FullName => $"{FirstName} {LastName}";
         public string Token { get; private set; }
 
         private UserSessionService() { }
