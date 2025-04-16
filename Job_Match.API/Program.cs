@@ -10,6 +10,7 @@ using Job_Match.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IMDocTypeService, MDocTypeService>();
+builder.Services.AddScoped<IMPostalCodeService, MPostalCodeService>();
 
 // Configurar EF + Contexto
 builder.Services.AddDbContext<job_match_context>(options =>

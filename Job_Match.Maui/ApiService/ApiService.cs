@@ -142,5 +142,36 @@ namespace Job_Match.Maui.ApiService
 
         #endregion
 
+        #region m_postal_code
+
+        public async Task<List<string>?> GetPostalCodesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/postal-codes"); // Asegurate que este endpoint existe
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<string>>();
+                }
+                else
+                {
+                    Console.WriteLine($"Error al obtener códigos postales: {response.StatusCode}");
+                    return null;
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine($"Error de red: {httpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inesperado: {ex.Message}");
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 }

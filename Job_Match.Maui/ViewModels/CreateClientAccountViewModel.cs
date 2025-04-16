@@ -19,6 +19,7 @@ namespace Job_Match.Maui.ViewModels
         public CreateClientAccountViewModel()
         {
             LoadDocTypesAsync();
+            LoadPostalCodesAsync();
         }
 
         // Evento que notifica a la interfaz de usuario cuando una propiedad cambia
@@ -421,6 +422,37 @@ namespace Job_Match.Maui.ViewModels
                 AddressError = string.Empty;
         }
 
+        // -------------------
+        // -- Código postal --
+        // -------------------
+        public ObservableCollection<string> PostalCodes { get; set; } = new();
+
+        private string _selectedPostalCode;
+        public string SelectedPostalCode
+        {
+            get => _selectedPostalCode;
+            set
+            {
+                if (_selectedPostalCode != value)
+                {
+                    _selectedPostalCode = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private async void LoadPostalCodesAsync()
+        {
+            var result = await _apiService.GetPostalCodesAsync(); // este método lo tenés en ApiService
+            if (result != null)
+            {
+                PostalCodes.Clear();
+                foreach (var code in result)
+                {
+                    PostalCodes.Add(code);
+                }
+            }
+        }
 
         // --------------------
         // ---- Teléfono 1 ----
