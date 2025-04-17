@@ -415,31 +415,20 @@
                             Margin="8, 27, 0, 0"/>
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="*,Auto">
-
-                        <!-- Hay que modificarlo para que lea los datos de la BD -->
-                        <Picker x:Name="pickerPostCode"
-                                TextColor="Black"
-                                BackgroundColor="Transparent"
-                                HorizontalOptions="FillAndExpand"
-                                VerticalOptions="End"
-                                Margin="0"
-                                FontSize="15">
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>46220</x:String>
-                                    <x:String>46007</x:String>
-                                    <x:String>46002</x:String>
-                                    <x:String>Otro</x:String>
-                                </x:Array>
-                            </Picker.ItemsSource>
-                        </Picker>
+                        <Picker
+                            Title="Selecciona código postal"
+                            ItemsSource="{Binding PostalCodes}"
+                            SelectedItem="{Binding SelectedPostalCode}"
+                            TextColor="Black"
+                            BackgroundColor="Transparent"
+                            FontSize="15" />
 
                         <!-- Flecha decorativa -->
-                        <Image Source="arrowdown.png"
-                               HeightRequest="20"
-                               WidthRequest="20"
-                               HorizontalOptions="End"
-                               Margin="0,0,10,10"/>
+                        <!--<Image Source="arrowdown.png"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        HorizontalOptions="End"
+                        Margin="0,0,10,10"/>-->
                     </Grid>
 
                     <!-- Descripción -->
