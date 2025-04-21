@@ -15,7 +15,8 @@ public partial class m_user_client
     public Guid id_user { get; set; }
 
     [StringLength(100)]
-    public Guid name { get; set; }
+    [Unicode(false)]
+    public string name { get; set; } = null!;
 
     public Guid id_doc_type { get; set; }
 

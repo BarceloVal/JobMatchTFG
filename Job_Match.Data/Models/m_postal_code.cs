@@ -12,6 +12,10 @@ public partial class m_postal_code
     [Key]
     public Guid id { get; set; }
 
+    [NotMapped]
+    public string DisplayText => $"{cod_auto_name}/{cod_pro_name}/{cod_loc_name}";
+
+
     [StringLength(2)]
     [Unicode(false)]
     public string cod_auto { get; set; } = null!;

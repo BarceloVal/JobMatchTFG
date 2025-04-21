@@ -48,9 +48,20 @@ public partial class CreateClientAccount : ContentPage
     /// <summary>
     /// Maneja la creación de la cuenta del cliente.
     /// </summary>
-    private void btnCreateClient_Clicked(object sender, EventArgs e)
+    private async void btnCreateClient_Clicked(object sender, EventArgs e)
     {
+        var vm = BindingContext as CreateClientAccountViewModel;
 
+        bool result = await vm.CreateClientAsync();
+
+        if (result)
+        {
+            await DisplayAlert("Éxito", "Cuenta creada correctamente", "Aceptar");
+        }
+        else
+        {
+            await DisplayAlert("Error", "Validación fallida en uno o más campos. Revisá la consola para más detalles.", "OK");
+        }
     }
 
 

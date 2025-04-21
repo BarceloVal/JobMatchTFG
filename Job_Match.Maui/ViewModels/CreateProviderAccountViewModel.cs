@@ -570,7 +570,7 @@ namespace Job_Match.Maui.ViewModels
         // ---------------------
         // --- Código postal ---
         // ---------------------
-        public ObservableCollection<string> PostalCodes { get; set; } = new();
+        public ObservableCollection<m_postal_code> PostalCodes { get; set; } = new();
 
         private string _selectedPostalCode;
         public string SelectedPostalCode
@@ -587,7 +587,7 @@ namespace Job_Match.Maui.ViewModels
         }
         private async void LoadPostalCodesAsync()
         {
-            var result = await _apiService.GetPostalCodesAsync(); // mismo método que ya tenés
+            List<m_postal_code> result = await _apiService.GetPostalCodesAsync();
             if (result != null)
             {
                 PostalCodes.Clear();

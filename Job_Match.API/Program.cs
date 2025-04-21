@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IMDocTypeService, MDocTypeService>();
 builder.Services.AddScoped<IMPostalCodeService, MPostalCodeService>();
+builder.Services.AddScoped<IMClientService, MClientService>();
 
 // Configurar EF + Contexto
 builder.Services.AddDbContext<job_match_context>(options =>

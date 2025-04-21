@@ -11,6 +11,7 @@ using Job_Match.Maui.ApiService;
 using ApiServiceClass = Job_Match.Maui.ApiService.ApiService;
 using Job_Match.Maui.Models;
 using System.Runtime.CompilerServices;
+using Job_Match.API.Models.Dtos;
 
 namespace Job_Match.Maui.ViewModels
 {
@@ -425,10 +426,10 @@ namespace Job_Match.Maui.ViewModels
         // -------------------
         // -- Código postal --
         // -------------------
-        public ObservableCollection<string> PostalCodes { get; set; } = new();
+        public ObservableCollection<m_postal_code> PostalCodes { get; set; } = new();
 
-        private string _selectedPostalCode;
-        public string SelectedPostalCode
+        private m_postal_code _selectedPostalCode;
+        public m_postal_code SelectedPostalCode
         {
             get => _selectedPostalCode;
             set
@@ -542,5 +543,68 @@ namespace Job_Match.Maui.ViewModels
 
             OnPropertyChanged(nameof(IsPhone2Valid));
         }
+
+        public string LastApiMessage { get; set; }
+
+        public async Task<bool> CreateClientAsync()
+        {
+            // Validaciones
+            ValidateFirstName();
+            ValidateLastName();
+            ValidateMail();
+            ValidatePassword();
+            ValidateRepeatPassword();
+            ValidateDocument();
+            ValidateAddress();
+            ValidatePhone1();
+            ValidatePhone2();
+
+            if (!IsFirstNameValid || !IsLastNameValid || !IsMailValid || !IsPasswordValid ||
+                !IsRepeatPasswordValid || !IsDocumentValid || !IsAddressValid || !IsPhone1Valid)
+            {
+                LastApiMessage = "Revisá los errores del formulario.";
+                return false;
+            }
+
+            var clientDto = new CreateClientDto
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Mail = Mail,
+                Password = Password,
+                Document = Document,
+                DocTypeId = SelectedDocType.Id,
+                Address = Address,
+                PostalCodeId = SelectedPostalCode.id,
+                Phone1 = Phone1,
+                Phone2 = Phone2
+            };
+
+            Console.WriteLine($"Enviando DTO:");
+            Console.WriteLine($"- FirstName: {clientDto.FirstName}");
+            Console.WriteLine($"- LastName: {clientDto.LastName}");
+            Console.WriteLine($"- Mail: {clientDto.Mail}");
+            Console.WriteLine($"- Password: {clientDto.Password}");
+            Console.WriteLine($"- DocTypeId: {clientDto.DocTypeId}");
+            Console.WriteLine($"PostalCodeId: {clientDto.PostalCodeId}");
+            Console.WriteLine($"- Document: {clientDto.Document}");
+
+            var response = await _apiService.CreateClientAsync(clientDto);
+
+            var body = await response.Content.ReadAsStringAsync();  // 👈 obtené todo el mensaje
+            Console.WriteLine($"[DEBUG] API Error Response: {body}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            LastApiMessage = body; // mostrar también en pantalla si querés
+
+            LastApiMessage = await response.Content.ReadAsStringAsync(); // guarda mensaje para mostrarlo en la vista
+            return false;
+        }
+
+
     }
 }

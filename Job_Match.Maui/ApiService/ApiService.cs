@@ -3,6 +3,8 @@ using System.Net.Http.Json;
 using Job_Match.Maui.Models;
 using Job_Match.Maui.ApiService;
 using Job_Match.Data.Models;
+using Job_Match.API.Models.Dtos;
+using System.Net;
 
 namespace Job_Match.Maui.ApiService
 {
@@ -144,15 +146,15 @@ namespace Job_Match.Maui.ApiService
 
         #region m_postal_code
 
-        public async Task<List<string>?> GetPostalCodesAsync()
+        public async Task<List<m_postal_code>?> GetPostalCodesAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/postal-codes"); // Asegurate que este endpoint existe
+                var response = await _httpClient.GetAsync("api/postal-codes");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<List<string>>();
+                    return await response.Content.ReadFromJsonAsync<List<m_postal_code>>();
                 }
                 else
                 {
@@ -170,6 +172,31 @@ namespace Job_Match.Maui.ApiService
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region m_user_client
+
+        public async Task<HttpResponseMessage> CreateClientAsync(CreateClientDto dto)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/m_user_client", dto);
+
+                var content = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Status: {response.StatusCode}, Body: {content}");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR API: {ex.Message}");
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent("Error interno al conectar con la API.")
+                };
+            }
         }
 
         #endregion

@@ -329,6 +329,7 @@
                             Title=""
                             ItemsSource="{Binding PostalCodes}"
                             SelectedItem="{Binding SelectedPostalCode}"
+                            ItemDisplayBinding="{Binding DisplayText}"
                             TextColor="Black"
                             BackgroundColor="Transparent"
                             FontSize="15" />

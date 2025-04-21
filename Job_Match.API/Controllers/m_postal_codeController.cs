@@ -1,6 +1,8 @@
 ﻿using Job_Match.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Job_Match.Data.Models;
+using Job_Match.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Job_Match.API.Controllers
 {
@@ -8,18 +10,31 @@ namespace Job_Match.API.Controllers
     [Route("api/postal-codes")]
     public class m_postal_codeController : ControllerBase
     {
-        private readonly IMPostalCodeService _postalCodeService;
+        //private readonly IMPostalCodeService _postalCodeService;
 
-        public m_postal_codeController(IMPostalCodeService postalCodeService)
+        //public m_postal_codeController(IMPostalCodeService postalCodeService)
+        //{
+        //_postalCodeService = postalCodeService;
+        //}
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //var postalCodes = await _postalCodeService.GetAllAsStringAsync();
+        //return Ok(postalCodes);
+        //}
+
+        private readonly job_match_context _context;
+
+        public m_postal_codeController(job_match_context context)
         {
-            _postalCodeService = postalCodeService;
+            _context = context;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IEnumerable<m_postal_code>> GetPostalCode()
         {
-            var postalCodes = await _postalCodeService.GetAllAsStringAsync();
-            return Ok(postalCodes);
+            return await _context.m_postal_codes.ToListAsync();
         }
     }
 }
