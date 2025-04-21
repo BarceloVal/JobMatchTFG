@@ -59,8 +59,19 @@ public partial class CreateProviderAccount : ContentPage
     /// <summary>
     /// Maneja la creación de la cuenta de proveedor.
     /// </summary>
-    private void btnCreateProvider_Clicked(object sender, EventArgs e)
+    private async void btnCreateProvider_Clicked(object sender, EventArgs e)
     {
+        var vm = BindingContext as CreateProviderAccountViewModel;
 
+        bool result = await vm.CreateProviderAsync();
+
+        if (result)
+        {
+            await DisplayAlert("Éxito", "Proveedor creado correctamente", "Aceptar");
+        }
+        else
+        {
+            await DisplayAlert("Error", "Revisá los campos del formulario o la conexión con el servidor", "OK");
+        }
     }
 }

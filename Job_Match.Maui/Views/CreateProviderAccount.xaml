@@ -62,12 +62,12 @@
                             Text="Nombre"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 10, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 12, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
                         Text="{Binding FirstName}"
@@ -94,12 +94,12 @@
                             Text="Apellido"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 10, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 12, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
                         Text="{Binding LastName}"
@@ -126,12 +126,12 @@
                             Text="Nombre comercial"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 10, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 12, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
                         Text="{Binding TradeName}"
@@ -158,12 +158,12 @@
                             Text="Mail"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 25, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 27, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
                         Text="{Binding Mail}"
@@ -191,12 +191,12 @@
                             Text="Contraseña"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 25, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 27, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="*,Auto">
 
@@ -229,12 +229,12 @@
                             Text="Repetir contraseña"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 25, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 27, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="*,Auto">
 
@@ -267,12 +267,12 @@
                             Text="Tipo de documento"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 25, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 27, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="*,Auto">
 
@@ -296,12 +296,12 @@
                             Text="Documento"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 25, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 27, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
                         Text="{Binding Document}"
@@ -328,7 +328,7 @@
                             Text="Website"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 10, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
                         Text="{Binding Website}"
@@ -355,12 +355,12 @@
                             Text="Dirección"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 25, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 27, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
                         Text="{Binding Address}"
@@ -379,7 +379,7 @@
                             Text="Coordenadas del mapa"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 10, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
                         Text="{Binding MapCoordinates}"
@@ -407,21 +407,19 @@
                             Text="Código postal"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 25, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 27, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="*,Auto">
                         <Picker
                             Title="Selecciona código postal"
                             ItemsSource="{Binding PostalCodes}"
                             SelectedItem="{Binding SelectedPostalCode}"
-                            TextColor="Black"
-                            BackgroundColor="Transparent"
-                            FontSize="15" />
+                            ItemDisplayBinding="{Binding DisplayText}"/>
 
                         <!-- Flecha decorativa -->
                         <!--<Image Source="arrowdown.png"
@@ -436,7 +434,7 @@
                         Text="Descripción"
                         TextColor="Black"
                         FontSize="15"
-                        Margin="0, 25, 0, 10"/>
+                        Margin="0, 20, 0, 10"/>
 
                     <Frame
                         BorderColor="Black"
@@ -479,12 +477,12 @@
                             Text="Teléfono 1"
                             TextColor="Black"
                             FontSize="15"
-                            Margin="0, 25, 0, 0"/>
+                            Margin="0, 20, 0, 0"/>
                         <Label
                             Text="*"
                             TextColor="Red"
                             FontSize="15"
-                            Margin="8, 27, 0, 0"/>
+                            Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Entry
                         Text="{Binding Phone1}"
@@ -503,7 +501,7 @@
                         Text="Teléfono 2"
                         TextColor="Black"
                         FontSize="15"
-                        Margin="0, 25, 0, 0"/>
+                        Margin="0, 20, 0, 0"/>
                     <Entry
                         Text="{Binding Phone2}"
                         Placeholder="Introduce otro teléfono (opcional)"

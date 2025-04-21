@@ -12,6 +12,7 @@ using ApiServiceClass = Job_Match.Maui.ApiService.ApiService;
 using Job_Match.Maui.Models;
 using System.Runtime.CompilerServices;
 using System.Globalization;
+using Job_Match.Data.Models.Dtos;
 
 namespace Job_Match.Maui.ViewModels
 {
@@ -572,8 +573,8 @@ namespace Job_Match.Maui.ViewModels
         // ---------------------
         public ObservableCollection<m_postal_code> PostalCodes { get; set; } = new();
 
-        private string _selectedPostalCode;
-        public string SelectedPostalCode
+        private m_postal_code _selectedPostalCode;
+        public m_postal_code SelectedPostalCode
         {
             get => _selectedPostalCode;
             set
@@ -729,5 +730,52 @@ namespace Job_Match.Maui.ViewModels
 
             OnPropertyChanged(nameof(IsPhone2Valid));
         }
+
+        public async Task<bool> CreateProviderAsync()
+        {
+            // Validar campos antes de enviar
+            ValidateFirstName();
+            ValidateLastName();
+            ValidateTradeName();
+            ValidateMail();
+            ValidatePassword();
+            ValidateRepeatPassword();
+            ValidateDocument();
+            ValidateAddress();
+            ValidatePhone1();
+            ValidatePhone2();
+            ValidateWebsite();
+            ValidateMapCoordinates();
+            ValidateDescription();
+
+            if (!IsFirstNameValid || !IsLastNameValid || !IsTradeNameValid || !IsMailValid ||
+                !IsPasswordValid || !IsRepeatPasswordValid || !IsDocumentValid || !IsAddressValid ||
+                !IsPhone1Valid || !IsPhone2Valid || !IsWebsiteValid || !IsMapCoordinatesValid || !IsDescriptionValid)
+            {
+                return false;
+            }
+
+            var providerDto = new CreateProviderDto
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Mail = Mail,
+                Password = Password,
+                TradeName = TradeName,
+                DocTypeId = SelectedDocType.Id,
+                Document = Document,
+                Address = Address,
+                PostalCodeId = SelectedPostalCode.id,
+                Phone1 = Phone1,
+                Phone2 = Phone2,
+                Website = Website,
+                MapCoordinates = MapCoordinates,
+                Description = Description
+            };
+
+            var response = await _apiService.CreateProviderAsync(providerDto);
+            return response.IsSuccessStatusCode;
+        }
+
     }
 }

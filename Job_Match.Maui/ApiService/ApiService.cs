@@ -5,6 +5,7 @@ using Job_Match.Maui.ApiService;
 using Job_Match.Data.Models;
 using Job_Match.API.Models.Dtos;
 using System.Net;
+using Job_Match.Data.Models.Dtos;
 
 namespace Job_Match.Maui.ApiService
 {
@@ -184,6 +185,29 @@ namespace Job_Match.Maui.ApiService
             {
                 var response = await _httpClient.PostAsJsonAsync("api/m_user_client", dto);
 
+                var content = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Status: {response.StatusCode}, Body: {content}");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR API: {ex.Message}");
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent("Error interno al conectar con la API.")
+                };
+            }
+        }
+
+        #endregion
+
+        #region m_user_provider
+        public async Task<HttpResponseMessage> CreateProviderAsync(CreateProviderDto dto)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/m_user_provider", dto);
                 var content = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"Status: {response.StatusCode}, Body: {content}");
 
