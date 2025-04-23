@@ -20,6 +20,7 @@ namespace Job_Match.Maui.ViewModels
         public string Document { get; set; }
         public string Address { get; set; }
         public Guid IdPostalCode { get; set; }
+        public string PostalCodeName { get; set; }
         public string Phone1 { get; set; }
         public string Phone2 { get; set; }
 
@@ -37,6 +38,7 @@ namespace Job_Match.Maui.ViewModels
                 Document = user.Document;
                 Address = user.Address;
                 IdPostalCode = user.IdPostalCode;
+                PostalCodeName = user.PostalCodeName;
                 Phone1 = user.Phone1;
                 Phone2 = user.Phone2;
             }

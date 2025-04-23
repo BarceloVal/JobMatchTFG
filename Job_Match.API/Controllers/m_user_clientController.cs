@@ -42,6 +42,7 @@ namespace Job_Match.API.Controllers
                 Document = client.num_doc,
                 Address = client.address,
                 IdPostalCode = client.id_postal_code,
+                PostalCodeName = $"{client.id_postal_codeNavigation.cod_auto_name}/{client.id_postal_codeNavigation.cod_pro_name}/{client.id_postal_codeNavigation.cod_loc_name}",
                 Phone1 = client.phone_number_1,
                 Phone2 = client.phone_number_2
             };

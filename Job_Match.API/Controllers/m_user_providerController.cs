@@ -47,6 +47,7 @@ namespace Job_Match.API.Controllers
                 Website = provider.web_site,
                 Address = provider.address,
                 IdPostalCode = provider.id_postal_code,
+                PostalCodeName = $"{provider.id_postal_codeNavigation.cod_auto_name}/{provider.id_postal_codeNavigation.cod_pro_name}/{provider.id_postal_codeNavigation.cod_loc_name}",
                 Phone1 = provider.phone_number_1,
                 Phone2 = provider.phone_number_2,
                 Description = provider.description,
