@@ -1,7 +1,9 @@
-﻿using Job_Match.Maui.Models;
+﻿using Job_Match.Data.Models.Dtos;
+using Job_Match.Maui.Models;
 using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,29 +12,36 @@ namespace Job_Match.Maui.ViewModels
 {
     public class ProfileClientViewModel
     {
-        // Estas son las propiedades que el XAML usará con Binding
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Mail { get; set; }
         public string Password { get; set; }
-        public string DocType { get; set; }
-        public string Doc { get; set; }
+        public Guid IdDocType { get; set; }
+        public string Document { get; set; }
         public string Address { get; set; }
-        public string PostalCode { get; set; }
+        public Guid IdPostalCode { get; set; }
         public string Phone1 { get; set; }
         public string Phone2 { get; set; }
 
-        public ProfileClientViewModel(_UserDto user)
+        public string FullName => $"{FirstName} {LastName}";
+
+        public ProfileClientViewModel(ProfileClientDto user)
         {
-            FirstName = user.first_name;
-            LastName = user.last_name;
-            Mail = user.mail;
-            //Password = user.password;
-            //Doc = user.
-            //Direccion = "Calle 123"; 
-            //CodigoPostal = "46220";  
-            //Telefono1 = "622 58 55 11"; 
-            //Telefono2 = ""; 
+            user = App.CurrentUser as ProfileClientDto;
+            if (user != null)
+            {
+                FirstName = user.FirstName;
+                LastName = user.LastName;
+                Mail = user.Mail;
+                IdDocType = user.IdDocType;
+                Document = user.Document;
+                Address = user.Address;
+                IdPostalCode = user.IdPostalCode;
+                Phone1 = user.Phone1;
+                Phone2 = user.Phone2;
+            }
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

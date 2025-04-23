@@ -38,7 +38,8 @@ namespace Job_Match.Services.Services
                 is_client = false,
                 is_provider = true,
                 active = true,
-                created_on = DateTime.UtcNow
+                created_on = DateTime.UtcNow,
+                last_update = DateTime.UtcNow,
             };
 
             user.password = _hasher.HashPassword(user, dto.Password);
@@ -49,16 +50,18 @@ namespace Job_Match.Services.Services
                 id_user = user.id,
                 trade_name = dto.TradeName,
                 description = dto.Description,
-                id_doc_type = dto.DocTypeId,
+                id_doc_type = dto.IdDocType,
                 num_doc = dto.Document,
                 address = dto.Address,
-                id_postal_code = dto.PostalCodeId,
+                mail = user.mail,
+                web_site = dto.Website,
+                id_postal_code = dto.IdPostalCode,
                 phone_number_1 = dto.Phone1,
                 phone_number_2 = dto.Phone2,
-                web_site = dto.Website,
                 map_coordinates = dto.MapCoordinates,
-                active = true,
-                created_on = DateTime.UtcNow
+                created_on = DateTime.Now,
+                last_update = DateTime.Now,
+                active = true
             };
 
             _context.m_users.Add(user);
@@ -66,5 +69,15 @@ namespace Job_Match.Services.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+
+        public async Task<m_user_provider?> GetProviderByMailAsync(string mail)
+        {
+            return await _context.m_user_providers
+                .Include(p => p.id_userNavigation)
+                .Include(p => p.id_postal_codeNavigation)
+                .FirstOrDefaultAsync(p => p.mail == mail);
+        }
+
     }
 }

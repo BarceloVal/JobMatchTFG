@@ -27,34 +27,48 @@ public partial class LoginPage : ContentPage
             var api = new Job_Match.Maui.ApiService.ApiService();
             var login_response = await api.LoginAsync(e_mail, e_password);
 
-            if (login_response != null)
+            if (login_response == null)
             {
-                App.CurrentUser = login_response.user;
-                var user = login_response.user;
-
-                if (user.is_client)
-                {
-                    Application.Current.MainPage = new MainShellClient();
-                    await Shell.Current.GoToAsync("//HomeClient");
-                }
-                else if (user.is_provider)
-                {
-                    Application.Current.MainPage = new MainShellProvider();
-                    await Shell.Current.GoToAsync("//HomeProvider");
-                }
-                else
-                {
-                    await DisplayAlert("Error", "No se pudo determinar si el usuario es cliente o proveedor.", "Aceptar");
-                }
+                await DisplayAlert("Error", "Credenciales inválidas o error de conexión.", "Aceptar");
+                return;
             }
-            else if (e_mail.IsNullOrEmpty() || e_password.IsNullOrEmpty())
+
+            // Obtener perfil según tipo de usuario
+            object profile = null;
+
+            if (login_response.user.is_client)
             {
-                await DisplayAlert("Error", "Hay campos vacíos. Asegurate de rellenar todos los campos para iniciar sesión", "Aceptar");
+                var clientProfile = await api.GetClientByMailAsync(login_response.user.mail);
+                if (clientProfile == null)
+                {
+                    await DisplayAlert("Error", "No se pudo obtener el perfil del cliente.", "Aceptar");
+                    return;
+                }
+
+                App.CurrentUser = clientProfile;
+
+                Application.Current.MainPage = new MainShellClient();
+                await Shell.Current.GoToAsync("//HomeClient");
+            }
+            else if (login_response.user.is_provider)
+            {
+                var providerProfile = await api.GetProviderByMailAsync(login_response.user.mail);
+                if (providerProfile == null)
+                {
+                    await DisplayAlert("Error", "No se pudo obtener el perfil del proveedor.", "Aceptar");
+                    return;
+                }
+
+                App.CurrentUser = providerProfile;
+
+                Application.Current.MainPage = new MainShellProvider();
+                await Shell.Current.GoToAsync("//HomeProvider");
             }
             else
             {
-                await DisplayAlert("Error", "Hubo un error en el reconocimiento del usuario. Revisa si el usuario o la contraseña son correctos.", "Aceptar");
+                await DisplayAlert("Error", "No se pudo determinar si el usuario es cliente o proveedor.", "Aceptar");
             }
+
         }
         catch (Exception ex)
         {

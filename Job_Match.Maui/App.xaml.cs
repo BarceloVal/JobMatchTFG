@@ -1,4 +1,6 @@
-﻿namespace Job_Match.Maui
+﻿using Job_Match.Data.Models.Dtos;
+
+namespace Job_Match.Maui
 {
     public partial class App : Application
     {
@@ -9,6 +11,7 @@
             // LoginPage por defecto
             MainPage = new AppShell();
         }
-        public static Models._UserDto CurrentUser { get; set; }
+        public static object CurrentUser { get; set; }
+
     }
 }

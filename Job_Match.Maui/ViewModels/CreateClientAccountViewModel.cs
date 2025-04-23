@@ -573,9 +573,9 @@ namespace Job_Match.Maui.ViewModels
                 Mail = Mail,
                 Password = Password,
                 Document = Document,
-                DocTypeId = SelectedDocType.Id,
+                IdDocType = SelectedDocType.Id,
                 Address = Address,
-                PostalCodeId = SelectedPostalCode.id,
+                IdPostalCode = SelectedPostalCode.id,
                 Phone1 = Phone1,
                 Phone2 = Phone2
             };
@@ -585,8 +585,8 @@ namespace Job_Match.Maui.ViewModels
             Console.WriteLine($"- LastName: {clientDto.LastName}");
             Console.WriteLine($"- Mail: {clientDto.Mail}");
             Console.WriteLine($"- Password: {clientDto.Password}");
-            Console.WriteLine($"- DocTypeId: {clientDto.DocTypeId}");
-            Console.WriteLine($"PostalCodeId: {clientDto.PostalCodeId}");
+            Console.WriteLine($"- DocTypeId: {clientDto.IdDocType}");
+            Console.WriteLine($"PostalCodeId: {clientDto.IdPostalCode}");
             Console.WriteLine($"- Document: {clientDto.Document}");
 
             var response = await _apiService.CreateClientAsync(clientDto);

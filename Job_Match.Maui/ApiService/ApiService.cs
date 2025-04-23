@@ -6,6 +6,9 @@ using Job_Match.Data.Models;
 using Job_Match.API.Models.Dtos;
 using System.Net;
 using Job_Match.Data.Models.Dtos;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+
 
 namespace Job_Match.Maui.ApiService
 {
@@ -200,6 +203,16 @@ namespace Job_Match.Maui.ApiService
             }
         }
 
+        public async Task<ProfileClientDto?> GetClientByMailAsync(string mail)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_client/by-mail/{mail}");
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ProfileClientDto>(json);
+        }
+
         #endregion
 
         #region m_user_provider
@@ -221,6 +234,16 @@ namespace Job_Match.Maui.ApiService
                     Content = new StringContent("Error interno al conectar con la API.")
                 };
             }
+        }
+
+        public async Task<ProfileProviderDto?> GetProviderByMailAsync(string mail)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_provider/by-mail/{mail}");
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ProfileProviderDto>(json);
         }
 
         #endregion

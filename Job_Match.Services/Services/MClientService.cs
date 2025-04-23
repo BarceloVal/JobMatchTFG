@@ -38,7 +38,8 @@ namespace Job_Match.Services.Services
                 is_client = true,
                 is_provider = false,
                 active = true,
-                created_on = DateTime.UtcNow
+                created_on = DateTime.UtcNow,
+                last_update = DateTime.UtcNow,
             };
 
             user.password = _hasher.HashPassword(user, dto.Password);
@@ -48,30 +49,31 @@ namespace Job_Match.Services.Services
                 id = Guid.NewGuid(),
                 id_user = user.id,
                 name = $"{dto.FirstName} {dto.LastName}",
-                id_doc_type = dto.DocTypeId,
+                id_doc_type = dto.IdDocType,
                 num_doc = dto.Document,
                 address = dto.Address,
-                id_postal_code = dto.PostalCodeId,
+                mail = user.mail,
+                id_postal_code = dto.IdPostalCode,
                 phone_number_1 = dto.Phone1,
                 phone_number_2 = dto.Phone2,
-                mail = dto.Mail,
                 active = true,
-                created_on = DateTime.UtcNow
+                created_on = DateTime.UtcNow,
+                last_update = DateTime.UtcNow
             };
-
-            Console.WriteLine($"--- CREACIÓN USUARIO ---");
-            Console.WriteLine($"DocTypeId: {dto.DocTypeId}");
-            Console.WriteLine($"Existe en m_doc_type: {await _context.m_doc_types.AnyAsync(x => x.id == dto.DocTypeId)}");
-
-            Console.WriteLine($"PostalCodeId: {dto.PostalCodeId}");
-            Console.WriteLine($"Existe en m_postal_code: {await _context.m_postal_codes.AnyAsync(x => x.id == dto.PostalCodeId)}");
-
 
             _context.m_users.Add(user);
             _context.m_user_clients.Add(client);
             await _context.SaveChangesAsync();
             return true;
         }
-    }
 
+        public async Task<m_user_client?> GetClientByMailAsync(string mail)
+        {
+            return await _context.m_user_clients
+                .Include(c => c.id_userNavigation)
+                .Include(c => c.id_postal_codeNavigation)
+                .FirstOrDefaultAsync(c => c.mail == mail);
+        }
+
+    }
 }

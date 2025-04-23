@@ -10,7 +10,6 @@
             <!-- Mi encabezado personalizado -->
             <controls:HeaderControl/>
 
-            <!-- Contenido con estilos -->
             <!-- Datos del usuario -->
             <VerticalStackLayout Padding="20" Spacing="10">
 
@@ -44,14 +43,15 @@
                     <Label Grid.Row="7" Grid.Column="0" Text="Teléfono 2:" FontAttributes="Bold"/>
 
                     <!-- Valores -->
-                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Nombre}" />
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Apellido}" />
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding LastName}" />
                     <Label Grid.Row="2" Grid.Column="1" Text="{Binding Mail}" />
-                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Documento}" />
-                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Direccion}" />
-                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding CodigoPostal}" />
-                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding Telefono1}" />
-                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Telefono2}" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Document}" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Address}" />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding PostalCodeName}" />
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding Phone1}" />
+                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Phone2}" />
+
                 </Grid>
 
             </VerticalStackLayout>
