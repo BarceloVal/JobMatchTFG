@@ -17,4 +17,9 @@ public partial class ProfileClient : ContentPage
     {
 
     }
+
+    private void btnDisableAccount_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

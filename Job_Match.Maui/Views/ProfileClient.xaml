@@ -3,71 +3,123 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Job_Match.Maui.Views.ProfileClient"
              xmlns:controls="clr-namespace:Job_Match.Maui.UserControls"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#f4f4f6">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="0">
-            <!-- Mi encabezado personalizado -->
-            <controls:HeaderControl/>
+        <VerticalStackLayout Spacing="25" HorizontalOptions="Center">
 
-            <!-- Datos del usuario -->
-            <VerticalStackLayout Padding="20" Spacing="10">
+            <!-- Encabezado personalizado -->
+            <controls:HeaderControl />
 
-                <Label Text="{Binding FullName}" FontSize="25" TextColor="#980c0f" HorizontalOptions="Center" FontAttributes="Bold" />
+            <!-- Nombre completo -->
+            <Label Text="{Binding FullName}"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="#980c0f"
+                   HorizontalOptions="Center" />
 
-                <Grid ColumnSpacing="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+            <!-- Datos del perfil -->
+            <VerticalStackLayout Spacing="6" Padding="20">
+                <Label FormattedText="{x:StaticResource NombreFormattedText}" />
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Nombre: " FontAttributes="Bold"/>
+                            <Span Text="{Binding FirstName}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Apellido/s: " FontAttributes="Bold" />
+                            <Span Text="{Binding LastName}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
 
-                    <!-- Etiquetas -->
-                    <Label Grid.Row="0" Grid.Column="0" Text="Nombre:" FontAttributes="Bold"/>
-                    <Label Grid.Row="1" Grid.Column="0" Text="Apellido/s:" FontAttributes="Bold"/>
-                    <Label Grid.Row="2" Grid.Column="0" Text="Mail:" FontAttributes="Bold"/>
-                    <Label Grid.Row="3" Grid.Column="0" Text="Documento:" FontAttributes="Bold"/>
-                    <Label Grid.Row="4" Grid.Column="0" Text="Dirección:" FontAttributes="Bold"/>
-                    <Label Grid.Row="5" Grid.Column="0" Text="Código Postal:" FontAttributes="Bold"/>
-                    <Label Grid.Row="6" Grid.Column="0" Text="Teléfono 1:" FontAttributes="Bold"/>
-                    <Label Grid.Row="7" Grid.Column="0" Text="Teléfono 2:" FontAttributes="Bold"/>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Mail: " FontAttributes="Bold" />
+                            <Span Text="{Binding Mail}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
 
-                    <!-- Valores -->
-                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}" />
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding LastName}" />
-                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Mail}" />
-                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Document}" />
-                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Address}" />
-                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding PostalCodeName}" />
-                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding Phone1}" />
-                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Phone2}" />
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Documento: " FontAttributes="Bold" />
+                            <Span Text="{Binding Document}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
 
-                </Grid>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Dirección: " FontAttributes="Bold" />
+                            <Span Text="{Binding Address}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
 
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Código Postal: " FontAttributes="Bold" />
+                            <Span Text="{Binding PostalCodeName}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Teléfono 1: " FontAttributes="Bold" />
+                            <Span Text="{Binding Phone1}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Teléfono 2: " FontAttributes="Bold" />
+                            <Span Text="{Binding Phone2}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
             </VerticalStackLayout>
 
-            <!-- Botón para cambiar perfil -->
+            <!-- Botón para cambiar de perfil -->
             <Button
                 x:Name="btnSwitchUser"
                 Text="Cambiar perfil a proveedor"
                 BackgroundColor="#980c0f"
                 TextColor="White"
-                CornerRadius="15"
-                Padding="10"
+                CornerRadius="20"
+                FontAttributes="Bold"
+                Padding="14,10"
+                WidthRequest="250"
                 HorizontalOptions="Center"
                 Clicked="btnSwitchUser_Clicked"/>
 
+            <!-- Botón para deshabilitar la cuenta -->
+            <Button
+                x:Name="btnDisableAccount"
+                Text="Deshabilitar cuenta"
+                BackgroundColor="#980c0f"
+                TextColor="White"
+                CornerRadius="20"
+                FontAttributes="Bold"
+                Padding="14,10"
+                WidthRequest="250"
+                HorizontalOptions="Center"
+                Clicked="btnDisableAccount_Clicked"/>
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
