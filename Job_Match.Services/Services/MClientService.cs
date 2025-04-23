@@ -31,7 +31,7 @@ namespace Job_Match.Services.Services
             var user = new m_user
             {
                 id = Guid.NewGuid(),
-                id_mask = Guid.NewGuid().ToString("N").Substring(0, 10),
+                id_mask = await GenerarNuevoIdMaskAsync(),
                 mail = dto.Mail,
                 first_name = dto.FirstName,
                 last_name = dto.LastName,
@@ -75,5 +75,36 @@ namespace Job_Match.Services.Services
                 .FirstOrDefaultAsync(c => c.mail == mail);
         }
 
+        /// <summary>
+        /// Genera un nuevo valor de id_mask en formato "USR001", "USR002", etc., 
+        /// incrementando el último valor existente en la base de datos.
+        /// </summary>
+        /// <returns>Nuevo id_mask con el formato USR###</returns>
+        private async Task<string> GenerarNuevoIdMaskAsync()
+        {
+            // Busca el último id_mask que empiece con "USR" y lo ordena en forma descendente
+            var ultimoIdMask = await _context.m_users
+                .Where(u => u.id_mask.StartsWith("USR"))
+                .OrderByDescending(u => u.id_mask)
+                .Select(u => u.id_mask)
+                .FirstOrDefaultAsync();
+
+            // Si no existe ningún id_mask todavía, devuelve el primero
+            if (string.IsNullOrEmpty(ultimoIdMask))
+                return "USR001";
+
+            // Extrae la parte numérica del último id_mask (por ejemplo: de "USR007" saca "007")
+            var numeroStr = ultimoIdMask.Substring(3);
+
+            // Intenta convertir esa parte numérica a entero
+            if (!int.TryParse(numeroStr, out int numero))
+                numero = 0;
+
+            // Incrementa el número
+            numero++;
+
+            // Devuelve el nuevo id_mask con el número formateado a 3 cifras (ej: "USR008")
+            return $"USR{numero:D3}";
+        }
     }
 }
