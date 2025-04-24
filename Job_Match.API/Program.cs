@@ -13,6 +13,7 @@ builder.Services.AddScoped<IMDocTypeService, MDocTypeService>();
 builder.Services.AddScoped<IMPostalCodeService, MPostalCodeService>();
 builder.Services.AddScoped<IMClientService, MClientService>();
 builder.Services.AddScoped<IMProviderService, MProviderService>();
+builder.Services.AddScoped<IMServiceTypeService, MServiceTypeService>();
 
 // Configurar EF + Contexto
 builder.Services.AddDbContext<job_match_context>(options =>
@@ -54,7 +55,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 🔐 Autenticación y autorización
+// Autenticación y autorización
 app.UseAuthentication();
 app.UseAuthorization();
 

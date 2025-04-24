@@ -26,7 +26,7 @@ namespace Job_Match.Maui.ApiService
             var handler = new HttpClientHandler();
 
 #if ANDROID
-            // ⚠️ Acepta cualquier certificado (solo para desarrollo)
+            // Acepta cualquier certificado (solo para desarrollo)
             handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
 
             _httpClient = new HttpClient(handler)
@@ -244,6 +244,37 @@ namespace Job_Match.Maui.ApiService
 
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ProfileProviderDto>(json);
+        }
+
+        #endregion
+
+        #region m_service_type
+
+        public async Task<List<m_service_type>?> GetServiceTypesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/service-type");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<m_service_type>>();
+                }
+                else
+                {
+                    Console.WriteLine($"Error al obtener tipos de servicio: {response.StatusCode}");
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine($"Error de red: {httpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inesperado: {ex.Message}");
+            }
+
+            return null;
         }
 
         #endregion
