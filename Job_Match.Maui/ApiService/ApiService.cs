@@ -278,5 +278,37 @@ namespace Job_Match.Maui.ApiService
         }
 
         #endregion
+
+        #region m_service
+
+        public async Task<List<m_service>?> GetServicesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/services");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<m_service>>();
+                }
+                else
+                {
+                    Console.WriteLine($"Error al obtener servicios: {response.StatusCode}");
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine($"Error de red: {httpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inesperado: {ex.Message}");
+            }
+
+            return null;
+        }
+
+
+        #endregion
     }
 }

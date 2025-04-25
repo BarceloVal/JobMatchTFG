@@ -17,9 +17,11 @@ namespace Job_Match.Maui.ViewModels
         {
             PostalCodes = new ObservableCollection<m_postal_code>();
             ServiceTypes = new ObservableCollection<m_service_type>();
+            Services = new ObservableCollection<m_service>();
 
             LoadPostalCodesAsync();
             LoadServiceTypesAsync();
+            LoadServicesAsync();
         }
 
         // Evento que notifica a la interfaz de usuario cuando una propiedad cambia
@@ -95,6 +97,39 @@ namespace Job_Match.Maui.ViewModels
                 foreach (var code in result)
                 {
                     ServiceTypes.Add(code);
+                }
+            }
+        }
+
+        // ------------------
+        // ---- Servicio ----
+        // ------------------
+        public ObservableCollection<m_service> Services { get; set; }
+
+        private m_service _selectedService;
+        public m_service SelectedService
+        {
+            get => _selectedService;
+            set
+            {
+                if (_selectedService != value)
+                {
+                    _selectedService = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        // Método que carga los servicios
+        private async void LoadServicesAsync()
+        {
+            var result = await _apiService.GetServicesAsync();
+            if (result != null)
+            {
+                Services.Clear();
+                foreach (var service in result)
+                {
+                    Services.Add(service);
                 }
             }
         }

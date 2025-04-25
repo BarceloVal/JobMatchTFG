@@ -18,13 +18,13 @@ public partial class m_service
 
     public Guid id_service_type { get; set; }
 
-    [StringLength(20)]
+    [StringLength(100)]
     [Unicode(false)]
     public string name { get; set; } = null!;
 
     [StringLength(200)]
     [Unicode(false)]
-    public string? description { get; set; }
+    public string description { get; set; }
 
     public bool active { get; set; }
 

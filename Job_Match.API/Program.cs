@@ -14,6 +14,7 @@ builder.Services.AddScoped<IMPostalCodeService, MPostalCodeService>();
 builder.Services.AddScoped<IMClientService, MClientService>();
 builder.Services.AddScoped<IMProviderService, MProviderService>();
 builder.Services.AddScoped<IMServiceTypeService, MServiceTypeService>();
+builder.Services.AddScoped<IMServiceService, MServiceService>();
 
 // Configurar EF + Contexto
 builder.Services.AddDbContext<job_match_context>(options =>

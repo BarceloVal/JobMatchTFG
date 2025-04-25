@@ -16,7 +16,7 @@ public partial class m_service_type
     [Unicode(false)]
     public string id_mask { get; set; } = null!;
 
-    [StringLength(20)]
+    [StringLength(100)]
     [Unicode(false)]
     public string name { get; set; } = null!;
 
