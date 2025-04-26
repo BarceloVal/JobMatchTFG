@@ -17,7 +17,7 @@ namespace Job_Match.Maui.ViewModels
         {
             PostalCodes = new ObservableCollection<m_postal_code>();
             ServiceTypes = new ObservableCollection<m_service_type>();
-            Services = new ObservableCollection<m_service>();
+            FilteredServices = new ObservableCollection<m_service>();
 
             LoadPostalCodesAsync();
             LoadServiceTypesAsync();
@@ -71,6 +71,8 @@ namespace Job_Match.Maui.ViewModels
         // --------------------------
         // ---- Tipo de servicio ----
         // --------------------------
+
+        // Todos los tipos de servicios
         public ObservableCollection<m_service_type> ServiceTypes { get; set; }
 
         private m_service_type _selectedServiceType;
@@ -83,6 +85,7 @@ namespace Job_Match.Maui.ViewModels
                 {
                     _selectedServiceType = value;
                     OnPropertyChanged();
+                    FilterServices();
                 }
             }
         }
@@ -104,6 +107,13 @@ namespace Job_Match.Maui.ViewModels
         // ------------------
         // ---- Servicio ----
         // ------------------
+
+        // Todos los servicios (sin filtrar)
+        private List<m_service> _allServices = new();
+
+        // Servicios filtrados
+        public ObservableCollection<m_service> FilteredServices { get; set; } = new();
+
         public ObservableCollection<m_service> Services { get; set; }
 
         private m_service _selectedService;
@@ -126,12 +136,28 @@ namespace Job_Match.Maui.ViewModels
             var result = await _apiService.GetServicesAsync();
             if (result != null)
             {
-                Services.Clear();
-                foreach (var service in result)
+                _allServices = result.ToList();
+                FilteredServices.Clear();
+                foreach (var service in _allServices)
                 {
-                    Services.Add(service);
+                    FilteredServices.Add(service);
                 }
             }
         }
+
+        private void FilterServices()
+        {
+            if (SelectedServiceType == null)
+                return;
+
+            var filtered = _allServices
+                .Where(s => s.id_service_type == SelectedServiceType.id)
+                .ToList();
+
+            FilteredServices.Clear();
+            foreach (var service in filtered)
+                FilteredServices.Add(service);
+        }
+
     }
 }

@@ -64,7 +64,7 @@
                         <Grid ColumnDefinitions="*, Auto">
                             <Picker
                                 Title="Servicio"
-                                ItemsSource="{Binding Services}"
+                                ItemsSource="{Binding FilteredServices}"
                                 SelectedItem="{Binding SelectedService}"
                                 ItemDisplayBinding="{Binding name}"
                                 HorizontalOptions="FillAndExpand"/>
