@@ -291,10 +291,10 @@ namespace Job_Match.Maui.ViewModels
         // --------------------------------
         // ------- Tipo Documento -------
         // --------------------------------
-        public ObservableCollection<DocType> DocTypes { get; set; } = new();
+        public ObservableCollection<m_doc_type> DocTypes { get; set; } = new();
 
-        private DocType _selectedDocType;
-        public DocType SelectedDocType
+        private m_doc_type _selectedDocType;
+        public m_doc_type SelectedDocType
         {
             get => _selectedDocType;
             set
@@ -313,7 +313,7 @@ namespace Job_Match.Maui.ViewModels
 
                 foreach (var item in result)
                 {
-                    Console.WriteLine($"Cargando tipo: {item.IdMask} - {item.Name}");
+                    Console.WriteLine($"Cargando tipo: {item.id_mask} - {item.name}");
                     DocTypes.Add(item);
                 }
             }
@@ -370,7 +370,7 @@ namespace Job_Match.Maui.ViewModels
             }
 
             var doc = Document.ToUpper().Trim();
-            var tipo = SelectedDocType.IdMask.ToUpper();
+            var tipo = SelectedDocType.id_mask.ToUpper();
 
             switch (tipo)
             {
@@ -762,7 +762,7 @@ namespace Job_Match.Maui.ViewModels
                 Mail = Mail,
                 Password = Password,
                 TradeName = TradeName,
-                IdDocType = SelectedDocType.Id,
+                IdDocType = SelectedDocType.id,
                 Document = Document,
                 Address = Address,
                 IdPostalCode = SelectedPostalCode.id,

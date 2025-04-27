@@ -119,7 +119,7 @@ namespace Job_Match.Maui.ApiService
 
         #region m_doc_type
 
-        public async Task<List<DocType>?> GetDocTypesAsync()
+        public async Task<List<m_doc_type>?> GetDocTypesAsync()
         {
             try
             {
@@ -127,7 +127,7 @@ namespace Job_Match.Maui.ApiService
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<List<DocType>>();
+                    return await response.Content.ReadFromJsonAsync<List<m_doc_type>>();
                 }
                 else
                 {

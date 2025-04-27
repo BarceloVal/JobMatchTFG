@@ -279,7 +279,7 @@
                         <Picker
                             Title="Selecciona un tipo de documento"
                             ItemsSource="{Binding DocTypes}"
-                            ItemDisplayBinding="{Binding Name}"
+                            ItemDisplayBinding="{Binding name}"
                             SelectedItem="{Binding SelectedDocType}" />
 
                         <!-- Flecha decorativa -->

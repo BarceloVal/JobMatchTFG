@@ -1,6 +1,8 @@
 ﻿using Job_Match.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Job_Match.Data.Models;
+using Job_Match.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Job_Match.API.Controllers
 {
@@ -8,18 +10,17 @@ namespace Job_Match.API.Controllers
     [Route("api/doc-types")]
     public class m_doc_typeController : ControllerBase
     {
-        private readonly IMDocTypeService _docTypeService;
+        private readonly job_match_context _context;
 
-        public m_doc_typeController(IMDocTypeService docTypeService)
+        public m_doc_typeController(job_match_context context)
         {
-            _docTypeService = docTypeService;
+            _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<m_doc_type>>> GetAll()
+        public async Task<IEnumerable<m_doc_type>> GetDocType()
         {
-            var result = await _docTypeService.GetAllAsync();
-            return Ok(result);
+            return await _context.m_doc_types.ToListAsync();
         }
     }
 }
