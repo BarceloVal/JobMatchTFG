@@ -29,6 +29,9 @@ namespace Job_Match.Services.Services
 
         public async Task AddServicesToProviderAsync(Guid providerId, List<Guid> serviceIds)
         {
+            // Obtener el número actual de relaciones para calcular el nuevo id_mask
+            int currentCount = await _context.m_service_providers.CountAsync();
+
             foreach (var serviceId in serviceIds)
             {
                 var exists = await _context.m_service_providers
@@ -36,11 +39,13 @@ namespace Job_Match.Services.Services
 
                 if (!exists)
                 {
+                    currentCount++; // Incrementa para cada nueva relación
+
                     var newRelation = new m_service_provider
                     {
                         id_user_provider = providerId,
                         id_service = serviceId,
-                        id_mask = "",
+                        id_mask = $"SERPROV{currentCount.ToString("D3")}", // D3 -> número con 3 dígitos (001, 002, 003...)
                         active = true,
                         created_on = DateTime.UtcNow,
                         last_update = null
