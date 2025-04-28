@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Job_Match.Data.Models
+{
+    [Table("m_service_provider")]
+    public class m_service_provider
+    {
+        [Key]
+        public Guid id_user_provider { get; set; }
+        public Guid id_service { get; set; }
+        [Required]
+        [StringLength(10)]
+        public string id_mask { get; set; }
+        public bool active { get; set; } = true;
+        public DateTime created_on { get; set; }
+        public DateTime? last_update { get; set; }
+    }
+}

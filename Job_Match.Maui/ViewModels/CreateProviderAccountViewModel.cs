@@ -22,6 +22,8 @@ namespace Job_Match.Maui.ViewModels
         {
             LoadDocTypesAsync();
             LoadPostalCodesAsync();
+            LoadServiceTypesAsync();
+            LoadServicesAsync();
         }
 
         // Evento que notifica a la interfaz de usuario cuando una propiedad cambia
@@ -731,6 +733,126 @@ namespace Job_Match.Maui.ViewModels
             OnPropertyChanged(nameof(IsPhone2Valid));
         }
 
+
+        // ------------------------
+        // --- Tipo de servicio ---
+        // ------------------------
+        public class ServiceTypeSelectable : m_service_type
+        {
+            public bool IsSelected { get; set; } = false;
+        }
+
+        // Tipo de servicio (Checkbox)
+        public ObservableCollection<ServiceTypeSelectable> ServiceTypes { get; set; } = new();
+
+        private async void LoadServiceTypesAsync()
+        {
+            var result = await _apiService.GetServiceTypesAsync();
+            if (result != null)
+            {
+                ServiceTypes.Clear();
+                foreach (var item in result)
+                {
+                    ServiceTypes.Add(new ServiceTypeSelectable
+                    {
+                        id = item.id,
+                        id_mask = item.id_mask,
+                        name = item.name,
+                        active = item.active,
+                        created_on = item.created_on,
+                        last_update = item.last_update
+                    });
+                }
+            }
+        }
+
+
+        // ----------------
+        // --- Servicio ---
+        // ----------------
+        public class ServiceSelectable : m_service
+        {
+            public bool IsSelected { get; set; } = false;
+        }
+
+        // Servicios filtrados (Checkbox)
+        public ObservableCollection<ServiceSelectable> FilteredServices { get; set; } = new();
+
+        // Tipo de servicio seleccionado
+        private m_service_type _selectedServiceType;
+        public m_service_type SelectedServiceType
+        {
+            get => _selectedServiceType;
+            set
+            {
+                if (_selectedServiceType != value)
+                {
+                    _selectedServiceType = value;
+                    OnPropertyChanged();
+                    FilterServicesByType();
+                }
+            }
+        }
+
+        private void FilterServicesByType()
+        {
+            if (SelectedServiceType == null)
+                return;
+
+            // Limpiar la lista actual
+            FilteredServices.Clear();
+
+            // Agregar solo los servicios que coincidan con el tipo seleccionado
+            var filtered = _allServices
+                .Where(service => service.id_service_type == SelectedServiceType.id)
+                .ToList();
+
+            foreach (var service in filtered)
+            {
+                FilteredServices.Add(new ServiceSelectable
+                {
+                    id = service.id,
+                    id_service_type = service.id_service_type,
+                    name = service.name,
+                    IsSelected = false // inicializamos en false
+                });
+            }
+        }
+
+
+        // Todos los servicios (sin filtrar)
+        private List<ServiceSelectable> _allServices = new();
+
+        private async void LoadServicesAsync()
+        {
+            var result = await _apiService.GetServicesAsync();
+            if (result != null)
+            {
+                _allServices = result.Select(service => new ServiceSelectable
+                {
+                    id = service.id,
+                    id_service_type = service.id_service_type,
+                    name = service.name,
+                    description = service.description,
+                    IsSelected = false
+                }).ToList();
+
+                FilteredServices.Clear();
+                foreach (var service in _allServices)
+                {
+                    FilteredServices.Add(service);
+                }
+
+                Console.WriteLine($"Se cargaron {result.Count} servicios.");
+            }
+            else
+            {
+                Console.WriteLine("No se recibieron servicios del servidor.");
+            }
+        }
+
+
+
         public async Task<bool> CreateProviderAsync()
         {
             // Validar campos antes de enviar
@@ -774,8 +896,25 @@ namespace Job_Match.Maui.ViewModels
             };
 
             var response = await _apiService.CreateProviderAsync(providerDto);
+
+            // Buscar el proveedor recién creado usando el mail
+            var provider = await _apiService.GetProviderByMailAsync(providerDto.Mail);
+
+            if (provider == null)
+            {
+                return false;
+            }
+
+            // Correcto: ahora seleccionás los servicios (no los tipos)
+            var selectedServiceIds = FilteredServices.Where(s => s.IsSelected).Select(s => s.id).ToList();
+
+            // Ahora que tenés el ID del proveedor, le agregás los servicios seleccionados
+            await _apiService.AddServicesToProviderAsync(provider.IdUser, selectedServiceIds);
+
             return response.IsSuccessStatusCode;
         }
+
+
 
     }
 }

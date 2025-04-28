@@ -22,6 +22,8 @@ public partial class job_match_context : DbContext
 
     public virtual DbSet<m_service> m_services { get; set; }
 
+    public virtual DbSet<m_service_provider> m_service_providers { get; set; }
+
     public virtual DbSet<m_service_type> m_service_types { get; set; }
 
     public virtual DbSet<m_task_status> m_task_statuses { get; set; }
@@ -70,6 +72,11 @@ public partial class job_match_context : DbContext
         modelBuilder.Entity<m_service_type>(entity =>
         {
             entity.Property(e => e.id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<m_service_provider>(entity =>
+        {
+            entity.ToTable("m_service_provider");
         });
 
         modelBuilder.Entity<m_task_status>(entity =>

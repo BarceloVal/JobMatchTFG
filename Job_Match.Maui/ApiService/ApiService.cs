@@ -310,5 +310,42 @@ namespace Job_Match.Maui.ApiService
 
 
         #endregion
+
+        #region m_service_provider
+
+        public async Task<List<m_service_provider>?> GetServiceProvidersAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/m_service_provider");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<m_service_provider>>();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error obteniendo relaciones proveedor-servicio: {ex.Message}");
+            }
+
+            return null;
+        }
+
+        // Agregar servicios a un proveedor
+        public async Task<bool> AddServicesToProviderAsync(Guid providerId, List<Guid> serviceIds)
+        {
+            var request = new
+            {
+                ProviderId = providerId,
+                ServiceIds = serviceIds
+            };
+
+            var response = await _httpClient.PostAsJsonAsync("api/m_service_provider", request);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        #endregion
     }
 }
