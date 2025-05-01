@@ -56,11 +56,11 @@ public partial class CreateClientAccount : ContentPage
 
         if (result)
         {
-            await DisplayAlert("Éxito", "Cuenta creada correctamente", "Aceptar");
+            await DisplayAlert("Éxito", "Cuenta de cliente creada correctamente", "Aceptar");
         }
         else
         {
-            await DisplayAlert("Error", "Validación fallida en uno o más campos. Revisá la consola para más detalles.", "OK");
+            await DisplayAlert("Error", "Revisa que los campos obligatorios esten rellenos.", "Aceptar");
         }
     }
 

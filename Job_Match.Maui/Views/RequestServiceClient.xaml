@@ -79,12 +79,14 @@
 
                         <!-- Botón Buscar -->
                         <Button
+                            x:Name="btnSearch"
                             Text="Buscar"
                             BackgroundColor="#980c0f"
                             TextColor="White"
                             CornerRadius="10"
                             HeightRequest="45"
-                            FontAttributes="Bold" />
+                            FontAttributes="Bold"
+                            Clicked="btnSearch_Clicked"/>
 
                     </VerticalStackLayout>
 

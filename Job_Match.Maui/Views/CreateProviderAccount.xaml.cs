@@ -67,11 +67,11 @@ public partial class CreateProviderAccount : ContentPage
 
         if (result)
         {
-            await DisplayAlert("Éxito", "Proveedor creado correctamente", "Aceptar");
+            await DisplayAlert("Éxito", "Cuenta de proveedor creado correctamente", "Aceptar");
         }
         else
         {
-            await DisplayAlert("Error", "Revisá los campos del formulario o la conexión con el servidor", "OK");
+            await DisplayAlert("Error", "Revisa que los campos obligatorios esten rellenos.", "Aceptar");
         }
     }
 }

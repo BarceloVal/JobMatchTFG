@@ -9,4 +9,9 @@ public partial class RequestServiceClient : ContentPage
         InitializeComponent();
         BindingContext = new RequestServiceClientViewModel();
     }
+
+    private void btnSearch_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }
