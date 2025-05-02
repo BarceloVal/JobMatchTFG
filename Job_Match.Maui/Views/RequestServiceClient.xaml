@@ -124,14 +124,11 @@
                         <VerticalStackLayout Spacing="6">
 
                             <!-- Nombre comercial -->
-                            <Label>
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="Nombre: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding TradeName}"/>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
+                            <!-- Nombre en negrita y color -->
+                            <Label Text="{Binding TradeName}"
+                                   FontAttributes="Bold"
+                                   FontSize="20"
+                                   TextColor="#980c0f" />
 
                             <!-- Población -->
                             <Label>
