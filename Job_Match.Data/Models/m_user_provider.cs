@@ -80,4 +80,7 @@ public partial class m_user_provider
 
     [InverseProperty("id_user_providerNavigation")]
     public virtual ICollection<t_task_contact> t_task_contacts { get; set; } = new List<t_task_contact>();
+
+    [InverseProperty("id_user_providerNavigation")]
+    public virtual ICollection<m_service_provider> m_service_providers { get; set; } = new List<m_service_provider>();
 }

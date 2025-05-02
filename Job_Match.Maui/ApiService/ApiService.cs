@@ -235,7 +235,6 @@ namespace Job_Match.Maui.ApiService
                 };
             }
         }
-
         public async Task<ProfileProviderDto?> GetProviderByMailAsync(string mail)
         {
             var response = await _httpClient.GetAsync($"api/m_user_provider/by-mail/{mail}");
@@ -344,6 +343,24 @@ namespace Job_Match.Maui.ApiService
             var response = await _httpClient.PostAsJsonAsync("api/m_service_provider", request);
 
             return response.IsSuccessStatusCode;
+        }
+        public async Task<List<ProviderWithServicesDto>?> GetAllProvidersAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/m_user_provider/all-with-services");
+
+                if (!response.IsSuccessStatusCode)
+                    return new List<ProviderWithServicesDto>(); // no null
+
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<ProviderWithServicesDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in GetAllProvidersAsync: {ex.Message}");
+                return null;
+            }
         }
 
         #endregion

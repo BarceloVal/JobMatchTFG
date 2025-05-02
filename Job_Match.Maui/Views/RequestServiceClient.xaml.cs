@@ -10,8 +10,11 @@ public partial class RequestServiceClient : ContentPage
         BindingContext = new RequestServiceClientViewModel();
     }
 
-    private void btnSearch_Clicked(object sender, EventArgs e)
+    private async void btnSearch_Clicked(object sender, EventArgs e)
     {
-
+        if (BindingContext is RequestServiceClientViewModel vm)
+        {
+            await vm.SearchProvidersAsync();
+        }
     }
 }

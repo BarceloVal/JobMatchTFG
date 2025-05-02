@@ -20,5 +20,12 @@ namespace Job_Match.Data.Models
         public bool active { get; set; } = true;
         public DateTime created_on { get; set; }
         public DateTime? last_update { get; set; }
+
+        [ForeignKey(nameof(id_user_provider))]
+        [InverseProperty("m_service_providers")]
+        public virtual m_user_provider id_user_providerNavigation { get; set; } = null!;
+
+        [ForeignKey(nameof(id_service))]
+        public virtual m_service m_service { get; set; } = null!;
     }
 }

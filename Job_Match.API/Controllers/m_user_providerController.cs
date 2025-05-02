@@ -1,7 +1,10 @@
 ﻿using Job_Match.API.Models.Dtos;
+using Job_Match.Data.Context;
+using Job_Match.Data.Models;
 using Job_Match.Data.Models.Dtos;
 using Job_Match.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Job_Match.API.Controllers
@@ -11,10 +14,12 @@ namespace Job_Match.API.Controllers
     public class m_user_providerController : ControllerBase
     {
         private readonly IMProviderService _providerService;
+        private readonly job_match_context _context;
 
-        public m_user_providerController(IMProviderService providerService)
+        public m_user_providerController(IMProviderService providerService, job_match_context context)
         {
             _providerService = providerService;
+            _context = context;
         }
 
         [HttpPost]
@@ -57,5 +62,32 @@ namespace Job_Match.API.Controllers
 
             return Ok(dto);
         }
+
+        [HttpGet("all-with-services")]
+        public async Task<ActionResult<List<ProviderWithServicesDto>>> GetAllProvidersWithServices()
+        {
+            var providers = await _context.m_user_providers
+                .Include(p => p.m_service_providers)
+                    .ThenInclude(sp => sp.m_service)
+                .ToListAsync();
+
+            var result = providers.Select(p => new ProviderWithServicesDto
+            {
+                Id = p.id,
+                TradeName = p.trade_name,
+                Address = p.address,
+                IdPostalCode = p.id_postal_code,
+                Services = p.m_service_providers.Select(sp => new ServiceDto
+                {
+                    Id = sp.m_service.id,
+                    Name = sp.m_service.name,
+                    IdServiceType = sp.m_service.id_service_type
+                }).ToList()
+            }).ToList();
+
+            return Ok(result);
+        }
+
+
     }
 }

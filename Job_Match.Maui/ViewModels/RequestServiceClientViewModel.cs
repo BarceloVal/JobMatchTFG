@@ -1,4 +1,5 @@
 ﻿using Job_Match.Data.Models;
+using Job_Match.Data.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -159,5 +160,29 @@ namespace Job_Match.Maui.ViewModels
                 FilteredServices.Add(service);
         }
 
+        // ------------------
+        // ---- Filtrado ----
+        // ------------------
+
+        public ObservableCollection<ProviderWithServicesDto> FilteredProviders { get; set; } = new();
+        public async Task SearchProvidersAsync()
+        {
+            var allProviders = await _apiService.GetAllProvidersAsync();
+
+            var resultado = allProviders.AsQueryable();
+
+            if (SelectedPostalCode != null)
+                resultado = resultado.Where(p => p.IdPostalCode == SelectedPostalCode.id);
+
+            if (SelectedServiceType != null)
+                resultado = resultado.Where(p => p.Services.Any(s => s.IdServiceType == SelectedServiceType.id));
+
+            if (SelectedService != null)
+                resultado = resultado.Where(p => p.Services.Any(s => s.Id == SelectedService.id));
+
+            FilteredProviders.Clear();
+            foreach (var provider in resultado)
+                FilteredProviders.Add(provider);
+        }
     }
 }
