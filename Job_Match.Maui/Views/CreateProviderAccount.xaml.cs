@@ -74,4 +74,23 @@ public partial class CreateProviderAccount : ContentPage
             await DisplayAlert("Error", "Revisa que los campos obligatorios esten rellenos.", "Aceptar");
         }
     }
+
+    private void radBtnServices_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (!e.Value)
+            return;
+
+        var selectedService = (sender as RadioButton)?.BindingContext as CreateProviderAccountViewModel.ServiceSelectable;
+        if (selectedService == null)
+            return;
+
+        var vm = BindingContext as CreateProviderAccountViewModel;
+        if (vm == null)
+            return;
+
+        foreach (var service in vm.FilteredServices)
+        {
+            service.IsSelected = service == selectedService;
+        }
+    }
 }

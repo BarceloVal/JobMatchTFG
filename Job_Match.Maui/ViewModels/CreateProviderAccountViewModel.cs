@@ -902,10 +902,15 @@ namespace Job_Match.Maui.ViewModels
                 return false;
             }
 
-            var selectedServiceIds = FilteredServices.Where(s => s.IsSelected).Select(s => s.id).ToList();
+            var selectedService = FilteredServices.FirstOrDefault(s => s.IsSelected);
+            if (selectedService == null)
+            {
+                Console.WriteLine("No se ha seleccionado ningún servicio.");
+                return false;
+            }
 
-            await _apiService.AddServicesToProviderAsync(provider.IdProvider, selectedServiceIds);
-
+            await _apiService.AddServicesToProviderAsync(provider.IdProvider, new List<Guid> { selectedService.id });
+            
             return response.IsSuccessStatusCode;
         }
     }
