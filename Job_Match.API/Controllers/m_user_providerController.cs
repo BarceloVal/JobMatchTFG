@@ -67,21 +67,26 @@ namespace Job_Match.API.Controllers
         public async Task<ActionResult<List<ProviderWithServicesDto>>> GetAllProvidersWithServices()
         {
             var providers = await _context.m_user_providers
-                .Include(p => p.m_service_providers)
-                    .ThenInclude(sp => sp.m_service)
-                .ToListAsync();
+            .Include(p => p.id_postal_codeNavigation)
+            .Include(p => p.m_service_providers)
+                .ThenInclude(sp => sp.m_service)
+                    .ThenInclude(s => s.id_service_typeNavigation)
+            .ToListAsync();
+
 
             var result = providers.Select(p => new ProviderWithServicesDto
             {
                 Id = p.id,
                 TradeName = p.trade_name,
-                Address = p.address,
+                Description = p.description,
                 IdPostalCode = p.id_postal_code,
+                PostalCodeName = $"{p.id_postal_codeNavigation.cod_auto_name}/{p.id_postal_codeNavigation.cod_pro_name}/{p.id_postal_codeNavigation.cod_loc_name}",
                 Services = p.m_service_providers.Select(sp => new ServiceDto
                 {
                     Id = sp.m_service.id,
                     Name = sp.m_service.name,
-                    IdServiceType = sp.m_service.id_service_type
+                    IdServiceType = sp.m_service.id_service_type,
+                    ServiceTypeName = sp.m_service.id_service_typeNavigation.name
                 }).ToList()
             }).ToList();
 

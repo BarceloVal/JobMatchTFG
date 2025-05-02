@@ -64,19 +64,54 @@
         <!-- Lista de resultados con scroll completo -->
         <CollectionView Grid.Row="2"
                         ItemsSource="{Binding FilteredProviders}"
-                        VerticalOptions="FillAndExpand">
+                        VerticalOptions="FillAndExpand"
+                        Margin="10">
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BorderColor="Gray" Padding="10" Margin="10,5">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding TradeName}" FontAttributes="Bold"/>
-                            <Label Text="{Binding Address}" FontSize="12"/>
+                    <Frame BorderColor="#ccc"
+                           CornerRadius="12"
+                           Padding="15"
+                           Margin="0,5"
+                           HasShadow="True"
+                           BackgroundColor="#f9f9f9">
+
+                        <VerticalStackLayout Spacing="6">
+
+                            <!-- Nombre comercial -->
+                            <Label Text="{Binding TradeName}"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   TextColor="#2c3e50" />
+
+                            <!-- Población -->
+                            <Label Text="{Binding PostalCodeName}"
+                                   FontSize="14"
+                                   TextColor="#7f8c8d" />
+
+                            <!-- Descripción -->
+                            <Label Text="{Binding Description}"
+                                   FontSize="13"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="#34495e" />
+
+                            <!-- Servicio principal -->
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="{Binding Services[0].ServiceTypeName}"
+                                       FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="#2980b9" />
+
+                                <Label Text="{Binding Services[0].Name}"
+                                       FontSize="13"
+                                       TextColor="#27ae60" />
+                            </HorizontalStackLayout>
+
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
     </Grid>
 </ContentPage>
 
