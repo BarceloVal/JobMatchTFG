@@ -78,6 +78,10 @@ namespace Job_Match.API.Controllers
             {
                 Id = p.id,
                 TradeName = p.trade_name,
+                PhoneNumber1 = p.phone_number_1,
+                PhoneNumber2 = p.phone_number_2,
+                Mail = p.mail,
+                Website = p.web_site,
                 Description = p.description,
                 IdPostalCode = p.id_postal_code,
                 PostalCodeName = $"{p.id_postal_codeNavigation.cod_auto_name}/{p.id_postal_codeNavigation.cod_pro_name}/{p.id_postal_codeNavigation.cod_loc_name}",

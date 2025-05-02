@@ -112,7 +112,6 @@
                         ItemsSource="{Binding FilteredProviders}"
                         VerticalOptions="FillAndExpand"
                         Margin="10">
-
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame BorderColor="#ccc"
@@ -125,32 +124,84 @@
                         <VerticalStackLayout Spacing="6">
 
                             <!-- Nombre comercial -->
-                            <Label Text="{Binding TradeName}"
-                                   FontAttributes="Bold"
-                                   FontSize="18"
-                                   TextColor="#2c3e50" />
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Nombre: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding TradeName}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
                             <!-- Población -->
-                            <Label Text="{Binding PostalCodeName}"
-                                   FontSize="14"
-                                   TextColor="#7f8c8d" />
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Población: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding PostalCodeName}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Teléfono 1 -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Teléfono 1: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding PhoneNumber1}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Teléfono 2 -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Teléfono 2: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding PhoneNumber2}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Mail -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Mail: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding Mail}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Website -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Web: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding Website}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
                             <!-- Descripción -->
-                            <Label Text="{Binding Description}"
-                                   FontSize="13"
-                                   LineBreakMode="WordWrap"
-                                   TextColor="#34495e" />
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Descripción: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding Description}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
                             <!-- Servicio principal -->
-                            <HorizontalStackLayout Spacing="10">
+                            <HorizontalStackLayout Spacing="10" Margin="0,5">
                                 <Label Text="{Binding Services[0].ServiceTypeName}"
                                        FontSize="13"
                                        FontAttributes="Bold"
-                                       TextColor="#2980b9" />
-
+                                       TextColor="#2980b9"/>
                                 <Label Text="{Binding Services[0].Name}"
                                        FontSize="13"
-                                       TextColor="#27ae60" />
+                                       TextColor="#27ae60"/>
                             </HorizontalStackLayout>
 
                         </VerticalStackLayout>
