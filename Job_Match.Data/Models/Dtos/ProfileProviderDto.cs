@@ -9,6 +9,7 @@ namespace Job_Match.Data.Models.Dtos
     public class ProfileProviderDto
     {
         public Guid IdUser { get; set; }
+        public Guid IdProvider { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string TradeName { get; set; }

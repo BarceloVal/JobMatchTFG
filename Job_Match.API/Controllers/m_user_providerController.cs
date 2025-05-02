@@ -26,7 +26,6 @@ namespace Job_Match.API.Controllers
             return Ok();
         }
 
-
         [HttpGet("by-mail/{mail}")]
         public async Task<ActionResult<ProfileProviderDto>> GetByMail(string mail)
         {
@@ -37,6 +36,8 @@ namespace Job_Match.API.Controllers
 
             var dto = new ProfileProviderDto
             {
+                IdProvider = provider.id,
+                IdUser = provider.id_user,
                 FirstName = provider.id_userNavigation.first_name,
                 LastName = provider.id_userNavigation.last_name,
                 TradeName = provider.trade_name,

@@ -851,8 +851,6 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
-
-
         public async Task<bool> CreateProviderAsync()
         {
             // Validar campos antes de enviar
@@ -897,7 +895,6 @@ namespace Job_Match.Maui.ViewModels
 
             var response = await _apiService.CreateProviderAsync(providerDto);
 
-            // Buscar el proveedor recién creado usando el mail
             var provider = await _apiService.GetProviderByMailAsync(providerDto.Mail);
 
             if (provider == null)
@@ -905,16 +902,11 @@ namespace Job_Match.Maui.ViewModels
                 return false;
             }
 
-            // Correcto: ahora seleccionás los servicios (no los tipos)
             var selectedServiceIds = FilteredServices.Where(s => s.IsSelected).Select(s => s.id).ToList();
 
-            // Ahora que tenés el ID del proveedor, le agregás los servicios seleccionados
-            await _apiService.AddServicesToProviderAsync(provider.IdUser, selectedServiceIds);
+            await _apiService.AddServicesToProviderAsync(provider.IdProvider, selectedServiceIds);
 
             return response.IsSuccessStatusCode;
         }
-
-
-
     }
 }
