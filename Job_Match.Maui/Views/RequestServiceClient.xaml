@@ -14,50 +14,96 @@
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="20" Spacing="20">
 
-                <Label Text="Solicitar servicio" FontSize="30" FontAttributes="Bold"
-                       HorizontalOptions="Center" Margin="0, 10, 0, 10"/>
+                <!-- Título -->
+                <Label
+                    Text="Solicitar servicio"
+                    FontSize="30"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Margin="0, 10, 0, 10"/>
 
-                <Frame BorderColor="Black" CornerRadius="10" Padding="10" HasShadow="False">
+                <Frame
+                    BorderColor="Black"
+                    CornerRadius="10"
+                    Padding="10"
+                    HasShadow="False">
                     <VerticalStackLayout Spacing="15">
 
                         <Grid ColumnDefinitions="*, Auto">
-                            <Picker Title="Población"
-                                    ItemsSource="{Binding PostalCodes}"
-                                    SelectedItem="{Binding SelectedPostalCode}"
-                                    ItemDisplayBinding="{Binding DisplayText}" />
-                            <Image Source="arrowdown.png" HeightRequest="20" WidthRequest="20"
-                                   HorizontalOptions="End" Margin="0,0,10,10"/>
+                            <!-- Población -->
+                            <Picker
+                                Title="Población"
+                                ItemsSource="{Binding PostalCodes}"
+                                SelectedItem="{Binding SelectedPostalCode}"
+                                ItemDisplayBinding="{Binding DisplayText}" />
+                            <Image
+                                Source="arrowdown.png"
+                                HeightRequest="20"
+                                WidthRequest="20"
+                                HorizontalOptions="End"
+                                Margin="0,0,10,10"/>
                         </Grid>
 
+                        <!-- Tipo de servicio -->
                         <Grid ColumnDefinitions="*, Auto">
-                            <Picker Title="Tipo de servicio"
-                                    ItemsSource="{Binding ServiceTypes}"
-                                    SelectedItem="{Binding SelectedServiceType}"
-                                    ItemDisplayBinding="{Binding name}" />
-                            <Image Source="arrowdown.png" HeightRequest="20" WidthRequest="20"
-                                   HorizontalOptions="End" Margin="0,0,10,10"/>
+                            <Picker
+                                Title="Tipo de servicio"
+                                ItemsSource="{Binding ServiceTypes}"
+                                SelectedItem="{Binding SelectedServiceType}"
+                                ItemDisplayBinding="{Binding name}" />
+                            <Image
+                                Source="arrowdown.png"
+                                HeightRequest="20"
+                                WidthRequest="20"
+                                HorizontalOptions="End"
+                                Margin="0,0,10,10"/>
                         </Grid>
 
+                        <!-- Servicio -->
                         <Grid ColumnDefinitions="*, Auto">
-                            <Picker Title="Servicio"
-                                    ItemsSource="{Binding FilteredServices}"
-                                    SelectedItem="{Binding SelectedService}"
-                                    ItemDisplayBinding="{Binding name}" />
-                            <Image Source="arrowdown.png" HeightRequest="20" WidthRequest="20"
-                                   HorizontalOptions="End" Margin="0,0,10,10"/>
+                            <Picker
+                                Title="Servicio"
+                                ItemsSource="{Binding FilteredServices}"
+                                SelectedItem="{Binding SelectedService}"
+                                ItemDisplayBinding="{Binding name}" />
+                            <Image
+                                Source="arrowdown.png"
+                                HeightRequest="20"
+                                WidthRequest="20"
+                                HorizontalOptions="End"
+                                Margin="0,0,10,10"/>
                         </Grid>
 
-                        <Button x:Name="btnSearch"
+                        <HorizontalStackLayout Spacing="15" HorizontalOptions="Center" Margin="0,10">
+
+                            <!-- Botón de limpiar filtros -->
+                            <Button
+                                x:Name="btnClean"
+                                Text="Limpiar filtros"
+                                BackgroundColor="#980c0f"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="45"
+                                WidthRequest="150"
+                                FontAttributes="Bold"
+                                Clicked="btnClean_Clicked" />
+
+                            <!-- Botón de buscar -->
+                            <Button
+                                x:Name="btnSearch"
                                 Text="Buscar"
                                 BackgroundColor="#980c0f"
                                 TextColor="White"
                                 CornerRadius="10"
                                 HeightRequest="45"
+                                WidthRequest="150"
                                 FontAttributes="Bold"
                                 Clicked="btnSearch_Clicked" />
+
+                        </HorizontalStackLayout>
+
                     </VerticalStackLayout>
                 </Frame>
-
             </VerticalStackLayout>
         </ScrollView>
 

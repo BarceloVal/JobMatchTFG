@@ -17,4 +17,12 @@ public partial class RequestServiceClient : ContentPage
             await vm.SearchProvidersAsync();
         }
     }
+
+    private void btnClean_Clicked(object sender, EventArgs e)
+    {
+        if (BindingContext is RequestServiceClientViewModel vm)
+        {
+            vm.ClearFilters();
+        }
+    }
 }

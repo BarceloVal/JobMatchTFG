@@ -163,10 +163,15 @@ namespace Job_Match.Maui.ViewModels
         // ------------------
         // ---- Filtrado ----
         // ------------------
-
         public ObservableCollection<ProviderWithServicesDto> FilteredProviders { get; set; } = new();
         public async Task SearchProvidersAsync()
         {
+            if (SelectedPostalCode == null && SelectedServiceType == null && SelectedService == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Filtros requeridos", "Por favor, selecciona al menos un filtro para realizar la búsqueda.", "Aceptar");
+                return;
+            }
+
             var allProviders = await _apiService.GetAllProvidersAsync();
 
             var resultado = allProviders.AsQueryable();
@@ -184,5 +189,16 @@ namespace Job_Match.Maui.ViewModels
             foreach (var provider in resultado)
                 FilteredProviders.Add(provider);
         }
+
+        public void ClearFilters()
+        {
+            SelectedPostalCode = null;
+            SelectedServiceType = null;
+            SelectedService = null;
+
+            FilteredServices.Clear();
+            FilteredProviders.Clear();
+        }
+
     }
 }
