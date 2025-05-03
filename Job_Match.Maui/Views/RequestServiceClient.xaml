@@ -113,7 +113,10 @@
             ItemsSource="{Binding FilteredProviders}"
             VerticalOptions="FillAndExpand"
             Margin="10">
+<<<<<<< HEAD
 
+=======
+>>>>>>> val/jobmatch
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame
@@ -127,6 +130,10 @@
                         <VerticalStackLayout Spacing="6">
 
                             <!-- Nombre comercial -->
+<<<<<<< HEAD
+=======
+                            <!-- Nombre en negrita y color -->
+>>>>>>> val/jobmatch
                             <Label Text="{Binding TradeName}" FontAttributes="Bold" FontSize="20" TextColor="#980c0f" />
 
                             <!-- Población -->
