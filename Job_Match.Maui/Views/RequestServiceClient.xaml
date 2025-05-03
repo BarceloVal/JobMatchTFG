@@ -10,7 +10,7 @@
         <!-- Mi encabezado personalizado -->
         <controls:HeaderControl Grid.Row="0" />
 
-        <!-- Filtros y botón -->
+        <!-- Cuerpo -->
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="20" Spacing="20">
 
@@ -22,6 +22,7 @@
                     HorizontalOptions="Center"
                     Margin="0, 10, 0, 10"/>
 
+                <!-- Filtros -->
                 <Frame
                     BorderColor="Black"
                     CornerRadius="10"
@@ -101,34 +102,32 @@
                                 Clicked="btnSearch_Clicked" />
 
                         </HorizontalStackLayout>
-
                     </VerticalStackLayout>
                 </Frame>
             </VerticalStackLayout>
         </ScrollView>
 
         <!-- Lista de resultados con scroll completo -->
-        <CollectionView Grid.Row="2"
-                        ItemsSource="{Binding FilteredProviders}"
-                        VerticalOptions="FillAndExpand"
-                        Margin="10">
+        <CollectionView
+            Grid.Row="2"
+            ItemsSource="{Binding FilteredProviders}"
+            VerticalOptions="FillAndExpand"
+            Margin="10">
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BorderColor="#ccc"
-                           CornerRadius="12"
-                           Padding="15"
-                           Margin="0,5"
-                           HasShadow="True"
-                           BackgroundColor="#f9f9f9">
+                    <Frame
+                        BorderColor="#ccc"
+                        CornerRadius="12"
+                        Padding="15"
+                        Margin="0,5"
+                        HasShadow="True"
+                        BackgroundColor="#f9f9f9">
 
                         <VerticalStackLayout Spacing="6">
 
                             <!-- Nombre comercial -->
-                            <!-- Nombre en negrita y color -->
-                            <Label Text="{Binding TradeName}"
-                                   FontAttributes="Bold"
-                                   FontSize="20"
-                                   TextColor="#980c0f" />
+                            <Label Text="{Binding TradeName}" FontAttributes="Bold" FontSize="20" TextColor="#980c0f" />
 
                             <!-- Población -->
                             <Label>
