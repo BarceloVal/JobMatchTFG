@@ -13,8 +13,17 @@ public partial class ProfileClient : ContentPage
         BindingContext = new ProfileClientViewModel(App.CurrentUser as ProfileClientDto);
     }
 
-    private void btnSwitchUser_Clicked(object sender, EventArgs e)
+    private async void btnSwitchUser_Clicked(object sender, EventArgs e)
     {
+        var confirmed = await DisplayAlert(
+            "Cambio de perfil",
+            "¿Seguro que deseas cambiar tu perfil a proveedor? Si es la primera vez que lo haces necesitamos que completes algunos datos adicionales.",
+            "Aceptar", "Cancelar");
+
+        if (confirmed)
+        {
+            await Shell.Current.GoToAsync(nameof(ChangeProfileToProvider));
+        }
 
     }
 

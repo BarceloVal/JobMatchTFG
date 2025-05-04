@@ -31,6 +31,16 @@ namespace Job_Match.API.Controllers
             return Ok();
         }
 
+        [HttpPost("change-client")]
+        public async Task<IActionResult> ChangeClientToProvider([FromBody] ChangeClientToProviderDto dto)
+        {
+            var success = await _providerService.ChangeClientToProviderAsync(dto);
+            if (!success)
+                return BadRequest("Error al cambiar de cliente a proveedor.");
+
+            return Ok();
+        }
+
         [HttpGet("by-mail/{mail}")]
         public async Task<ActionResult<ProfileProviderDto>> GetByMail(string mail)
         {

@@ -61,7 +61,7 @@ namespace Job_Match.Maui.ApiService
                     var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
                     // Guardar en la sesión global
-                    UserSessionService.Instance.Load(loginResponse);
+                    UserSessionService.Instance.Load(loginResponse, password);
 
                     return loginResponse;
                 }
@@ -360,6 +360,24 @@ namespace Job_Match.Maui.ApiService
             {
                 Console.WriteLine($"Exception in GetAllProvidersAsync: {ex.Message}");
                 return null;
+            }
+        }
+
+        #endregion
+
+        #region changeClientToProvider
+
+        public async Task<bool> ChangeClientToProviderAsync(ChangeClientToProviderDto dto)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/m_user_provider/change-client", dto);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cambiar cliente a proveedor: {ex.Message}");
+                return false;
             }
         }
 

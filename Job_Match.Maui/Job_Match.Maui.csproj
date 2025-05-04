@@ -95,6 +95,9 @@
 	  <MauiXaml Update="UserControls\HeaderControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ChangeProfileToProvider.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CreateClientAccount.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
