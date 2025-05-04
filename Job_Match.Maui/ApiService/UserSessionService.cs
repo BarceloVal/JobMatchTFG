@@ -16,15 +16,17 @@ namespace Job_Match.Maui.ApiService
 
         //public string FullName => $"{FirstName} {LastName}";
         public string Token { get; private set; }
+        public string? Password { get; internal set; }
 
         private UserSessionService() { }
 
-        public void Load(LoginResponse loginResponse)
+        public void Load(LoginResponse loginResponse, string plainPassword)
         {
             var user = loginResponse.user;
 
             Id = user.id;
             Mail = user.mail;
+            Password = plainPassword;
             FirstName = user.first_name;
             LastName = user.last_name;
             IsClient = user.is_client;

@@ -110,5 +110,110 @@ namespace Job_Match.Services.Services
             return $"USR{numero:D3}";
         }
 
+        public async Task<bool> ChangeClientToProviderAsync(ChangeClientToProviderDto dto)
+        {
+            var user = await _context.m_users.FindAsync(dto.IdUser);
+            if (user == null)
+                return false;
+
+            // 1. Desactivar cliente
+            var client = await _context.m_user_clients.FirstOrDefaultAsync(c => c.id_user == dto.IdUser);
+            if (client != null)
+            {
+                client.active = false;
+                _context.m_user_clients.Update(client);
+            }
+
+            // 2. Verificar si ya es proveedor
+            var existingProvider = await _context.m_user_providers.FirstOrDefaultAsync(p => p.id_user == dto.IdUser);
+
+            if (existingProvider != null)
+            {
+                // Ya existe → solo activar
+                existingProvider.active = true;
+                _context.m_user_providers.Update(existingProvider);
+            }
+            else
+            {
+                var provider = new m_user_provider
+                {
+                    id = Guid.NewGuid(),
+                    id_user = dto.IdUser,
+                    trade_name = dto.TradeName,
+                    description = dto.Description,
+                    mail = user.mail,
+                    web_site = dto.Website,
+                    map_coordinates = dto.MapCoordinates,
+                    id_doc_type = dto.IdDocType.Value,
+                    num_doc = dto.Document,
+                    address = dto.Address,
+                    id_postal_code = dto.IdPostalCode.Value,
+                    phone_number_1 = dto.Phone1,
+                    phone_number_2 = dto.Phone2,
+                    created_on = DateTime.UtcNow,
+                    last_update = DateTime.UtcNow,
+                    active = true
+                };
+
+                _context.m_user_providers.Add(provider);
+
+                if (dto.IdService.HasValue)
+                {
+                    var serviceProvider = new m_service_provider
+                    {
+                        id_user_provider = provider.id,
+                        id_service = dto.IdService.Value,
+                        created_on = DateTime.UtcNow,
+                        last_update = DateTime.UtcNow,
+                        active = true,
+                        id_mask = await GenerarNuevoServiceProviderIdMaskAsync()
+                    };
+
+                    _context.m_service_providers.Add(serviceProvider);
+                }
+            }
+
+            // 3. Actualizar flags en m_user
+            user.is_client = false;
+            user.is_provider = true;
+            user.first_name = dto.FirstName;
+            user.last_name = dto.LastName;
+            user.last_update = DateTime.UtcNow;
+
+            if (!string.IsNullOrWhiteSpace(dto.Password))
+            {
+                var hasher = new PasswordHasher<m_user>();
+                user.password = hasher.HashPassword(user, dto.Password);
+            }
+
+            try
+            {
+                _context.m_users.Update(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[ERROR] Falló SaveChangesAsync: " + ex.Message);
+                Console.WriteLine("[ERROR] StackTrace: " + ex.StackTrace);
+                return false;
+            }
+
+        }
+
+        private async Task<string> GenerarNuevoServiceProviderIdMaskAsync()
+        {
+            var ultimo = await _context.m_service_providers
+                .Where(x => x.id_mask.StartsWith("SRV"))
+                .OrderByDescending(x => x.id_mask)
+                .Select(x => x.id_mask)
+                .FirstOrDefaultAsync();
+
+            if (string.IsNullOrEmpty(ultimo))
+                return "SRV001";
+
+            var numero = int.TryParse(ultimo.Substring(3), out var n) ? n + 1 : 1;
+            return $"SRV{numero:D3}";
+        }
     }
 }
