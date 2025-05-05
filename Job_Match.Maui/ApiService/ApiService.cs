@@ -372,11 +372,29 @@ namespace Job_Match.Maui.ApiService
             try
             {
                 var response = await _httpClient.PostAsJsonAsync("api/m_user_provider/change-client", dto);
+
+                var content = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"[ChangeClientToProviderAsync] Status: {response.StatusCode} - {content}");
+
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al cambiar cliente a proveedor: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> ProviderExistsAsync(Guid idUser)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/m_user_provider/exists/{idUser}");
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al verificar existencia de proveedor: {ex.Message}");
                 return false;
             }
         }

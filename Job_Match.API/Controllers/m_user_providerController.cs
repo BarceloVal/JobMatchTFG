@@ -107,6 +107,11 @@ namespace Job_Match.API.Controllers
             return Ok(result);
         }
 
-
+        [HttpGet("exists/{idUser}")]
+        public async Task<IActionResult> Exists(Guid idUser)
+        {
+            var exists = await _providerService.ProviderExistsAsync(idUser);
+            return exists ? Ok() : NotFound();
+        }
     }
 }

@@ -176,9 +176,15 @@ namespace Job_Match.Services.Services
             // 3. Actualizar flags en m_user
             user.is_client = false;
             user.is_provider = true;
-            user.first_name = dto.FirstName;
-            user.last_name = dto.LastName;
             user.last_update = DateTime.UtcNow;
+
+            // Solo actualizar si vienen datos nuevos, para evitar pisar con null
+            if (!string.IsNullOrWhiteSpace(dto.FirstName))
+                user.first_name = dto.FirstName;
+
+            if (!string.IsNullOrWhiteSpace(dto.LastName))
+                user.last_name = dto.LastName;
+
 
             if (!string.IsNullOrWhiteSpace(dto.Password))
             {
@@ -214,6 +220,12 @@ namespace Job_Match.Services.Services
 
             var numero = int.TryParse(ultimo.Substring(3), out var n) ? n + 1 : 1;
             return $"SRV{numero:D3}";
+        }
+
+        public async Task<bool> ProviderExistsAsync(Guid idUser)
+        {
+            return await _context.m_user_providers
+                .AnyAsync(p => p.id_user == idUser);
         }
     }
 }
