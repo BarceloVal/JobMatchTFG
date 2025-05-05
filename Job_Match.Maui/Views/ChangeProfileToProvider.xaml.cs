@@ -40,7 +40,7 @@ public partial class ChangeProfileToProvider : ContentPage
         if (result)
         {
             await Shell.Current.DisplayAlert("Éxito", "Tu perfil se ha actualizado como proveedor.", "Aceptar");
-            await Shell.Current.GoToAsync("//LoginPage");
+            await Shell.Current.GoToAsync("LoginPage");
         }
         else
         {

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Job_Match.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Job_Match.API.Models.Dtos;
+using Job_Match.Data.Models.Dtos;
 
 namespace Job_Match.Services.Services
 {
@@ -105,6 +106,90 @@ namespace Job_Match.Services.Services
 
             // Devuelve el nuevo id_mask con el número formateado a 3 cifras (ej: "USR008")
             return $"USR{numero:D3}";
+        }
+
+        public async Task<bool> ChangeProviderToClientAsync(ChangeProviderToClientDto dto)
+        {
+            var user = await _context.m_users.FindAsync(dto.IdUser);
+            if (user == null)
+                return false;
+
+            // 1. Desactivar proveedor
+            var provider = await _context.m_user_providers.FirstOrDefaultAsync(c => c.id_user == dto.IdUser);
+            if (provider != null)
+            {
+                provider.active = false;
+                _context.m_user_providers.Update(provider);
+            }
+
+            // 2. Verificar si ya es cliente
+            var existingClient = await _context.m_user_clients.FirstOrDefaultAsync(p => p.id_user == dto.IdUser);
+
+            if (existingClient != null)
+            {
+                // Ya existe → solo activar
+                existingClient.active = true;
+                _context.m_user_clients.Update(existingClient);
+            }
+            else
+            {
+                var client = new m_user_client
+                {
+                    id = Guid.NewGuid(),
+                    id_user = dto.IdUser,
+                    mail = user.mail,
+                    id_doc_type = dto.IdDocType.Value,
+                    num_doc = dto.Document,
+                    address = dto.Address,
+                    id_postal_code = dto.IdPostalCode.Value,
+                    phone_number_1 = dto.Phone1,
+                    phone_number_2 = dto.Phone2,
+                    created_on = DateTime.UtcNow,
+                    last_update = DateTime.UtcNow,
+                    active = true
+                };
+
+                _context.m_user_clients.Add(client);
+            }
+
+            // 3. Actualizar flags en m_user
+            user.is_client = true;
+            user.is_provider = false;
+            user.last_update = DateTime.UtcNow;
+
+            // Solo actualizar si vienen datos nuevos, para evitar pisar con null
+            if (!string.IsNullOrWhiteSpace(dto.FirstName))
+                user.first_name = dto.FirstName;
+
+            if (!string.IsNullOrWhiteSpace(dto.LastName))
+                user.last_name = dto.LastName;
+
+
+            if (!string.IsNullOrWhiteSpace(dto.Password))
+            {
+                var hasher = new PasswordHasher<m_user>();
+                user.password = hasher.HashPassword(user, dto.Password);
+            }
+
+            try
+            {
+                _context.m_users.Update(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[ERROR] Falló SaveChangesAsync: " + ex.Message);
+                Console.WriteLine("[ERROR] StackTrace: " + ex.StackTrace);
+                return false;
+            }
+
+        }
+
+        public async Task<bool> ClientExistsAsync(Guid idUser)
+        {
+            return await _context.m_user_clients
+                .AnyAsync(p => p.id_user == idUser);
         }
     }
 }
