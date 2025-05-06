@@ -450,7 +450,7 @@ namespace Job_Match.Maui.ViewModels
                 IdPostalCode = SelectedPostalCode.id,
                 Phone1 = Phone1,
                 Phone2 = Phone2,
-                Password = password
+                Password = session.Password
             };
 
             var success = await _apiService.ChangeProviderToClientAsync(dto);
