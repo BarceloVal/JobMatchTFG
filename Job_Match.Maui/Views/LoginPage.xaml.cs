@@ -29,7 +29,7 @@ public partial class LoginPage : ContentPage
 
             if (login_response == null)
             {
-                await DisplayAlert("Error", "Credenciales inválidas o error de conexión.", "Aceptar");
+                await DisplayAlert("Error", "Usuario y contraseña incorrecto. Vuelve a intentarlo.", "Aceptar");
                 return;
             }
 
@@ -48,7 +48,7 @@ public partial class LoginPage : ContentPage
                 App.CurrentUser = clientProfile;
 
                 Application.Current.MainPage = new MainShellClient();
-                await Shell.Current.GoToAsync("//HomeClient");
+                await Shell.Current.GoToAsync("HomeClient");
             }
             else if (login_response.user.is_provider)
             {
@@ -62,7 +62,7 @@ public partial class LoginPage : ContentPage
                 App.CurrentUser = providerProfile;
 
                 Application.Current.MainPage = new MainShellProvider();
-                await Shell.Current.GoToAsync("//HomeProvider");
+                await Shell.Current.GoToAsync("HomeProvider");
             }
             else
             {

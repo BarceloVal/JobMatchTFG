@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Job_Match.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Job_Match.API.Models.Dtos;
+using Job_Match.Data.Models.Dtos;
 
 namespace Job_Match.Services.Services
 {
@@ -105,6 +106,133 @@ namespace Job_Match.Services.Services
 
             // Devuelve el nuevo id_mask con el número formateado a 3 cifras (ej: "USR008")
             return $"USR{numero:D3}";
+        }
+
+        public async Task<bool> ChangeProviderToClientAsync(ChangeProviderToClientDto dto)
+        {
+            var user = await _context.m_users.FindAsync(dto.IdUser);
+            if (user == null)
+            {
+                Console.WriteLine("[ERROR] Usuario no encontrado.");
+                return false;
+            }
+
+            // Validar campos obligatorios si se debe crear un nuevo cliente
+            bool faltaInfoObligatoria =
+                string.IsNullOrWhiteSpace(dto.FirstName) ||
+                string.IsNullOrWhiteSpace(dto.LastName) ||
+                string.IsNullOrWhiteSpace(dto.Document) ||
+                dto.IdDocType == null ||
+                dto.IdPostalCode == null ||
+                string.IsNullOrWhiteSpace(dto.Address) ||
+                string.IsNullOrWhiteSpace(dto.Phone1);
+
+            // 1. Desactivar proveedor
+            var provider = await _context.m_user_providers.FirstOrDefaultAsync(p => p.id_user == dto.IdUser);
+            if (provider != null)
+            {
+                provider.active = false;
+                _context.m_user_providers.Update(provider);
+
+                // 1.5. Desactivar servicios del proveedor
+                try
+                {
+                    var providerServices = await _context.m_service_providers
+                        .Where(sp => sp.id_user_provider == provider.id && sp.active == true)
+                        .ToListAsync();
+
+                    if (providerServices.Any())
+                    {
+                        foreach (var service in providerServices)
+                        {
+                            service.active = false;
+                        }
+
+                        _context.m_service_providers.UpdateRange(providerServices);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("[ERROR] Falló la desactivación de servicios del proveedor: " + ex.Message);
+                }
+            }
+
+
+            // 2. Verificar si ya es cliente
+            var existingClient = await _context.m_user_clients.FirstOrDefaultAsync(c => c.id_user == dto.IdUser);
+
+            if (existingClient != null)
+            {
+                // Ya existe → solo activar
+                existingClient.active = true;
+                _context.m_user_clients.Update(existingClient);
+            }
+            else
+            {
+                if (faltaInfoObligatoria)
+                {
+                    Console.WriteLine("[ERROR] Faltan datos obligatorios para crear el cliente.");
+                    return false;
+                }
+
+                var client = new m_user_client
+                {
+                    id = Guid.NewGuid(),
+                    id_user = dto.IdUser,
+                    name = $"{dto.FirstName} {dto.LastName}",
+                    mail = user.mail,
+                    id_doc_type = dto.IdDocType.Value,
+                    num_doc = dto.Document,
+                    address = dto.Address,
+                    id_postal_code = dto.IdPostalCode.Value,
+                    phone_number_1 = dto.Phone1,
+                    phone_number_2 = dto.Phone2,
+                    created_on = DateTime.UtcNow,
+                    last_update = DateTime.UtcNow,
+                    active = true
+                };
+
+                _context.m_user_clients.Add(client);
+            }
+
+            // 3. Actualizar flags en m_user
+            user.is_client = true;
+            user.is_provider = false;
+            user.last_update = DateTime.UtcNow;
+
+            // Solo actualizar si vienen datos nuevos, para evitar sobrescribir con null
+            if (!string.IsNullOrWhiteSpace(dto.FirstName))
+                user.first_name = dto.FirstName;
+
+            if (!string.IsNullOrWhiteSpace(dto.LastName))
+                user.last_name = dto.LastName;
+
+            if (!string.IsNullOrWhiteSpace(dto.Password))
+            {
+                var hasher = new PasswordHasher<m_user>();
+                user.password = hasher.HashPassword(user, dto.Password);
+            }
+
+            try
+            {
+                _context.m_users.Update(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[ERROR] Falló SaveChangesAsync: " + ex.Message);
+                Console.WriteLine("[ERROR] Inner: " + ex.InnerException?.Message);
+                Console.WriteLine("[ERROR] StackTrace: " + ex.StackTrace);
+                return false;
+            }
+        }
+
+        public async Task<bool> ClientExistsAsync(Guid idUser)
+        {
+            return await _context.m_user_clients
+                .AnyAsync(p => p.id_user == idUser);
         }
     }
 }

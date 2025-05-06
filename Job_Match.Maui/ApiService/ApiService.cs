@@ -8,7 +8,7 @@ using System.Net;
 using Job_Match.Data.Models.Dtos;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-
+using System.Net.Http.Headers;
 
 namespace Job_Match.Maui.ApiService
 {
@@ -17,6 +17,14 @@ namespace Job_Match.Maui.ApiService
         #region parameters
 
         private readonly HttpClient _httpClient;
+
+        private string _authToken;
+
+        public void SetAuthToken(string token)
+        {
+            _authToken = token;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
 
         #endregion
 
@@ -34,10 +42,10 @@ namespace Job_Match.Maui.ApiService
                 BaseAddress = new Uri("https://10.0.2.2:7010/")
             };
 #else
-                    _httpClient = new HttpClient(handler)
-                    {
-                        BaseAddress = new Uri("https://localhost:7010/")
-                    };
+            _httpClient = new HttpClient(handler)
+            {
+                BaseAddress = new Uri("https://localhost:7010/")
+            };
 #endif
         }
 
@@ -62,6 +70,8 @@ namespace Job_Match.Maui.ApiService
 
                     // Guardar en la sesión global
                     UserSessionService.Instance.Load(loginResponse, password);
+                    // ASIGNAR TOKEN PARA USO EN TODAS LAS LLAMADAS PROTEGIDAS
+                    SetAuthToken(loginResponse.token);
 
                     return loginResponse;
                 }
@@ -113,6 +123,14 @@ namespace Job_Match.Maui.ApiService
             }
 
             return null;
+        }
+
+        public async Task<bool> DisableAccountAsync(Guid idUser)
+        {
+            var dto = new DisableAccountDto { IdUser = idUser };
+            var response = await _httpClient.PostAsJsonAsync("api/m_user/disable", dto);
+            Console.WriteLine($"DISABLE RESPONSE: {response.StatusCode} - {response.Content}");
+            return response.IsSuccessStatusCode;
         }
 
         #endregion
@@ -372,11 +390,65 @@ namespace Job_Match.Maui.ApiService
             try
             {
                 var response = await _httpClient.PostAsJsonAsync("api/m_user_provider/change-client", dto);
+
+                var content = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"[ChangeClientToProviderAsync] Status: {response.StatusCode} - {content}");
+
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al cambiar cliente a proveedor: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> ProviderExistsAsync(Guid idUser)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/m_user_provider/exists/{idUser}");
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al verificar existencia de proveedor: {ex.Message}");
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region changeProviderToClient
+
+        public async Task<bool> ChangeProviderToClientAsync(ChangeProviderToClientDto dto)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/m_user_client/change-provider", dto);
+
+                var content = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"[ChangeClientToProviderAsync] Status: {response.StatusCode} - {content}");
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cambiar proveedor a cliente: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> ClientExistsAsync(Guid idUser)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/m_user_client/exists/{idUser}");
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al verificar existencia de cliente: {ex.Message}");
                 return false;
             }
         }

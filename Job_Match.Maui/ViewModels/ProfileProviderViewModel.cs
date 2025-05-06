@@ -34,9 +34,9 @@ namespace Job_Match.Maui.ViewModels
 
         public string FullName => $"{FirstName} {LastName}";
 
-        public ProfileProviderViewModel()
+        public ProfileProviderViewModel(ProfileProviderDto user)
         {
-            var user = App.CurrentUser as ProfileProviderDto;
+            user = App.CurrentUser as ProfileProviderDto;
             if (user != null)
             {
                 FirstName = user.FirstName;

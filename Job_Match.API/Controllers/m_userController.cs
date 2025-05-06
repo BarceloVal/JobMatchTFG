@@ -4,6 +4,10 @@ using Job_Match.Services.Utils;
 using Job_Match.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Job_Match.Data.Models.Dtos;
+using Microsoft.EntityFrameworkCore;
+using Job_Match.Data.Context;
+using Job_Match.Data;
 
 namespace Job_Match.API.Controllers
 {
@@ -17,11 +21,13 @@ namespace Job_Match.API.Controllers
 
         private readonly IMUserService _userService;
         private readonly IConfiguration _config;
+        private readonly job_match_context _context;
 
-        public m_userController(IMUserService userService, IConfiguration config)
+        public m_userController(IMUserService userService, IConfiguration config, job_match_context context)
         {
             _userService = userService;
             _config = config;
+            _context = context;
         }
 
         #endregion
@@ -54,6 +60,53 @@ namespace Job_Match.API.Controllers
         {
             var created = await _userService.CreateAsync(user);
             return CreatedAtAction(nameof(GetById), new { created.id }, created);
+        }
+
+        [HttpPost("disable")]
+        public async Task<IActionResult> DisableAccount([FromBody] DisableAccountDto dto)
+        {
+            Console.WriteLine($"Recibido ID: {dto.IdUser}");
+
+            var user = await _context.m_users.FindAsync(dto.IdUser);
+            if (user == null)
+            {
+                Console.WriteLine("Usuario no encontrado");
+                return NotFound("Usuario no encontrado");
+            }
+
+            // Obtener ID del proveedor asociado al usuario
+            var provider = await _context.m_user_providers
+                .FirstOrDefaultAsync(x => x.id_user == dto.IdUser);
+
+            // Desactivar al proveedor y su servicio asociado
+            if (provider != null)
+            {
+                var sp = await _context.m_service_providers
+                    .FirstOrDefaultAsync(x => x.id_user_provider == provider.id);
+
+                if (sp != null)
+                {
+                    sp.active = false;
+                    sp.last_update = DateTime.Now;
+
+                    _context.Entry(sp).State = EntityState.Modified;
+                }
+
+                provider.active = false;
+            }
+
+            user.active = false;
+            user.is_client = false;
+            user.is_provider = false;
+
+            // Desactivar cliente
+            var client = await _context.m_user_clients.FirstOrDefaultAsync(x => x.id_user == dto.IdUser);
+            if (client != null) client.active = false;
+
+            await _context.SaveChangesAsync();
+
+            Console.WriteLine("Cuenta desactivada correctamente");
+            return Ok();
         }
 
         #endregion
@@ -100,6 +153,9 @@ namespace Job_Match.API.Controllers
             var user = await _userService.LoginAsync(login.mail, login.password);
             if (user == null)
                 return Unauthorized("Credenciales inválidas.");
+
+            if (!user.active)
+                return Unauthorized("Esta cuenta está desactivada. Si deseas reactivarla, contacta con soporte o crea una nueva cuenta.");
 
             var token = JwtHelper.GenerateToken(user, _config);
 

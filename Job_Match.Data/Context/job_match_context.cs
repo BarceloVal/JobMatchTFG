@@ -77,6 +77,7 @@ public partial class job_match_context : DbContext
         modelBuilder.Entity<m_service_provider>(entity =>
         {
             entity.ToTable("m_service_provider");
+            entity.HasKey(sp => new { sp.id_user_provider, sp.id_service });
         });
 
         modelBuilder.Entity<m_task_status>(entity =>

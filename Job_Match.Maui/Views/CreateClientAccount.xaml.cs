@@ -57,6 +57,7 @@ public partial class CreateClientAccount : ContentPage
         if (result)
         {
             await DisplayAlert("Éxito", "Cuenta de cliente creada correctamente", "Aceptar");
+            await Shell.Current.GoToAsync("LoginPage");
         }
         else
         {

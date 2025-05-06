@@ -11,7 +11,6 @@ namespace Job_Match.Data.Models
     [Table("m_service_provider")]
     public class m_service_provider
     {
-        [Key]
         public Guid id_user_provider { get; set; }
         public Guid id_service { get; set; }
         [Required]

@@ -1,6 +1,7 @@
 ﻿using Job_Match.API.Models.Dtos;
 using Job_Match.Data.Models.Dtos;
 using Job_Match.Services.Interfaces;
+using Job_Match.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Job_Match.API.Controllers
@@ -22,6 +23,16 @@ namespace Job_Match.API.Controllers
             var result = await _clientService.CreateClientAsync(dto);
             if (!result)
                 return BadRequest("Error al crear el usuario.");
+            return Ok();
+        }
+
+        [HttpPost("change-provider")]
+        public async Task<IActionResult> ChangeClientToProvider([FromBody] ChangeProviderToClientDto dto)
+        {
+            var success = await _clientService.ChangeProviderToClientAsync(dto);
+            if (!success)
+                return BadRequest("Error al cambiar de proveedor a cliente.");
+
             return Ok();
         }
 
@@ -48,6 +59,13 @@ namespace Job_Match.API.Controllers
             };
 
             return Ok(dto);
+        }
+
+        [HttpGet("exists/{idUser}")]
+        public async Task<IActionResult> Exists(Guid idUser)
+        {
+            var exists = await _clientService.ClientExistsAsync(idUser);
+            return exists ? Ok() : NotFound();
         }
     }
 }
