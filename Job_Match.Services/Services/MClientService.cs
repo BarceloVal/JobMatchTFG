@@ -133,7 +133,31 @@ namespace Job_Match.Services.Services
             {
                 provider.active = false;
                 _context.m_user_providers.Update(provider);
+
+                // 1.5. Desactivar servicios del proveedor
+                try
+                {
+                    var providerServices = await _context.m_service_providers
+                        .Where(sp => sp.id_user_provider == provider.id && sp.active == true)
+                        .ToListAsync();
+
+                    if (providerServices.Any())
+                    {
+                        foreach (var service in providerServices)
+                        {
+                            service.active = false;
+                        }
+
+                        _context.m_service_providers.UpdateRange(providerServices);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("[ERROR] Falló la desactivación de servicios del proveedor: " + ex.Message);
+                }
             }
+
 
             // 2. Verificar si ya es cliente
             var existingClient = await _context.m_user_clients.FirstOrDefaultAsync(c => c.id_user == dto.IdUser);

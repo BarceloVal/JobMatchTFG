@@ -132,6 +132,17 @@ namespace Job_Match.Services.Services
                 // Ya existe → solo activar
                 existingProvider.active = true;
                 _context.m_user_providers.Update(existingProvider);
+
+                // Buscar servicio relacionado y activarlo si existe
+                var existingService = await _context.m_service_providers
+                    .FirstOrDefaultAsync(sp => sp.id_user_provider == existingProvider.id);
+
+                if (existingService != null)
+                {
+                    existingService.active = true;
+                    existingService.last_update = DateTime.UtcNow;
+                    _context.m_service_providers.Update(existingService);
+                }
             }
             else
             {

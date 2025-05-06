@@ -54,9 +54,29 @@ namespace Job_Match.Maui.Views
             }
         }
 
-        private void btnDisableAccount_Clicked(object sender, EventArgs e)
+        private async void btnDisableAccount_Clicked(object sender, EventArgs e)
         {
-            // por implementar
+            var confirmed = await DisplayAlert(
+                "Desactivar cuenta",
+                "¿Estás seguro de que deseas desactivar tu cuenta? No podrás usarla hasta reactivarla.",
+                "Sí", "Cancelar");
+
+            if (!confirmed) return;
+
+            _apiService.SetAuthToken(UserSessionService.Instance.Token);
+
+            var session = UserSessionService.Instance;
+            var success = await _apiService.DisableAccountAsync(UserSessionService.Instance.Id);
+
+            if (success)
+            {
+                await DisplayAlert("Cuenta desactivada", "Tu cuenta ha sido desactivada correctamente.", "Aceptar");
+                await Shell.Current.GoToAsync("LoginPage");
+            }
+            else
+            {
+                await DisplayAlert("Error", "No se pudo desactivar la cuenta. Intenta de nuevo.", "Aceptar");
+            }
         }
     }
 }
