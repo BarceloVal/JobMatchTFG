@@ -68,7 +68,7 @@ public partial class CreateProviderAccount : ContentPage
         if (result)
         {
             await DisplayAlert("Éxito", "Cuenta de proveedor creado correctamente", "Aceptar");
-            await Shell.Current.GoToAsync("//LoginPage");
+            await Shell.Current.GoToAsync("LoginPage");
         }
         else
         {
