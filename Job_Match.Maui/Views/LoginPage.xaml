@@ -10,10 +10,20 @@
 
                 <!-- Forma decorativa roja -->
                 <Grid HeightRequest="220">
-                    <Path
-                        Stroke="#000"
-                        Fill="#980c0f"
-                        Data="m202.59145,194.89999c-123.48078,0 -225.59145,-67.52315 -225.59145,-148.85743c0,-81.33428 100.01943,-154.14258 223.50023,-154.14258c123.48078,0 222.55917,74.72198 223.50023,154.14258c0.94106,79.42059 -97.92821,148.85743 -221.40899,148.85743l-0.00001,0z"/>
+                    <!-- Decoración para Android -->
+                    <Path x:Name="PathAndroid"
+                          Stroke="#000"
+                          Fill="#980c0f"
+                          IsVisible="False"
+                          Data="m202.59145,194.89999c-123.48078,0 -225.59145,-67.52315 -225.59145,-148.85743c0,-81.33428 100.01943,-154.14258 223.50023,-154.14258c123.48078,0 222.55917,74.72198 223.50023,154.14258c0.94106,79.42059 -97.92821,148.85743 -221.40899,148.85743l-0.00001,0z"/>
+
+                    <!-- Decoración para Window -->
+                    <Path x:Name="PathWin"
+                          Stroke="#000"
+                          Fill="#980c0f"
+                          IsVisible="False"
+                          Data="m778.07693,184.90003c-181.76716,0 -332.07691,-94.265 -332.07691,-207.81089c0,-113.5459 147.2314,-215.18918 328.99857,-215.18918c181.76716,0 327.61331,104.31486 328.99857,215.18918c1.38526,110.8743 -144.15306,207.81089 -325.92022,207.81089l-0.00002,0l-0.00002,0l0.00002,0z"/>
+
                     <Image
                         Source="jobmatchwhite.png"
                         HeightRequest="130"
@@ -48,7 +58,8 @@
                         BorderColor="Black"
                         Padding="10,0"
                         CornerRadius="30"
-                        HasShadow="False">
+                        HasShadow="False"
+                        MaximumWidthRequest="650">
                         <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
                             <!-- Ícono -->
                             <Image
@@ -74,13 +85,17 @@
                     </Frame>
 
                     <!-- Mensaje de error -->
-                    <Label
-                        Text="{Binding MailError}"
-                        TextColor="Red"
-                        FontSize="13"
-                        Padding="10,0"
-                        Margin="0, 5, 0, 5"
-                        IsVisible="{Binding IsMailValid, Converter={StaticResource InverseBoolConverter}}"/>
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                          MaximumWidthRequest="650"
+                          Margin="30,0,30,0">
+                        <Label Grid.Column="1"
+                               Text="{Binding MailError}"
+                               TextColor="Red"
+                               FontSize="13"
+                               Padding="0"
+                               Margin="0,5,0,5"
+                               IsVisible="{Binding IsMailValid, Converter={StaticResource InverseBoolConverter}}" />
+                    </Grid>
 
                     <!-- Contraseña -->
                     <Frame
@@ -89,7 +104,8 @@
                         Padding="10,0"
                         CornerRadius="30"
                         HasShadow="False"
-                        Margin="0,10,0,0">
+                        Margin="0,10,0,0"
+                        MaximumWidthRequest="650">
                         <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
                             <!-- Ícono -->
                             <Image
@@ -124,17 +140,22 @@
                     </Frame>
 
                     <!-- Mensaje de error -->
-                    <Label
-                        Text="{Binding PasswordError}"
-                        TextColor="Red"
-                        FontSize="13"
-                        Padding="10,0"
-                        Margin="0, 5, 0, 5"
-                        IsVisible="{Binding IsPasswordValid, Converter={StaticResource InverseBoolConverter}}"/>
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                          MaximumWidthRequest="650"
+                          Margin="30,0,30,0">
+                        <Label Grid.Column="1"
+                               Text="{Binding PasswordError}"
+                               TextColor="Red"
+                               FontSize="13"
+                               Padding="0"
+                               Margin="0,5,0,5"
+                               IsVisible="{Binding IsPasswordValid, Converter={StaticResource InverseBoolConverter}}" />
+                    </Grid>
+
                 </StackLayout>
 
                 <!-- Recordar contraseña -->
-                <StackLayout Orientation="Horizontal"  Margin="30, 10, 30, 10" Padding="0">
+                <StackLayout MaximumWidthRequest="650" Orientation="Horizontal"  Margin="30, 10, 30, 10" Padding="0">
                     <CheckBox IsChecked="False" />
                     <Label Text="Recuerdame la contraseña" TextColor="Black" FontSize="15" VerticalTextAlignment="Center" />
                 </StackLayout>
@@ -150,7 +171,8 @@
                     CornerRadius="30"
                     WidthRequest="330"
                     Margin="30, 10, 30, 10"
-                    Clicked="btnSesion_Clicked"/>
+                    Clicked="btnSesion_Clicked"
+                    MaximumWidthRequest="650"/>
 
                 <!-- Link crear cuenta -->
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0, 30, 0, 0">
