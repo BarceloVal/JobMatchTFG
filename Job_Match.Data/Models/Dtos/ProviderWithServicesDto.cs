@@ -26,5 +26,6 @@ namespace Job_Match.Data.Models.Dtos
         public string Name { get; set; }
         public Guid IdServiceType { get; set; }
         public string ServiceTypeName { get; set; } // Ej: "Informática"
+        public string ServiceName { get; set; }
     }
 }

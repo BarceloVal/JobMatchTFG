@@ -77,11 +77,12 @@ namespace Job_Match.API.Controllers
         public async Task<ActionResult<List<ProviderWithServicesDto>>> GetAllProvidersWithServices()
         {
             var providers = await _context.m_user_providers
-            .Include(p => p.id_postal_codeNavigation)
-            .Include(p => p.m_service_providers)
-                .ThenInclude(sp => sp.m_service)
-                    .ThenInclude(s => s.id_service_typeNavigation)
-            .ToListAsync();
+                .Where(p => p.active)
+                .Include(p => p.id_postal_codeNavigation)
+                .Include(p => p.m_service_providers.Where(sp => sp.active))
+                    .ThenInclude(sp => sp.m_service)
+                        .ThenInclude(s => s.id_service_typeNavigation)
+                .ToListAsync();
 
 
             var result = providers.Select(p => new ProviderWithServicesDto
@@ -95,13 +96,16 @@ namespace Job_Match.API.Controllers
                 Description = p.description,
                 IdPostalCode = p.id_postal_code,
                 PostalCodeName = $"{p.id_postal_codeNavigation.cod_auto_name}/{p.id_postal_codeNavigation.cod_pro_name}/{p.id_postal_codeNavigation.cod_loc_name}",
-                Services = p.m_service_providers.Select(sp => new ServiceDto
-                {
-                    Id = sp.m_service.id,
-                    Name = sp.m_service.name,
-                    IdServiceType = sp.m_service.id_service_type,
-                    ServiceTypeName = sp.m_service.id_service_typeNavigation.name
-                }).ToList()
+                Services = p.m_service_providers
+            .Where(sp => sp.active && sp.m_service.active) // Extra seguro
+            .Select(sp => new ServiceDto
+            {
+                Id = sp.m_service.id,
+                Name = sp.m_service.name,
+                IdServiceType = sp.m_service.id_service_type,
+                ServiceName = sp.m_service.name,
+                ServiceTypeName = sp.m_service.id_service_typeNavigation.name
+            }).ToList()
             }).ToList();
 
             return Ok(result);
