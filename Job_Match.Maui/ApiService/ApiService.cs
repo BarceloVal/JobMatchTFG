@@ -383,6 +383,55 @@ namespace Job_Match.Maui.ApiService
 
         #endregion
 
+        #region m_task_status
+
+        public async Task<List<m_task_status>?> GetStatusAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/task-status");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<m_task_status>>();
+                }
+                else
+                {
+                    Console.WriteLine($"Error al obtener estados de tarea: {response.StatusCode}");
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine($"Error de red: {httpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inesperado: {ex.Message}");
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region t_task_request
+
+        public async Task<bool> CreateTaskRequestAsync(CreateTaskRequestDto dto)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/task-request", dto);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al crear oferta: {ex.Message}");
+                return false;
+            }
+        }
+
+        #endregion
+
         #region changeClientToProvider
 
         public async Task<bool> ChangeClientToProviderAsync(ChangeClientToProviderDto dto)

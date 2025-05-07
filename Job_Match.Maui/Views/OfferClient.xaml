@@ -10,6 +10,36 @@
         <!-- Mi encabezado personalizado -->
         <controls:HeaderControl />
 
+        <!-- Botón para crear ofertas -->
+        <Button
+            x:Name="btnCreateOffer"
+            Text="Crear oferta"
+            BackgroundColor="#980c0f"
+            TextColor="White"
+            FontAttributes="Bold"
+            FontSize="18"
+            CornerRadius="30"
+            WidthRequest="330"
+            Margin="30, 20, 30, 10"
+            Clicked="btnCreateOffer_Clicked"
+            MaximumWidthRequest="500"/>
+
+        <!-- Línea separadora -->
+        <BoxView
+            HeightRequest="1"
+            BackgroundColor="#980c0f"
+            Margin="0, 10, 0, 10"
+            HorizontalOptions="FillAndExpand" />
+
+        <!-- Título -->
+        <Label
+            Text="Mis ofertas creadas"
+            FontSize="20"
+            FontAttributes="Bold"
+            TextColor="Black"
+            HorizontalOptions="Center"
+            Margin="0,10,0,10"/>
+
     </VerticalStackLayout>
 
 </ContentPage>
