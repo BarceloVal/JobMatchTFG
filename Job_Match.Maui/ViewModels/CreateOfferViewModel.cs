@@ -353,7 +353,7 @@ namespace Job_Match.Maui.ViewModels
         {
             var statuses = await _apiService.GetStatusAsync();
             var openStatus = statuses?.FirstOrDefault(s => s.name.ToLower() == "abierta");
-            return openStatus?.id ?? Guid.Empty; // o lanzá una excepción si es crítico
+            return openStatus?.id ?? Guid.Empty;
         }
         public async Task<bool> CreateOfferAsync()
         {
@@ -395,17 +395,6 @@ namespace Job_Match.Maui.ViewModels
                 DateStart = DateTime.ParseExact(DateStart, "dd/MM/yyyy", null),
                 DateEnd = string.IsNullOrWhiteSpace(DateEnd) ? null : DateTime.ParseExact(DateEnd, "dd/MM/yyyy", null)
             };
-
-            Console.WriteLine("=== DATOS ENVIADOS A LA API ===");
-            Console.WriteLine($"IdUserClient: {dto.IdUserClient}");
-            Console.WriteLine($"IdPostalCode: {dto.IdPostalCode}");
-            Console.WriteLine($"IdService: {dto.IdService}");
-            Console.WriteLine($"IdStatus: {dto.IdStatus}");
-            Console.WriteLine($"Title: {dto.Title}");
-            Console.WriteLine($"Description: {dto.Description}");
-            Console.WriteLine($"DateStart: {dto.DateStart}");
-            Console.WriteLine($"DateEnd: {(dto.DateEnd.HasValue ? dto.DateEnd.Value.ToString() : "null")}");
-            Console.WriteLine("===============================");
 
             var result = await _apiService.CreateTaskRequestAsync(dto);
             if (result)

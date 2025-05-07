@@ -394,7 +394,7 @@
         <Button
             Grid.Row="3"
             x:Name="btnCreateClient"
-            Text="Sing up"
+            Text="Crear cuenta"
             BackgroundColor="#980c0f"
             TextColor="White"
             FontAttributes="Bold"
