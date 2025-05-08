@@ -72,7 +72,9 @@ namespace Job_Match.Services.Services
                 Service = o.id_serviceNavigation.name,
                 ServiceType = o.id_serviceNavigation.id_service_typeNavigation.name,
                 PostalCodeName = o.id_postal_codeNavigation.DisplayText,
+                Active = o.active,
                 DateStart = o.date_start,
+                DateEnd = o.date_end,
                 Providers = o.t_task_contacts.Select(c => new ProviderTaskRequestDto
                 {
                     Id = c.id_user_provider,
@@ -105,12 +107,34 @@ namespace Job_Match.Services.Services
                 ServiceType = o.id_serviceNavigation.id_service_typeNavigation.name,
                 PostalCodeName = o.id_postal_codeNavigation.DisplayText,
                 DateStart = o.date_start,
+                DateEnd = o.date_end,
+                Active = o.active,
                 Providers = o.t_task_contacts.Select(c => new ProviderTaskRequestDto
                 {
                     Id = c.id_user_provider,
                     FullName = $"{c.id_user_providerNavigation.id_userNavigation.first_name} {c.id_user_providerNavigation.id_userNavigation.last_name}"
                 }).ToList()
             };
+        }
+
+        public async Task<bool> UpdateTaskRequestAsync(UpdateTaskRequestDto dto)
+        {
+            var task = await _context.t_task_requests.FirstOrDefaultAsync(t => t.id == dto.Id && t.active);
+
+            if (task == null)
+                return false;
+
+            task.title = dto.Title;
+            task.description = dto.Description;
+            task.id_postal_code = dto.IdPostalCode;
+            task.id_service = dto.IdService;
+            task.date_start = dto.DateStart;
+            task.id_status = dto.IdStatus;
+            task.date_end = dto.DateEnd;
+            task.last_update = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

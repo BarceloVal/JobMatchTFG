@@ -15,7 +15,9 @@ namespace Job_Match.Data.Models.Dtos
         public string Service { get; set; } = "";
         public string ServiceType { get; set; } = "";
         public string PostalCodeName { get; set; } = "";
+        public bool Active { get; set; }
         public DateTime DateStart { get; set; }
+        public DateTime? DateEnd { get; set; }
         public List<ProviderTaskRequestDto> Providers { get; set; } = new();
     }
 }

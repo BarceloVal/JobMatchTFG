@@ -242,7 +242,7 @@
                     <!-- Fecha de fin (opcional) -->
                     <HorizontalStackLayout>
                         <Label
-                            Text="Fecha de fin (opcional)"
+                            Text="Fecha de fin"
                             TextColor="Black"
                             FontSize="15"
                             Margin="0, 20, 0, 0"/>

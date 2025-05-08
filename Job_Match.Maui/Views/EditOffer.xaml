@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Job_Match.Maui.Views.EditOffer"
+             Shell.NavBarIsVisible="False">
+
+    <Grid BackgroundColor="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Capa 1: el Path rojo -->
+        <Grid HeightRequest="150">
+            <!-- Decoración para Android -->
+            <Path x:Name="PathAndroid"
+                  Stroke="#000"
+                  Fill="#980c0f"
+                  IsVisible="False"
+                  Data="m201.48868,122.90001c-117.40352,0 -214.48868,-62.39763 -214.48868,-137.55803c0,-75.1604 95.09685,-142.442 212.50038,-142.442c117.40352,0 211.60564,69.05002 212.50038,142.442c0.89474,73.39197 -93.10855,137.55803 -210.51207,137.55803z" />
+
+            <!-- Decoración para Window -->
+            <ContentView HorizontalOptions="Center" IsVisible="{OnPlatform Android=false, WinUI=true}">
+                <Path x:Name="PathWin"
+                      Stroke="#000"
+                      Fill="#980c0f"
+                      Data="m307.33873,148.90004c-167.67898,0 -306.3387,-93.15076 -306.3387,-205.3545c0,-112.20375 135.81997,-212.64558 303.49896,-212.64558c167.67898,0 302.22106,103.08183 303.49896,212.64558c1.27789,109.56373 -132.98022,205.3545 -300.6592,205.3545l-0.00002,0l-0.00002,0l0.00002,0l0.00001,0z" />
+            </ContentView>
+            <Image
+                Source="jobmatchwhite.png"
+                HeightRequest="100"
+                WidthRequest="100"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                TranslationY="10"/>
+        </Grid>
+
+        <!-- Título -->
+        <StackLayout Grid.Row="1" Padding="0">
+            <Label
+                Text="Editar oferta"
+                TextColor="Black"
+                FontSize="35"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"/>
+        </StackLayout>
+
+        <!-- Cuerpo/Formulario -->
+        <ScrollView Grid.Row="2" Margin="20, 40, 20, 20">
+            <Frame
+                Padding="20"
+                CornerRadius="30"
+                BorderColor="Black"
+                HasShadow="False"
+                BackgroundColor="White"
+                MaximumWidthRequest="600">
+
+                <!-- Campos -->
+                <VerticalStackLayout>
+                    <!-- Título -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Título"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 20, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 22, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Text="{Binding Title}"
+                        TextColor="Black"
+                        Placeholder="Introduce un título"
+                        BackgroundColor="#fafbfd">
+                        <Entry.Triggers>
+                            <DataTrigger
+                                TargetType="Entry"
+                                Binding="{Binding IsTitleValid}"
+                                Value="True">
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                    <Label
+                        Text="{Binding TitleError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsTitleValid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Código postal -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Población"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 20, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 22, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Picker
+                            Title="Selecciona población"
+                            ItemsSource="{Binding PostalCodes}"
+                            SelectedItem="{Binding SelectedPostalCode}"
+                            ItemDisplayBinding="{Binding DisplayText}"/>
+
+                        <!-- Flecha decorativa -->
+                        <!--<Image Source="arrowdown.png"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        HorizontalOptions="End"
+                        Margin="0,0,10,10"/>-->
+                    </Grid>
+
+                    <!-- Tipo de servicio -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Tipo de servicio"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 20, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 22, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Picker
+                        ItemsSource="{Binding ServiceTypes}"
+                        ItemDisplayBinding="{Binding name}"
+                        SelectedItem="{Binding SelectedServiceType}"
+                        Title="Selecciona tipo de servicio" />
+
+                    <!-- Servicio -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Servicio"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 20, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 22, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <CollectionView ItemsSource="{Binding FilteredServices}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <HorizontalStackLayout Padding="10,0">
+                                    <RadioButton
+                                        x:Name="radBtnServices"
+                                        GroupName="ServicesGroup"
+                                        Content="{Binding name}"
+                                        IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                        CheckedChanged="radBtnServices_CheckedChanged"/>
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- Descripción -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Descripción"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 20, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 22, 0, 0"/>
+                    </HorizontalStackLayout>
+
+                    <Frame
+                        BorderColor="Black"
+                        CornerRadius="10"
+                        Padding="10"
+                        HasShadow="False"
+                        BackgroundColor="Transparent"
+                        HeightRequest="100"
+                        VerticalOptions="Start">
+
+                        <Editor
+                            x:Name="eDescription"
+                            Text="{Binding Description}"
+                            Placeholder="Escribe una breve descripción sobre tus servicios"
+                            TextColor="Black"
+                            BackgroundColor="Transparent"
+                            AutoSize="TextChanges"
+                            FontSize="15"
+                            TextChanged="eDescription_TextChanged"/>
+                    </Frame>
+
+                    <!-- Contador de caracteres -->
+                    <Label
+                        x:Name="lblCharCount"
+                        Text="0/1000"
+                        FontSize="13"
+                        TextColor="Gray"
+                        HorizontalOptions="End"
+                        Margin="0,5,5,0"/>
+
+                    <Label
+                        Text="{Binding DescriptionError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsDescriptionValid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Estado de la tarea -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Estado"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 20, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 22, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Picker
+                        Title="Selecciona estado"
+                        ItemsSource="{Binding TaskStatuses}"
+                        ItemDisplayBinding="{Binding name}"
+                        SelectedItem="{Binding SelectedTaskStatus}" />
+
+                    <!-- Fecha de inicio -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Fecha de inicio"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 20, 0, 0"/>
+                        <Label
+                            Text="*"
+                            TextColor="Red"
+                            FontSize="15"
+                            Margin="8, 22, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Text="{Binding DateStart}"
+                        Placeholder="dd/MM/aaaa"
+                        BackgroundColor="#fafbfd"
+                        TextColor="Black" />
+                    <Label
+                        Text="{Binding DateStartError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsDateStartValid, Converter={StaticResource InverseBoolConverter}}" />
+
+                    <!-- Fecha de fin (opcional) -->
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Fecha de fin"
+                            TextColor="Black"
+                            FontSize="15"
+                            Margin="0, 20, 0, 0"/>
+                    </HorizontalStackLayout>
+                    <Entry
+                        Text="{Binding DateEnd}"
+                        Placeholder="dd/MM/aaaa"
+                        BackgroundColor="#fafbfd"
+                        TextColor="Black" />
+                    <Label
+                        Text="{Binding DateEndError}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding IsDateEndValid, Converter={StaticResource InverseBoolConverter}}" />
+                </VerticalStackLayout>
+            </Frame>
+        </ScrollView>
+
+        <Button
+            Grid.Row="3"
+            x:Name="btnEditOffer"
+            Text="Guardar oferta"
+            BackgroundColor="#980c0f"
+            TextColor="White"
+            FontAttributes="Bold"
+            FontSize="18"
+            CornerRadius="30"
+            WidthRequest="350"
+            Margin="0, 10, 0, 20"
+            Clicked="btnEditOffer_Clicked"/>
+
+    </Grid>
+
+</ContentPage>

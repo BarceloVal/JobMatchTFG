@@ -1,4 +1,5 @@
 ﻿using Job_Match.Data.Models;
+using Job_Match.Data.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
