@@ -355,6 +355,23 @@ namespace Job_Match.Maui.ViewModels
             var openStatus = statuses?.FirstOrDefault(s => s.name.ToLower() == "abierta");
             return openStatus?.id ?? Guid.Empty;
         }
+
+        public ObservableCollection<TaskRequestWithProvidersDto> ActiveOffers { get; set; } = new();
+        public async Task LoadActiveOffersAsync(Guid clientId)
+        {
+            Console.WriteLine($"[DEBUG] Cargando ofertas para cliente con ID: {clientId}");
+
+            ActiveOffers.Clear();
+            var offers = await _apiService.GetActiveOffersByClientAsync(clientId);
+
+            Console.WriteLine($"[DEBUG] Ofertas recibidas: {offers.Count}");
+
+            foreach (var offer in offers)
+            {
+                ActiveOffers.Add(offer);
+            }
+        }
+
         public async Task<bool> CreateOfferAsync()
         {
             var session = UserSessionService.Instance;

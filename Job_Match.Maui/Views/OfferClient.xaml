@@ -40,6 +40,85 @@
             HorizontalOptions="Center"
             Margin="0,10,0,10"/>
 
+        <!-- Lista de ofertas activas -->
+        <CollectionView
+            ItemsSource="{Binding ActiveOffers}"
+            VerticalOptions="FillAndExpand"
+            Margin="10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
+                        BorderColor="#ccc"
+                        CornerRadius="12"
+                        Padding="15"
+                        Margin="0,5"
+                        HasShadow="True"
+                        BackgroundColor="#f9f9f9">
+
+                        <VerticalStackLayout Spacing="6">
+
+                            <!-- Título -->
+                            <Label Text="{Binding Title}"
+                                   FontAttributes="Bold"
+                                   FontSize="20"
+                                   TextColor="#980c0f" />
+
+                            <!-- Tipo de servicio -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Tipo de servicio: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding ServiceType}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Servicio -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Servicio: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding Service}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Población -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Población: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding PostalCodeName}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Descripción -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Descripción: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding Description}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Estado -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Estado: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding Status}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
     </VerticalStackLayout>
 
 </ContentPage>

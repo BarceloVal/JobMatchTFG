@@ -430,6 +430,24 @@ namespace Job_Match.Maui.ApiService
             }
         }
 
+        public async Task<List<TaskRequestWithProvidersDto>> GetActiveOffersByClientAsync(Guid idUserClient)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/task-request/active-by-client/{idUserClient}");
+                if (!response.IsSuccessStatusCode)
+                    return new List<TaskRequestWithProvidersDto>();
+
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<TaskRequestWithProvidersDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener ofertas activas: {ex.Message}");
+                return new List<TaskRequestWithProvidersDto>();
+            }
+        }
+
         #endregion
 
         #region changeClientToProvider
