@@ -10,6 +10,24 @@ public partial class CreateClientAccount : ContentPage
         BindingContext = new CreateClientAccountViewModel();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Ajusta la decoración del Login
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            PathAndroid.IsVisible = true;
+            PathWin.IsVisible = false;
+        }
+        else if (DeviceInfo.Platform == DevicePlatform.WinUI)
+        {
+            PathAndroid.IsVisible = false;
+            PathWin.IsVisible = true;
+        }
+
+    }
+
     // Variable para que la primera contraseña pueda ser visible o no
     private bool isPasswordVisible1 = false;
 

@@ -580,28 +580,18 @@ namespace Job_Match.Maui.ViewModels
                 Phone2 = Phone2
             };
 
-            Console.WriteLine($"Enviando DTO:");
-            Console.WriteLine($"- FirstName: {clientDto.FirstName}");
-            Console.WriteLine($"- LastName: {clientDto.LastName}");
-            Console.WriteLine($"- Mail: {clientDto.Mail}");
-            Console.WriteLine($"- Password: {clientDto.Password}");
-            Console.WriteLine($"- DocTypeId: {clientDto.IdDocType}");
-            Console.WriteLine($"PostalCodeId: {clientDto.IdPostalCode}");
-            Console.WriteLine($"- Document: {clientDto.Document}");
-
             var response = await _apiService.CreateClientAsync(clientDto);
 
-            var body = await response.Content.ReadAsStringAsync();  // 👈 obtené todo el mensaje
-            Console.WriteLine($"[DEBUG] API Error Response: {body}");
+            var body = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
                 return true;
             }
 
-            LastApiMessage = body; // mostrar también en pantalla si querés
+            LastApiMessage = body;
 
-            LastApiMessage = await response.Content.ReadAsStringAsync(); // guarda mensaje para mostrarlo en la vista
+            LastApiMessage = await response.Content.ReadAsStringAsync();
             return false;
         }
 

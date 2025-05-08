@@ -9,6 +9,7 @@ using Job_Match.Data.Models.Dtos;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace Job_Match.Maui.ApiService
 {
@@ -378,6 +379,103 @@ namespace Job_Match.Maui.ApiService
             {
                 Console.WriteLine($"Exception in GetAllProvidersAsync: {ex.Message}");
                 return null;
+            }
+        }
+
+        #endregion
+
+        #region m_task_status
+
+        public async Task<List<m_task_status>?> GetStatusAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/task-status");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<m_task_status>>();
+                }
+                else
+                {
+                    Console.WriteLine($"Error al obtener estados de tarea: {response.StatusCode}");
+                }
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine($"Error de red: {httpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inesperado: {ex.Message}");
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region t_task_request
+
+        public async Task<bool> CreateTaskRequestAsync(CreateTaskRequestDto dto)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/task-request", dto);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al crear oferta: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<List<TaskRequestWithProvidersDto>> GetActiveOffersByClientAsync(Guid idUserClient)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/task-request/active-by-client/{idUserClient}");
+                if (!response.IsSuccessStatusCode)
+                    return new List<TaskRequestWithProvidersDto>();
+
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<TaskRequestWithProvidersDto>>(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener ofertas activas: {ex.Message}");
+                return new List<TaskRequestWithProvidersDto>();
+            }
+        }
+
+        public async Task<bool> UpdateOfferAsync(UpdateTaskRequestDto dto)
+        {
+            var json = JsonConvert.SerializeObject(dto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync("api/task-request", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Error al actualizar: {response.StatusCode} - {error}");
+            }
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeactivateOfferAsync(Guid offerId)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsync($"api/task-request/deactivate/{offerId}", null);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al desactivar la oferta: {ex.Message}");
+                return false;
             }
         }
 

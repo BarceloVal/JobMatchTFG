@@ -8,6 +8,8 @@ namespace Job_Match.Maui.ApiService
         public static UserSessionService Instance => _instance ??= new UserSessionService();
 
         public Guid Id { get; private set; }
+        public Guid? IdUserClient { get; private set; }
+        public Guid? IdUserProvider { get; private set; }
         public string Mail { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
@@ -25,6 +27,8 @@ namespace Job_Match.Maui.ApiService
             var user = loginResponse.user;
 
             Id = user.id;
+            IdUserClient = user.id_user_client;
+            IdUserProvider = user.id_user_provider;
             Mail = user.mail;
             Password = plainPassword;
             FirstName = user.first_name;

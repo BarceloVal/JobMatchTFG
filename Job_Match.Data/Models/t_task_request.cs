@@ -20,6 +20,17 @@ public partial class t_task_request
 
     public Guid id_status { get; set; }
 
+    [StringLength(100)]
+    [Unicode(false)]
+    public string? title { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime date_start { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? date_end { get; set; }
+
+
     [StringLength(200)]
     [Unicode(false)]
     public string? description { get; set; }

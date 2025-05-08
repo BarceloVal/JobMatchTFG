@@ -15,6 +15,8 @@ namespace Job_Match.Maui.Models
     public class _UserDto
     {
         public Guid id { get; set; }
+        public Guid? id_user_client { get; set; }
+        public Guid? id_user_provider { get; set; }
         public string id_mask { get; set; }
         public string mail { get; set; }
         public string first_name { get; set; }

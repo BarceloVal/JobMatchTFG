@@ -5,11 +5,176 @@
              x:Class="Job_Match.Maui.Views.OfferClient"
              Shell.NavBarIsVisible="False">
 
-    <VerticalStackLayout Spacing="0">
+    <Grid RowDefinitions="Auto, *">
+        <VerticalStackLayout Grid.Row="0" Spacing="0">
 
-        <!-- Mi encabezado personalizado -->
-        <controls:HeaderControl />
+            <!-- Mi encabezado personalizado -->
+            <controls:HeaderControl />
 
-    </VerticalStackLayout>
+            <!-- Botón para crear ofertas -->
+            <Button
+                x:Name="btnCreateOffer"
+                Text="Crear oferta"
+                BackgroundColor="#980c0f"
+                TextColor="White"
+                FontAttributes="Bold"
+                FontSize="18"
+                CornerRadius="30"
+                WidthRequest="330"
+                Margin="30, 20, 30, 10"
+                Clicked="btnCreateOffer_Clicked"
+                MaximumWidthRequest="500"/>
 
+            <!-- Línea separadora -->
+            <BoxView
+                HeightRequest="1"
+                BackgroundColor="#980c0f"
+                Margin="0, 10, 0, 10"
+                HorizontalOptions="FillAndExpand" />
+
+            <!-- Título -->
+            <Label
+                Text="Mis ofertas creadas"
+                FontSize="20"
+                FontAttributes="Bold"
+                TextColor="Black"
+                HorizontalOptions="Center"
+                Margin="0,10,0,10"/>
+        </VerticalStackLayout>
+
+        <!-- Lista de ofertas activas -->
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding ActiveOffers}"
+            VerticalOptions="FillAndExpand"
+            Margin="10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
+                        BorderColor="#ccc"
+                        CornerRadius="12"
+                        Padding="15"
+                        Margin="0,5"
+                        HasShadow="True"
+                        BackgroundColor="#f9f9f9">
+
+                        <VerticalStackLayout Spacing="6">
+
+                            <!-- Título -->
+                            <Label Text="{Binding Title}"
+                                   FontAttributes="Bold"
+                                   FontSize="20"
+                                   TextColor="#980c0f" />
+
+                            <!-- Tipo de servicio -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Tipo de servicio: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding ServiceType}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Servicio -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Servicio: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding Service}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Población -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Población: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding PostalCodeName}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Descripción -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Descripción: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding Description}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Estado -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Estado: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding Status}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Fecha de inicio -->
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Fecha de inicio: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding DateStart, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Fecha de fin (si existe) -->
+                            <Label>
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding DateEnd}" Value="{x:Null}">
+                                        <Setter Property="IsVisible" Value="False"/>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Fecha de fin: " FontAttributes="Bold"/>
+                                        <Span Text="{Binding DateEnd, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center" Margin="0,10">
+
+                                <!-- Botón de editar oferta -->
+                                <Button
+                                    x:Name="btnEdit"
+                                    Text="Editar"
+                                    BackgroundColor="#980c0f"
+                                    TextColor="White"
+                                    CornerRadius="10"
+                                    HeightRequest="45"
+                                    WidthRequest="150"
+                                    FontAttributes="Bold"
+                                    Clicked="btnEdit_Clicked"
+                                    CommandParameter="{Binding}"/>
+
+                                <!-- Botón de eliminar oferta -->
+                                <Button
+                                    x:Name="btnDelete"
+                                    Text="Borrar"
+                                    BackgroundColor="#980c0f"
+                                    TextColor="White"
+                                    CornerRadius="10"
+                                    HeightRequest="45"
+                                    WidthRequest="150"
+                                    FontAttributes="Bold"
+                                    Clicked="btnDelete_Clicked"
+                                    CommandParameter="{Binding}"/>
+
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>

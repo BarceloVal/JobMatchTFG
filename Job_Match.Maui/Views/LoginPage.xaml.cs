@@ -1,6 +1,7 @@
 using Job_Match.Maui.Views;
 using Job_Match.Maui.ViewModels;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace Job_Match.Maui.Views;
 public partial class LoginPage : ContentPage
@@ -9,6 +10,24 @@ public partial class LoginPage : ContentPage
     {
         InitializeComponent();
         BindingContext = new LoginPageViewModel();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Ajusta la decoración del Login
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            PathAndroid.IsVisible = true;
+            PathWin.IsVisible = false;
+        }
+        else if (DeviceInfo.Platform == DevicePlatform.WinUI)
+        {
+            PathAndroid.IsVisible = false;
+            PathWin.IsVisible = true;
+        }
+
     }
 
     /// <summary>

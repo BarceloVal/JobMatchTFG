@@ -25,7 +25,7 @@ namespace Job_Match.Data.Models.Dtos
         public string? Description { get; set; }
         public string? Website { get; set; }
         public string? MapCoordinates { get; set; }
-        public Guid? IdServiceType { get; set; } // <- agregar esto
+        public Guid? IdServiceType { get; set; }
         public Guid? IdService { get; set; }
         public string Password { get; set; } // necesario para hashear
     }

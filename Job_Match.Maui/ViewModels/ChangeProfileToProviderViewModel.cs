@@ -786,6 +786,5 @@ namespace Job_Match.Maui.ViewModels
 
             return true;
         }
-
     }
 }

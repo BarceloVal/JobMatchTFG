@@ -146,7 +146,7 @@ namespace Job_Match.API.Controllers
 
         #region methods LOGIN
 
-        [AllowAnonymous]    // Esto es para que no me pida token, este es el único método que no lo necesita, ya que lo genera
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest login)
         {
@@ -158,6 +158,22 @@ namespace Job_Match.API.Controllers
                 return Unauthorized("Esta cuenta está desactivada. Si deseas reactivarla, contacta con soporte o crea una nueva cuenta.");
 
             var token = JwtHelper.GenerateToken(user, _config);
+
+            // Buscar id_user_client y id_user_provider
+            Guid? idUserClient = null;
+            Guid? idUserProvider = null;
+
+            if (user.is_client)
+            {
+                var client = await _context.m_user_clients.FirstOrDefaultAsync(x => x.id_user == user.id);
+                if (client != null) idUserClient = client.id;
+            }
+
+            if (user.is_provider)
+            {
+                var provider = await _context.m_user_providers.FirstOrDefaultAsync(x => x.id_user == user.id);
+                if (provider != null) idUserProvider = provider.id;
+            }
 
             return Ok(new
             {
@@ -174,7 +190,9 @@ namespace Job_Match.API.Controllers
                     user.last_access,
                     user.active,
                     user.created_on,
-                    user.last_update
+                    user.last_update,
+                    id_user_client = idUserClient,
+                    id_user_provider = idUserProvider
                 }
             });
         }
