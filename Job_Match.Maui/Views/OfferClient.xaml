@@ -19,7 +19,7 @@
                 TextColor="White"
                 FontAttributes="Bold"
                 FontSize="18"
-                CornerRadius="30"
+                CornerRadius="10"
                 WidthRequest="330"
                 Margin="30, 20, 30, 10"
                 Clicked="btnCreateOffer_Clicked"

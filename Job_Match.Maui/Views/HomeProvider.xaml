@@ -29,6 +29,7 @@
                 Text="Ver mis ofertas de servicios"
                 BackgroundColor="#980c0f"
                 TextColor="White"
+                CornerRadius="10"
                 Margin="20"
                 Clicked="btnrequest_Clicked"/>
 
@@ -53,6 +54,7 @@
                 Text="Ver mis ofertas abiertas"
                 BackgroundColor="#980c0f"
                 TextColor="White"
+                CornerRadius="10"
                 Margin="20"
                 Clicked="btnoffers_Clicked"/>
 

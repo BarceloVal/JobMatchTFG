@@ -44,7 +44,13 @@ namespace Job_Match.API.Controllers
         [HttpGet("by-mail/{mail}")]
         public async Task<ActionResult<ProfileProviderDto>> GetByMail(string mail)
         {
-            var provider = await _providerService.GetProviderByMailAsync(mail);
+            var provider = await _context.m_user_providers
+                .Include(p => p.id_userNavigation)
+                .Include(p => p.id_postal_codeNavigation)
+                .Include(p => p.m_service_providers.Where(sp => sp.active))
+                    .ThenInclude(sp => sp.m_service)
+                        .ThenInclude(s => s.id_service_typeNavigation)
+                .FirstOrDefaultAsync(p => p.mail == mail);
 
             if (provider == null)
                 return NotFound();
@@ -67,7 +73,13 @@ namespace Job_Match.API.Controllers
                 Phone1 = provider.phone_number_1,
                 Phone2 = provider.phone_number_2,
                 Description = provider.description,
-                MapCoordinates = provider.map_coordinates
+                MapCoordinates = provider.map_coordinates,
+                Services = provider.m_service_providers.Select(sp => new ServiceDto
+                {
+                    Id = sp.m_service.id,
+                    ServiceName = sp.m_service.name,
+                    ServiceTypeName = sp.m_service.id_service_typeNavigation.name
+                }).ToList()
             };
 
             return Ok(dto);

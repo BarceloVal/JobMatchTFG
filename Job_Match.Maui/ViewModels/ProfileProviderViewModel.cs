@@ -31,6 +31,7 @@ namespace Job_Match.Maui.ViewModels
         public string Phone2 { get; set; }
         public string Description { get; set; }
         public string MapCoordinates { get; set; }
+        public List<ServiceDto> Services { get; set; } = new();
 
         public string FullName => $"{FirstName} {LastName}";
 
@@ -53,6 +54,7 @@ namespace Job_Match.Maui.ViewModels
                 Phone2 = user.Phone2;
                 Description = user.Description;
                 MapCoordinates = user.MapCoordinates;
+                Services = user.Services ?? new List<ServiceDto>();
             }
         }
     }
