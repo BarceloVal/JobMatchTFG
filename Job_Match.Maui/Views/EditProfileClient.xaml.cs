@@ -43,7 +43,7 @@ public partial class EditProfileClient : ContentPage
         if (success)
         {
             await DisplayAlert("Éxito", "Perfil actualizado correctamente.", "Aceptar");
-            await Shell.Current.GoToAsync(".."); // Vuelve atrás
+            await Shell.Current.GoToAsync("ProfileClient"); // Vuelve atrás
         }
         else
         {
