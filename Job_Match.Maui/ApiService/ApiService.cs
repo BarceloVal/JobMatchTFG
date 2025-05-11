@@ -232,6 +232,12 @@ namespace Job_Match.Maui.ApiService
             return JsonConvert.DeserializeObject<ProfileClientDto>(json);
         }
 
+        public async Task<bool> UpdateClientProfileAsync(UpdateProfileClientDto dto)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/m_user_client", dto);
+            return response.IsSuccessStatusCode;
+        }
+
         #endregion
 
         #region m_user_provider

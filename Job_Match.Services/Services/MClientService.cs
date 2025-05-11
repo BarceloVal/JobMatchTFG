@@ -234,5 +234,54 @@ namespace Job_Match.Services.Services
             return await _context.m_user_clients
                 .AnyAsync(p => p.id_user == idUser);
         }
+
+        public async Task<ProfileClientDto?> GetClientProfileAsync(Guid idUser)
+        {
+            var client = await _context.m_user_clients
+                .Include(c => c.id_postal_codeNavigation)
+                .FirstOrDefaultAsync(c => c.id_user == idUser);
+
+            if (client == null)
+                return null;
+
+            var nameParts = client.name.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+            var firstName = nameParts.Length > 0 ? nameParts[0] : "";
+            var lastName = nameParts.Length > 1 ? nameParts[1] : "";
+
+            return new ProfileClientDto
+            {
+                Id = client.id,  // <--- ¡Esto es CLAVE!
+                IdUser = client.id_user,
+                FirstName = firstName,
+                LastName = lastName,
+                Mail = client.mail,
+                Password = "", // nunca se expone
+                Document = client.num_doc,
+                IdDocType = client.id_doc_type,
+                Address = client.address,
+                IdPostalCode = client.id_postal_code,
+                PostalCodeName = $"{client.id_postal_codeNavigation.cod_auto_name}/{client.id_postal_codeNavigation.cod_pro_name}/{client.id_postal_codeNavigation.cod_loc_name}",
+                Phone1 = client.phone_number_1,
+                Phone2 = client.phone_number_2
+            };
+        }
+
+        public async Task<bool> UpdateClientProfileAsync(UpdateProfileClientDto dto)
+        {
+            var client = await _context.m_user_clients.FirstOrDefaultAsync(c => c.id_user == dto.IdUser);
+            Console.WriteLine($"[DEBUG] dto.Id = {dto.Id}");
+            if (client == null) return false;
+
+            client.name = dto.FirstName + " " + dto.LastName;
+            client.num_doc = dto.Document;
+            client.id_doc_type = dto.IdDocType;
+            client.address = dto.Address;
+            client.id_postal_code = dto.IdPostalCode;
+            client.phone_number_1 = dto.Phone1;
+            client.phone_number_2 = dto.Phone2;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

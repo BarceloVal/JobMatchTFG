@@ -46,6 +46,8 @@ namespace Job_Match.API.Controllers
 
             var dto = new ProfileClientDto
             {
+                Id = client.id,
+                IdUser = client.id_user,
                 FirstName = client.id_userNavigation.first_name,
                 LastName = client.id_userNavigation.last_name,
                 Mail = client.mail,
@@ -66,6 +68,29 @@ namespace Job_Match.API.Controllers
         {
             var exists = await _clientService.ClientExistsAsync(idUser);
             return exists ? Ok() : NotFound();
+        }
+
+        [HttpGet("profile/{idUser}")]
+        public async Task<ActionResult<ProfileClientDto>> GetProfile(Guid idUser)
+        {
+            var profile = await _clientService.GetClientProfileAsync(idUser);
+            if (profile == null)
+                return NotFound();
+
+            return Ok(profile);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProfileClient([FromBody] UpdateProfileClientDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var success = await _clientService.UpdateClientProfileAsync(dto);
+            if (!success)
+                return StatusCode(500, "Error al actualizar el perfil de cliente");
+
+            return NoContent();
         }
     }
 }

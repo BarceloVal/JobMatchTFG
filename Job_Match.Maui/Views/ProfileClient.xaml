@@ -108,6 +108,19 @@
                 HorizontalOptions="Center"
                 Clicked="btnSwitchUser_Clicked"/>
 
+            <!-- Botón para editar el perfil -->
+            <Button
+                x:Name="btnEditProfileClient"
+                Text="Editar perfil"
+                BackgroundColor="#980c0f"
+                TextColor="White"
+                CornerRadius="20"
+                FontAttributes="Bold"
+                Padding="14,10"
+                WidthRequest="250"
+                HorizontalOptions="Center"
+                Clicked="btnEditProfileClient_Clicked"/>
+
             <!-- Botón para deshabilitar la cuenta -->
             <Button
                 x:Name="btnDisableAccount"
