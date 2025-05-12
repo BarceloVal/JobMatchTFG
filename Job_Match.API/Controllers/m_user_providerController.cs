@@ -3,6 +3,7 @@ using Job_Match.Data.Context;
 using Job_Match.Data.Models;
 using Job_Match.Data.Models.Dtos;
 using Job_Match.Services.Interfaces;
+using Job_Match.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -128,6 +129,19 @@ namespace Job_Match.API.Controllers
         {
             var exists = await _providerService.ProviderExistsAsync(idUser);
             return exists ? Ok() : NotFound();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProfileProvider([FromBody] UpdateProfileProviderDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var success = await _providerService.UpdateProviderProfileAsync(dto);
+            if (!success)
+                return StatusCode(500, "Error al actualizar el perfil de proveedor");
+
+            return NoContent();
         }
     }
 }

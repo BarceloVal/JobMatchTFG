@@ -14,5 +14,6 @@ namespace Job_Match.Services.Interfaces
         Task<m_user_provider?> GetProviderByMailAsync(string mail);
         Task<bool> ChangeClientToProviderAsync(ChangeClientToProviderDto dto);
         Task<bool> ProviderExistsAsync(Guid idUser);
+        Task<bool> UpdateProviderProfileAsync(UpdateProfileProviderDto dto);
     }
 }

@@ -270,6 +270,19 @@ namespace Job_Match.Maui.ApiService
             return JsonConvert.DeserializeObject<ProfileProviderDto>(json);
         }
 
+        public async Task<bool> UpdateProviderProfileAsync(UpdateProfileProviderDto dto)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/m_user_provider", dto);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"[UpdateProviderProfileAsync] ERROR {response.StatusCode}: {errorContent}");
+            }
+
+            return response.IsSuccessStatusCode;
+        }
+
         #endregion
 
         #region m_service_type

@@ -76,4 +76,10 @@ public partial class ProfileProvider : ContentPage
             await DisplayAlert("Error", "No se pudo desactivar la cuenta. Intenta de nuevo.", "Aceptar");
         }
     }
+
+    private async void btnEditProfile_Clicked(object sender, EventArgs e)
+    {
+        var dto = await _apiService.GetProviderByMailAsync(UserSessionService.Instance.Mail);
+        await Navigation.PushAsync(new EditProfileProvider(dto));
+    }
 }
