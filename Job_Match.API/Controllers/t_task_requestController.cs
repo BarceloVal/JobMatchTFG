@@ -66,6 +66,13 @@ namespace Job_Match.API.Controllers
             return Ok(activeOffers);
         }
 
+        [HttpGet("open")]
+        public async Task<ActionResult<IEnumerable<TaskRequestWithOfferDto>>> GetOpenOffers()
+        {
+            var result = await _taskRequestService.GetOpenOffersAsync();
+            return Ok(result);
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateTaskRequest([FromBody] UpdateTaskRequestDto dto)
         {

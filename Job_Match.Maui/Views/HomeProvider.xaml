@@ -26,7 +26,7 @@
             <Button
                 x:Name="btnrequest"
                 Grid.Row="1"
-                Text="Ver mis ofertas de servicios"
+                Text="Ver solicitud de servicios"
                 BackgroundColor="#980c0f"
                 TextColor="White"
                 CornerRadius="10"
@@ -51,7 +51,7 @@
             <Button
                 x:Name="btnoffers"
                 Grid.Row="1"
-                Text="Ver mis ofertas abiertas"
+                Text="Buscar ofertas abiertas"
                 BackgroundColor="#980c0f"
                 TextColor="White"
                 CornerRadius="10"

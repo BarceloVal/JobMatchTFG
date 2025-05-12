@@ -498,6 +498,18 @@ namespace Job_Match.Maui.ApiService
             }
         }
 
+        public async Task<List<TaskRequestWithOfferDto>> GetOpenOffersAsync()
+        {
+            var response = await _httpClient.GetAsync("api/task-request/open");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<TaskRequestWithOfferDto>>(json);
+            }
+            return new List<TaskRequestWithOfferDto>();
+        }
+
+
         #endregion
 
         #region changeClientToProvider
