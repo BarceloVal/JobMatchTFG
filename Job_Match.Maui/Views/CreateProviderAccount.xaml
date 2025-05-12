@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
-             x:Class="Job_Match.Maui.Views.CreateProviderAccount" >
+             x:Class="Job_Match.Maui.Views.CreateProviderAccount"
+             Shell.NavBarIsVisible="False">
 
     <Grid BackgroundColor="White">
         <Grid.RowDefinitions>
