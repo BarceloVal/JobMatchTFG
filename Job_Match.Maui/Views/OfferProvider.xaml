@@ -120,11 +120,12 @@
                                    FontAttributes="Bold"
                                    TextColor="#980c0f" />
 
-                            <!-- Subtítulo: Cliente + tipo + servicio -->
+                            <!-- Subtítulo: Cliente -->
                             <Label Text="{Binding ClientName}"
                                    FontSize="14"
                                    FontAttributes="Italic" />
 
+                            <!-- Tipo de servicio -->
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
@@ -134,6 +135,7 @@
                                 </Label.FormattedText>
                             </Label>
 
+                            <!-- Servicio -->
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
@@ -143,6 +145,7 @@
                                 </Label.FormattedText>
                             </Label>
 
+                            <!-- Código postal -->
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
@@ -173,10 +176,13 @@
                             </Label>
 
                             <!-- Botón de inscripción -->
-                            <Button Text="Inscribirse"
-                                    BackgroundColor="#980c0f"
-                                    TextColor="White"
-                                    CornerRadius="10" />
+                            <Button
+                                Text="Inscribirse"
+                                BackgroundColor="#980c0f"
+                                TextColor="White"
+                                CornerRadius="10"
+                                Clicked="btnSubscribeOffer_Clicked"
+                                CommandParameter="{Binding}"/>
 
                         </VerticalStackLayout>
                     </Frame>

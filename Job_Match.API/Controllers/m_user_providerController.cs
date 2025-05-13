@@ -139,6 +139,44 @@ namespace Job_Match.API.Controllers
             return exists ? Ok() : NotFound();
         }
 
+        [HttpGet("by-id-user/{id_user}")]
+        public async Task<ActionResult<ProfileProviderDto>> GetByUserId(Guid id_user)
+        {
+            var provider = await _context.m_user_providers
+                .Include(x => x.id_userNavigation)
+                .Include(x => x.id_postal_codeNavigation)
+                .Where(x => x.id_user == id_user)
+                .Select(x => new ProfileProviderDto
+                {
+                    IdUser = x.id_user,
+                    IdProvider = x.id,
+                    FirstName = x.id_userNavigation.first_name,
+                    LastName = x.id_userNavigation.last_name,
+                    TradeName = x.trade_name,
+                    Mail = x.mail,
+                    Password = x.id_userNavigation.password,
+                    IdDocType = x.id_doc_type,
+                    Document = x.num_doc,
+                    Website = x.web_site,
+                    Address = x.address,
+                    IdPostalCode = x.id_postal_code,
+                    PostalCodeName = x.id_postal_codeNavigation.cod_auto_name + "/" +
+                                     x.id_postal_codeNavigation.cod_pro_name + "/" +
+                                     x.id_postal_codeNavigation.cod_loc_name,
+                    Phone1 = x.phone_number_1,
+                    Phone2 = x.phone_number_2,
+                    Description = x.description,
+                    MapCoordinates = x.map_coordinates,
+                    Services = new List<ServiceDto>()
+                })
+                .FirstOrDefaultAsync();
+
+            if (provider == null)
+                return NotFound();
+
+            return Ok(provider);
+        }
+
         #endregion
 
         #region methods PUT

@@ -283,6 +283,19 @@ namespace Job_Match.Maui.ApiService
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<Guid> GetProviderIdFromUserIdAsync(Guid idUser)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id-user/{idUser}");
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("No se pudo obtener el ID del proveedor");
+
+            var json = await response.Content.ReadAsStringAsync();
+            var dto = JsonConvert.DeserializeObject<ProfileProviderDto>(json);
+
+            return dto.IdProvider;
+        }
+
         #endregion
 
         #region m_service_type
@@ -509,6 +522,18 @@ namespace Job_Match.Maui.ApiService
             return new List<TaskRequestWithOfferDto>();
         }
 
+
+        #endregion
+
+        #region t_offer_subscription
+
+        public async Task SubscribeToOfferAsync(OfferSubscriptionDto dto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/offer-subscriptions/subscribe", dto);
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("Error al suscribirse a la oferta");
+        }
 
         #endregion
 

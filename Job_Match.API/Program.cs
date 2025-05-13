@@ -18,7 +18,7 @@ builder.Services.AddScoped<IMServiceService, MServiceService>();
 builder.Services.AddScoped<IMServiceProviderService, MServiceProviderService>();
 builder.Services.AddScoped<IMTaskRequestService, MTaskRequestService>();
 builder.Services.AddScoped<IMTaskStatusService, MTaskStatusService>();
-
+builder.Services.AddScoped<IMOfferSubscriptionService, MOfferSubscriptionService>();
 
 // Configurar EF + Contexto
 builder.Services.AddDbContext<job_match_context>(options =>

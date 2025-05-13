@@ -67,4 +67,7 @@ public partial class t_task_request
 
     [InverseProperty("id_task_requestNavigation")]
     public virtual ICollection<t_task_score> t_task_scores { get; set; } = new List<t_task_score>();
+
+    [InverseProperty("id_task_requestNavigation")]
+    public virtual ICollection<t_offer_subscription> t_offer_subscriptions { get; set; } = new List<t_offer_subscription>();
 }
