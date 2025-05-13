@@ -29,7 +29,7 @@ namespace Job_Match.API.Controllers
                 var alreadySubscribed = await _service.IsAlreadySubscribedAsync(dto);
 
                 if (alreadySubscribed)
-                    return Conflict("Ya estás inscrito a esta oferta."); // 🔴 409 Conflict
+                    return Conflict("Ya estás inscrito a esta oferta.");
 
                 await _service.SubscribeToOfferAsync(dto);
                 return Ok();

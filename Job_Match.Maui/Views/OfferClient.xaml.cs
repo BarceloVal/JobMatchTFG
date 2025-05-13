@@ -29,6 +29,11 @@ public partial class OfferClient : ContentPage
         {
             Console.WriteLine("No se encontró el ID del cliente en la sesión.");
         }
+
+        if (clientId != null)
+        {
+            await _viewModel.LoadActiveOffersAsync(clientId.Value);
+        }
     }
 
     private async void btnCreateOffer_Clicked(object sender, EventArgs e)

@@ -12,6 +12,7 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- Oculta el mensaje de error si es que no lo hay (validaciones) -->
             <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converters:NullOrEmptyToBoolConverter x:Key="NullOrEmptyToBoolConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

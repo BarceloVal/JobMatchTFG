@@ -467,7 +467,7 @@ namespace Job_Match.Maui.ApiService
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/task-request/active-by-client/{idUserClient}");
+                var response = await _httpClient.GetAsync($"api/m_user_client/active-by-client/{idUserClient}");
                 if (!response.IsSuccessStatusCode)
                     return new List<TaskRequestWithProvidersDto>();
 
