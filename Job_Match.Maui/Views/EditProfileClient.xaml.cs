@@ -37,13 +37,27 @@ public partial class EditProfileClient : ContentPage
 
     private async void btnEditProfileClient_Clicked(object sender, EventArgs e)
     {
+        // Forzar validación antes de enviar
+        viewModel.ValidateFirstName();
+        viewModel.ValidateLastName();
+        viewModel.ValidateDocument();
+        viewModel.ValidateAddress();
+        viewModel.ValidatePhone1();
+        viewModel.ValidatePhone2();
+
+        if (viewModel.HasErrors)
+        {
+            await DisplayAlert("Errores en el formulario", "Revisa que los campos obligatorios esten rellenados.", "Aceptar");
+            return;
+        }
+
         var dto = viewModel.BuildUpdateDto();
         var success = await new Job_Match.Maui.ApiService.ApiService().UpdateClientProfileAsync(dto);
 
         if (success)
         {
             await DisplayAlert("Éxito", "Perfil actualizado correctamente.", "Aceptar");
-            await Shell.Current.GoToAsync("ProfileClient"); // Vuelve atrás
+            await Shell.Current.GoToAsync("ProfileClient");
         }
         else
         {

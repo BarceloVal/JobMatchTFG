@@ -39,7 +39,7 @@ public partial class EditProfileProvider : ContentPage
     {
         if (!await viewModel.ValidateAllAsync())
         {
-            await DisplayAlert("Validación", "Por favor, corrige los errores antes de guardar.", "Aceptar");
+            await DisplayAlert("Errores en el formulario", "Revisa que los campos obligatorios esten rellenados.", "Aceptar");
             return;
         }
 

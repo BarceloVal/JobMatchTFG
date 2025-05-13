@@ -27,32 +27,54 @@ namespace Job_Match.Maui.ViewModels
         // ID original de la oferta (necesario para actualizar)
         public Guid Id { get; set; }
 
-        // Título
+        // ----------------------
+        // ------- Título -------
+        // ----------------------
         private string _title;
         public string Title
         {
             get => _title;
-            set { _title = value; OnPropertyChanged(); ValidateTitle(); }
+            set
+            {
+                if (_title != value)
+                {
+                    _title = value;
+                    OnPropertyChanged(nameof(Title));
+                    ValidateTitle();
+                }
+            }
         }
 
-        private bool _isTitleValid = true;
-        public bool IsTitleValid
+        private string _titleError;
+        public string TitleError
         {
-            get => _isTitleValid;
-            set { _isTitleValid = value; OnPropertyChanged(); }
+            get => _titleError;
+            set
+            {
+                _titleError = value;
+                OnPropertyChanged(nameof(TitleError));
+                OnPropertyChanged(nameof(IsTitleValid));
+            }
         }
 
-        public string TitleError => "El título es obligatorio.";
+        public bool IsTitleValid => string.IsNullOrEmpty(TitleError);
 
         /// <summary>
-        /// Valida que el campo Título no esté vacío.
+        /// Valida el título de la oferta. Obligatorio, máximo 100 caracteres.
         /// </summary>
         private void ValidateTitle()
         {
-            IsTitleValid = !string.IsNullOrWhiteSpace(Title);
+            if (string.IsNullOrWhiteSpace(Title))
+                TitleError = "Campo obligatorio.";
+            else if (Title.Length > 100)
+                TitleError = "Máximo 100 caracteres.";
+            else
+                TitleError = string.Empty;
         }
 
-        // Estado
+        // ----------------
+        // ---- Estado ----
+        // ----------------
         public ObservableCollection<m_task_status> TaskStatuses { get; set; } = new();
 
         private m_task_status _selectedTaskStatus;
@@ -62,39 +84,164 @@ namespace Job_Match.Maui.ViewModels
             set { _selectedTaskStatus = value; OnPropertyChanged(); }
         }
 
-        // Descripción
+        private string _taskStatusError;
+        public string TaskStatusError
+        {
+            get => _taskStatusError;
+            set
+            {
+                _taskStatusError = value;
+                OnPropertyChanged(nameof(TaskStatusError));
+                OnPropertyChanged(nameof(IsTaskStatusValid));
+            }
+        }
+
+        public bool IsTaskStatusValid => string.IsNullOrEmpty(TaskStatusError);
+
+        private void ValidateTaskStatus()
+        {
+            TaskStatusError = SelectedTaskStatus == null ? "Debes seleccionar un estado." : string.Empty;
+        }
+
+
+        // ---------------------
+        // --- Descripción ---
+        // ---------------------
         private string _description;
         public string Description
         {
             get => _description;
-            set { _description = value; OnPropertyChanged(); ValidateDescription(); }
+            set
+            {
+                if (_description != value)
+                {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                    ValidateDescription();
+                }
+            }
         }
 
-        private bool _isDescriptionValid = true;
-        public bool IsDescriptionValid
+        private string _descriptionError;
+        public string DescriptionError
         {
-            get => _isDescriptionValid;
-            set { _isDescriptionValid = value; OnPropertyChanged(); }
+            get => _descriptionError;
+            set
+            {
+                _descriptionError = value;
+                OnPropertyChanged(nameof(DescriptionError));
+                OnPropertyChanged(nameof(IsDescriptionValid));
+            }
         }
 
-        public string DescriptionError => "La descripción es obligatoria.";
+        public bool IsDescriptionValid => string.IsNullOrEmpty(DescriptionError);
 
         /// <summary>
-        /// Valida que el campo Descripción no esté vacío.
+        /// Valida la descripción. Obligatoria, máximo 1000 caracteres.
         /// </summary>
         private void ValidateDescription()
         {
-            IsDescriptionValid = !string.IsNullOrWhiteSpace(Description);
+            if (string.IsNullOrWhiteSpace(Description))
+                DescriptionError = "Campo obligatorio.";
+            else if (Description.Length > 1000)
+                DescriptionError = "Máximo 1000 caracteres.";
+            else
+                DescriptionError = string.Empty;
         }
 
-        // Fechas
-        public string DateStart { get; set; }
-        public string DateEnd { get; set; }
+        // ---------------------
+        // --- Fecha Inicio ----
+        // ---------------------
+        private string _dateStart;
+        public string DateStart
+        {
+            get => _dateStart;
+            set
+            {
+                if (_dateStart != value)
+                {
+                    _dateStart = value;
+                    OnPropertyChanged();
+                    ValidateDateStart();
+                }
+            }
+        }
 
-        public string DateStartError => "Fecha inválida.";
-        public string DateEndError => "Fecha inválida.";
-        public bool IsDateStartValid => DateTime.TryParse(DateStart, out _);
-        public bool IsDateEndValid => string.IsNullOrEmpty(DateEnd) || DateTime.TryParse(DateEnd, out _);
+        private string _dateStartError;
+        public string DateStartError
+        {
+            get => _dateStartError;
+            set
+            {
+                _dateStartError = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsDateStartValid));
+            }
+        }
+
+        public bool IsDateStartValid => string.IsNullOrEmpty(DateStartError);
+
+        /// <summary>
+        /// Valida la fecha de inicio. Obligatoria y debe tener el formato "dd/MM/yyyy".
+        /// </summary>
+        private void ValidateDateStart()
+        {
+            if (string.IsNullOrWhiteSpace(DateStart))
+                DateStartError = "Campo obligatorio.";
+            else if (!DateTime.TryParseExact(DateStart, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out _))
+                DateStartError = "Formato inválido. Usa dd/MM/aaaa.";
+            else
+                DateStartError = string.Empty;
+        }
+
+        // ----------------------------
+        // --- Fecha Fin (opcional) ---
+        // ----------------------------
+        private string _dateEnd;
+        public string DateEnd
+        {
+            get => _dateEnd;
+            set
+            {
+                if (_dateEnd != value)
+                {
+                    _dateEnd = value;
+                    OnPropertyChanged();
+                    ValidateDateEnd();
+                }
+            }
+        }
+
+        private string _dateEndError;
+        public string DateEndError
+        {
+            get => _dateEndError;
+            set
+            {
+                _dateEndError = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsDateEndValid));
+            }
+        }
+
+        public bool IsDateEndValid => string.IsNullOrEmpty(DateEndError);
+
+        /// <summary>
+        /// Valida la fecha de fin. Es opcional pero si se especifica debe tener formato válido.
+        /// </summary>
+        private void ValidateDateEnd()
+        {
+            if (string.IsNullOrWhiteSpace(DateEnd))
+            {
+                DateEndError = string.Empty;
+                return;
+            }
+
+            if (!DateTime.TryParseExact(DateEnd, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out _))
+                DateEndError = "Formato inválido. Usa dd/MM/aaaa.";
+            else
+                DateEndError = string.Empty;
+        }
 
         // -------------------
         // ---- Población ----

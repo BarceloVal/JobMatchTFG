@@ -63,7 +63,7 @@ namespace Job_Match.Maui.ViewModels
         public bool IsFirstNameValid => string.IsNullOrEmpty(FirstNameError);
 
         /// <summary>Valida el campo Nombre. Máximo 30 caracteres, obligatorio.</summary>
-        private void ValidateFirstName()
+        public void ValidateFirstName()
         {
             if (string.IsNullOrWhiteSpace(FirstName))
                 FirstNameError = "Campo obligatorio.";
@@ -107,7 +107,7 @@ namespace Job_Match.Maui.ViewModels
         public bool IsLastNameValid => string.IsNullOrEmpty(LastNameError);
 
         /// <summary>Valida el campo Apellido. Máximo 30 caracteres, obligatorio.</summary>
-        private void ValidateLastName()
+        public void ValidateLastName()
         {
             if (string.IsNullOrWhiteSpace(LastName))
                 LastNameError = "Campo obligatorio.";
@@ -150,7 +150,7 @@ namespace Job_Match.Maui.ViewModels
         public bool IsDocumentValid => string.IsNullOrEmpty(DocumentError);
 
         /// <summary>Valida el Documento según el tipo (DNI, NIE, PAS).</summary>
-        private void ValidateDocument()
+        public void ValidateDocument()
         {
             if (string.IsNullOrWhiteSpace(Document))
             {
@@ -243,7 +243,7 @@ namespace Job_Match.Maui.ViewModels
         public bool IsAddressValid => string.IsNullOrEmpty(AddressError);
 
         /// <summary>Valida el campo Dirección. Máximo 50 caracteres, obligatorio.</summary>
-        private void ValidateAddress()
+        public void ValidateAddress()
         {
             if (string.IsNullOrWhiteSpace(Address))
                 AddressError = "Campo obligatorio.";
@@ -286,7 +286,7 @@ namespace Job_Match.Maui.ViewModels
         public bool IsPhone1Valid => string.IsNullOrEmpty(Phone1Error);
 
         /// <summary>Valida el campo Teléfono 1. Obligatorio, formato español.</summary>
-        private void ValidatePhone1()
+        public void ValidatePhone1()
         {
             if (string.IsNullOrWhiteSpace(Phone1))
                 Phone1Error = "Campo obligatorio.";
@@ -332,7 +332,7 @@ namespace Job_Match.Maui.ViewModels
         public bool IsPhone2Valid => string.IsNullOrEmpty(Phone2Error);
 
         /// <summary>Valida el campo Teléfono 2. Opcional, pero debe tener formato si se especifica.</summary>
-        private void ValidatePhone2()
+        public void ValidatePhone2()
         {
             if (string.IsNullOrWhiteSpace(Phone2))
                 Phone2Error = string.Empty; // Es válido si está vacío (opcional)
@@ -351,7 +351,12 @@ namespace Job_Match.Maui.ViewModels
         public m_doc_type SelectedDocType
         {
             get => _selectedDocType;
-            set { _selectedDocType = value; OnPropertyChanged(); }
+            set
+            {
+                _selectedDocType = value;
+                OnPropertyChanged();
+                ValidateDocument();
+            }
         }
 
         private m_postal_code _selectedPostalCode;
@@ -418,5 +423,15 @@ namespace Job_Match.Maui.ViewModels
             Phone1 = Phone1,
             Phone2 = Phone2
         };
+
+        public bool HasErrors =>
+            !IsFirstNameValid ||
+            !IsLastNameValid ||
+            !IsDocumentValid ||
+            !IsAddressValid ||
+            !IsPhone1Valid ||
+            !IsPhone2Valid ||
+            SelectedDocType == null ||
+            SelectedPostalCode == null;
     }
 }

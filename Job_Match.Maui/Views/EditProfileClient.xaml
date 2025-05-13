@@ -219,7 +219,7 @@
                     <!-- Código postal -->
                     <HorizontalStackLayout>
                         <Label
-                            Text="Código postal"
+                            Text="Población"
                             TextColor="Black"
                             FontSize="15"
                             Margin="0, 20, 0, 0"/>
