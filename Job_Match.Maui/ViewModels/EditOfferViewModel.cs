@@ -14,6 +14,11 @@ namespace Job_Match.Maui.ViewModels
     public class EditOfferViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Notifica a la UI que una propiedad ha cambiado su valor.
+        /// </summary>
+        /// <param name="name">Nombre de la propiedad modificada (autodetectado).</param>
         private void OnPropertyChanged([CallerMemberName] string name = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
@@ -39,6 +44,9 @@ namespace Job_Match.Maui.ViewModels
 
         public string TitleError => "El título es obligatorio.";
 
+        /// <summary>
+        /// Valida que el campo Título no esté vacío.
+        /// </summary>
         private void ValidateTitle()
         {
             IsTitleValid = !string.IsNullOrWhiteSpace(Title);
@@ -71,6 +79,9 @@ namespace Job_Match.Maui.ViewModels
 
         public string DescriptionError => "La descripción es obligatoria.";
 
+        /// <summary>
+        /// Valida que el campo Descripción no esté vacío.
+        /// </summary>
         private void ValidateDescription()
         {
             IsDescriptionValid = !string.IsNullOrWhiteSpace(Description);
@@ -118,10 +129,11 @@ namespace Job_Match.Maui.ViewModels
 
         public m_service SelectedService { get; set; }
 
-        // ---------------------
-        // ---- Constructor ----
-        // ---------------------
-
+        /// <summary>
+        /// Constructor que inicializa el ViewModel con los datos de la oferta existente para edición.
+        /// Carga códigos postales, tipos de servicio, servicios y estados desde la API.
+        /// </summary>
+        /// <param name="offer">DTO con los datos de la oferta a editar.</param>
         public EditOfferViewModel(TaskRequestWithProvidersDto offer)
         {
             Id = offer.Id;
@@ -136,6 +148,10 @@ namespace Job_Match.Maui.ViewModels
             LoadTaskStatusesAsync(offer.Status);
         }
 
+        /// <summary>
+        /// Carga todos los códigos postales disponibles desde la API y selecciona el correspondiente.
+        /// </summary>
+        /// <param name="postalCodeName">Nombre del código postal actual para seleccionarlo por defecto.</param>
         private async void LoadPostalCodesAsync(string postalCodeName)
         {
             var result = await _apiService.GetPostalCodesAsync();
@@ -151,6 +167,11 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Carga los tipos de servicio desde la API y selecciona el que corresponda a la oferta.
+        /// </summary>
+        /// <param name="serviceTypeName">Nombre del tipo de servicio actual.</param>
+        /// <param name="serviceName">Nombre del servicio actual (para posterior uso).</param>
         private async void LoadServiceTypesAsync(string serviceTypeName, string serviceName)
         {
             var result = await _apiService.GetServiceTypesAsync();
@@ -166,6 +187,10 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Carga los servicios desde la API, los convierte a `SelectableService` y marca el servicio actual.
+        /// </summary>
+        /// <param name="selectedServiceName">Nombre del servicio seleccionado actualmente.</param>
         private async void LoadServicesAsync(string selectedServiceName)
         {
             var result = await _apiService.GetServicesAsync();
@@ -196,6 +221,11 @@ namespace Job_Match.Maui.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Carga los posibles estados de tarea desde la API y selecciona el correspondiente.
+        /// </summary>
+        /// <param name="statusName">Nombre del estado actual de la oferta.</param>
         private async void LoadTaskStatusesAsync(string statusName)
         {
             var result = await _apiService.GetStatusAsync();
@@ -211,6 +241,9 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Filtra los servicios en base al tipo de servicio seleccionado.
+        /// </summary>
         private void FilterServices()
         {
             if (SelectedServiceType == null) return;
@@ -235,6 +268,11 @@ namespace Job_Match.Maui.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Notifica a la interfaz cuando cambia el estado de selección del servicio.
+        /// </summary>
+        /// <param name="name">Nombre de la propiedad que cambió.</param>
         protected void OnPropertyChanged([CallerMemberName] string name = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }

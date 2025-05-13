@@ -14,6 +14,8 @@ namespace Job_Match.API.Controllers
     [Route("api/m_user_provider")]
     public class m_user_providerController : ControllerBase
     {
+        #region parameters
+
         private readonly IMProviderService _providerService;
         private readonly job_match_context _context;
 
@@ -23,6 +25,9 @@ namespace Job_Match.API.Controllers
             _context = context;
         }
 
+        #endregion
+
+        #region methods POST
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProviderDto dto)
         {
@@ -42,6 +47,9 @@ namespace Job_Match.API.Controllers
             return Ok();
         }
 
+        #endregion
+
+        #region methods GET
         [HttpGet("by-mail/{mail}")]
         public async Task<ActionResult<ProfileProviderDto>> GetByMail(string mail)
         {
@@ -131,6 +139,10 @@ namespace Job_Match.API.Controllers
             return exists ? Ok() : NotFound();
         }
 
+        #endregion
+
+        #region methods PUT
+
         [HttpPut]
         public async Task<IActionResult> UpdateProfileProvider([FromBody] UpdateProfileProviderDto dto)
         {
@@ -143,5 +155,7 @@ namespace Job_Match.API.Controllers
 
             return NoContent();
         }
+
+        #endregion
     }
 }

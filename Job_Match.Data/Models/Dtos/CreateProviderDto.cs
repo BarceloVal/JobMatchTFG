@@ -15,7 +15,7 @@ namespace Job_Match.Data.Models.Dtos
         public string TradeName { get; set; }
         public Guid IdDocType { get; set; }
         public string Document { get; set; }
-        public string? MapCoordinates { get; set; } // Opcional
+        public string? MapCoordinates { get; set; }
         public string Address { get; set; }
         public Guid IdPostalCode { get; set; }
         public string Phone1 { get; set; }

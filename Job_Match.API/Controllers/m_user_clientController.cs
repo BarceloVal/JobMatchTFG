@@ -10,12 +10,18 @@ namespace Job_Match.API.Controllers
     [Route("api/m_user_client")]
     public class m_user_clientController : ControllerBase
     {
+        #region parameters
+
         private readonly IMClientService _clientService;
 
         public m_user_clientController(IMClientService clientService)
         {
             _clientService = clientService;
         }
+
+        #endregion
+
+        #region methods POST
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateClientDto dto)
@@ -35,6 +41,10 @@ namespace Job_Match.API.Controllers
 
             return Ok();
         }
+
+        #endregion
+
+        #region methods GET
 
         [HttpGet("by-mail/{mail}")]
         public async Task<ActionResult<ProfileClientDto>> GetByMail(string mail)
@@ -80,6 +90,10 @@ namespace Job_Match.API.Controllers
             return Ok(profile);
         }
 
+        #endregion
+
+        #region methods PUT
+
         [HttpPut]
         public async Task<IActionResult> UpdateProfileClient([FromBody] UpdateProfileClientDto dto)
         {
@@ -92,5 +106,7 @@ namespace Job_Match.API.Controllers
 
             return NoContent();
         }
+
+        #endregion
     }
 }

@@ -10,6 +10,8 @@ namespace Job_Match.API.Controllers
     [Route("api/postal-codes")]
     public class m_postal_codeController : ControllerBase
     {
+        #region parameters
+
         private readonly job_match_context _context;
 
         public m_postal_codeController(job_match_context context)
@@ -17,10 +19,16 @@ namespace Job_Match.API.Controllers
             _context = context;
         }
 
+        #endregion
+
+        #region methods GET
+
         [HttpGet]
         public async Task<IEnumerable<m_postal_code>> GetPostalCode()
         {
             return await _context.m_postal_codes.ToListAsync();
         }
+
+        #endregion
     }
 }

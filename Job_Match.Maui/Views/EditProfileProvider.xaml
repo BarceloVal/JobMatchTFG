@@ -37,15 +37,6 @@
                 TranslationY="10"/>
         </Grid>
 
-        <!-- Capa 2: el logo encima -->
-        <Image
-            Grid.Row="0"
-            Source="jobmatchwhite.png"
-            HeightRequest="80"
-            WidthRequest="80"
-            HorizontalOptions="Center"
-            VerticalOptions="Center" />
-
         <!-- Título -->
         <StackLayout Grid.Row="1" Padding="0">
             <Label

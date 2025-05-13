@@ -10,6 +10,7 @@ namespace Job_Match.API.Controllers
     [Route("api/doc-types")]
     public class m_doc_typeController : ControllerBase
     {
+        #region parameters
         private readonly job_match_context _context;
 
         public m_doc_typeController(job_match_context context)
@@ -17,10 +18,16 @@ namespace Job_Match.API.Controllers
             _context = context;
         }
 
+        #endregion
+
+        #region methods GET
+
         [HttpGet]
         public async Task<IEnumerable<m_doc_type>> GetDocType()
         {
             return await _context.m_doc_types.ToListAsync();
         }
+
+        #endregion
     }
 }

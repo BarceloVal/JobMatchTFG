@@ -16,7 +16,6 @@ namespace Job_Match.Data.Models.Dtos
         public Guid IdDocType { get; set; }
         public string Address { get; set; }
         public Guid IdPostalCode { get; set; }
-        //public string PostalCodeName { get; set; }
         public string Phone1 { get; set; }
         public string? Phone2 { get; set; }
         public Guid IdUser { get; set; }

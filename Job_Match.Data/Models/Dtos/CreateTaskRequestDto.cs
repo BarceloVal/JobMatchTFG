@@ -8,10 +8,10 @@ namespace Job_Match.Data.Models.Dtos
 {
     public class CreateTaskRequestDto
     {
-        public Guid IdUserClient { get; set; } // Cliente que ofrece la oferta
-        public Guid IdPostalCode { get; set; } // Ubicación del cliente / lugar de trabajo
-        public Guid IdService { get; set; } // Servicio específico
-        public Guid IdStatus { get; set; } // Estado de la tarea
+        public Guid IdUserClient { get; set; }
+        public Guid IdPostalCode { get; set; }
+        public Guid IdService { get; set; }
+        public Guid IdStatus { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTime DateStart { get; set; }

@@ -14,6 +14,11 @@ namespace Job_Match.Maui.ViewModels
     public class EditProfileProviderViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Llama al evento PropertyChanged para actualizar la interfaz de usuario cuando una propiedad cambia.
+        /// </summary>
+        /// <param name="propName">Nombre de la propiedad que cambió. Se asigna automáticamente si no se especifica.</param>
         private void OnPropertyChanged([CallerMemberName] string propName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
@@ -56,6 +61,7 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsFirstNameValid => string.IsNullOrEmpty(FirstNameError);
 
+        /// <summary>Valida el campo Nombre. Máximo 30 caracteres, obligatorio.</summary>
         private void ValidateFirstName()
         {
             if (string.IsNullOrWhiteSpace(FirstName))
@@ -98,6 +104,7 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsLastNameValid => string.IsNullOrEmpty(LastNameError);
 
+        /// <summary>Valida el campo Apellido. Máximo 30 caracteres, obligatorio.</summary>
         private void ValidateLastName()
         {
             if (string.IsNullOrWhiteSpace(LastName))
@@ -140,6 +147,7 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsTradeNameValid => string.IsNullOrEmpty(TradeNameError);
 
+        /// <summary>Valida el campo Nombre Comercial. Máximo 50 caracteres, obligatorio.</summary>
         private void ValidateTradeName()
         {
             if (string.IsNullOrWhiteSpace(TradeName))
@@ -155,6 +163,7 @@ namespace Job_Match.Maui.ViewModels
         // --------------------------------
         public ObservableCollection<m_doc_type> DocTypes { get; set; } = new();
 
+        /// <summary>Carga los tipos de documento desde la API y los almacena en una colección observable.</summary>
         private async void LoadDocTypesAsync()
         {
             var result = await _apiService.GetDocTypesAsync();
@@ -206,6 +215,7 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsDocumentValid => string.IsNullOrEmpty(DocumentError);
 
+        /// <summary>Valida el Documento según el tipo (DNI, NIE, PAS).</summary>
         private void ValidateDocument()
         {
             if (string.IsNullOrWhiteSpace(Document))
@@ -298,6 +308,7 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsWebsiteValid => string.IsNullOrEmpty(WebsiteError);
 
+        /// <summary>Valida el campo Sitio Web. Opcional, pero debe tener formato válido con http/https.</summary>
         private void ValidateWebsite()
         {
             if (string.IsNullOrWhiteSpace(Website))
@@ -348,6 +359,7 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsAddressValid => string.IsNullOrEmpty(AddressError);
 
+        /// <summary>Valida el campo Dirección. Máximo 50 caracteres, obligatorio.</summary>
         private void ValidateAddress()
         {
             if (string.IsNullOrWhiteSpace(Address))
@@ -395,6 +407,9 @@ namespace Job_Match.Maui.ViewModels
         public bool HasMapCoordinatesError => !string.IsNullOrEmpty(MapCoordinatesError);
         public bool IsMapCoordinatesValid => string.IsNullOrEmpty(MapCoordinatesError);
 
+        /// <summary>
+        /// Valida el campo Coordenadas. Opcional, pero debe estar en formato "latitud,longitud" válido.
+        /// </summary>
         private void ValidateMapCoordinates()
         {
             if (string.IsNullOrWhiteSpace(MapCoordinates))
@@ -424,6 +439,7 @@ namespace Job_Match.Maui.ViewModels
         // ---------------------
         public ObservableCollection<m_postal_code> PostalCodes { get; set; } = new();
 
+        /// <summary>Carga los códigos postales desde la API y los guarda en una colección observable.</summary>
         private async void LoadPostalCodesAsync()
         {
             List<m_postal_code> result = await _apiService.GetPostalCodesAsync();
@@ -469,6 +485,7 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsDescriptionValid => string.IsNullOrEmpty(DescriptionError);
 
+        /// <summary>Valida la Descripción. Obligatoria, máximo 1000 caracteres.</summary>
         private void ValidateDescription()
         {
             if (string.IsNullOrWhiteSpace(Description))
@@ -512,6 +529,7 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsPhone1Valid => string.IsNullOrEmpty(Phone1Error);
 
+        /// <summary>Valida el campo Teléfono 1. Obligatorio, formato español.</summary>
         private void ValidatePhone1()
         {
             if (string.IsNullOrWhiteSpace(Phone1))
@@ -557,6 +575,7 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsPhone2Valid => string.IsNullOrEmpty(Phone2Error);
 
+        /// <summary>Valida el campo Teléfono 2. Opcional, pero debe tener formato si se especifica.</summary>
         private void ValidatePhone2()
         {
             if (string.IsNullOrWhiteSpace(Phone2))
@@ -685,6 +704,10 @@ namespace Job_Match.Maui.ViewModels
             PostalCodeName = dto.PostalCodeName;
         }
 
+        /// <summary>
+        /// Inicializa los datos necesarios para la vista de edición, como los tipos de documento y códigos postales.
+        /// Además, selecciona el tipo de documento y código postal correspondientes al DTO original.
+        /// </summary>
         public async Task InitAsync()
         {
             var docTypes = await _apiService.GetDocTypesAsync();
@@ -758,6 +781,9 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Valida todos los datos introducidos.
+        /// </summary>
         public async Task<bool> ValidateAllAsync()
         {
             ValidateFirstName();
@@ -784,6 +810,11 @@ namespace Job_Match.Maui.ViewModels
                    IsWebsiteValid && IsMapCoordinatesValid && IsDescriptionValid;
         }
 
+
+        /// <summary>
+        /// Construye un objeto DTO (`UpdateProfileCProviderDto`) con los datos actuales del ViewModel,
+        /// preparado para ser enviado a la API para actualizar el perfil del proveedor.
+        /// </summary>
         public UpdateProfileProviderDto BuildUpdateDto()
         {
             Console.WriteLine($"SelectedPostalCode: {(SelectedPostalCode != null ? SelectedPostalCode.id.ToString() : "NULL")}");

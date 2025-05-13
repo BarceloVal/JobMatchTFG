@@ -18,6 +18,10 @@ namespace Job_Match.Maui.ViewModels
 {
     public class ChangeProfileToProviderViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Constructor del ViewModel. Inicializa listas de datos necesarias desde la API:
+        /// tipos de documento, códigos postales, tipos de servicio y servicios disponibles.
+        /// </summary>
         public ChangeProfileToProviderViewModel()
         {
             LoadDocTypesAsync();
@@ -29,7 +33,10 @@ namespace Job_Match.Maui.ViewModels
         // Evento que notifica a la interfaz de usuario cuando una propiedad cambia
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Lanza el evento cuando una propiedad cambia
+        /// <summary>
+        /// Lanza el evento que notifica a la interfaz de usuario que una propiedad ha cambiado.
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad (asignado automáticamente si se omite).</param>
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -69,6 +76,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsFirstNameValid => string.IsNullOrEmpty(FirstNameError);
 
+        /// <summary>
+        /// Valida el nombre (obligatorio, máximo 30 caracteres).
+        /// </summary>
         private void ValidateFirstName()
         {
             if (string.IsNullOrWhiteSpace(FirstName))
@@ -111,6 +121,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsLastNameValid => string.IsNullOrEmpty(LastNameError);
 
+        /// <summary>
+        /// Valida el apellido (obligatorio, máximo 30 caracteres).
+        /// </summary>
         private void ValidateLastName()
         {
             if (string.IsNullOrWhiteSpace(LastName))
@@ -154,6 +167,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsTradeNameValid => string.IsNullOrEmpty(TradeNameError);
 
+        /// <summary>
+        /// Valida el nombre comercial del proveedor (obligatorio, máximo 50 caracteres).
+        /// </summary>
         private void ValidateTradeName()
         {
             if (string.IsNullOrWhiteSpace(TradeName))
@@ -180,6 +196,9 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Carga la lista de tipos de documento desde la API.
+        /// </summary>
         private async void LoadDocTypesAsync()
         {
             var result = await _apiService.GetDocTypesAsync();
@@ -231,6 +250,10 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsDocumentValid => string.IsNullOrEmpty(DocumentError);
 
+
+        /// <summary>
+        /// Valida el documento según el tipo seleccionado (DNI, NIE, PAS).
+        /// </summary>
         private void ValidateDocument()
         {
             if (string.IsNullOrWhiteSpace(Document))
@@ -323,6 +346,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsWebsiteValid => string.IsNullOrEmpty(WebsiteError);
 
+        /// <summary>
+        /// Valida el sitio web. Campo opcional pero debe ser una URL válida si se proporciona.
+        /// </summary>
         private void ValidateWebsite()
         {
             if (string.IsNullOrWhiteSpace(Website))
@@ -373,6 +399,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsAddressValid => string.IsNullOrEmpty(AddressError);
 
+        /// <summary>
+        /// Valida la dirección (obligatoria, máximo 50 caracteres).
+        /// </summary>
         private void ValidateAddress()
         {
             if (string.IsNullOrWhiteSpace(Address))
@@ -420,6 +449,9 @@ namespace Job_Match.Maui.ViewModels
         public bool HasMapCoordinatesError => !string.IsNullOrEmpty(MapCoordinatesError);
         public bool IsMapCoordinatesValid => string.IsNullOrEmpty(MapCoordinatesError);
 
+        /// <summary>
+        /// Valida las coordenadas del mapa. Opcional, pero deben tener el formato correcto lat,long.
+        /// </summary>
         private void ValidateMapCoordinates()
         {
             if (string.IsNullOrWhiteSpace(MapCoordinates))
@@ -462,6 +494,10 @@ namespace Job_Match.Maui.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Carga la lista de códigos postales desde la API.
+        /// </summary>
         private async void LoadPostalCodesAsync()
         {
             List<m_postal_code> result = await _apiService.GetPostalCodesAsync();
@@ -507,6 +543,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsDescriptionValid => string.IsNullOrEmpty(DescriptionError);
 
+        /// <summary>
+        /// Valida la descripción del proveedor (obligatoria, máximo 1000 caracteres).
+        /// </summary>
         private void ValidateDescription()
         {
             if (string.IsNullOrWhiteSpace(Description))
@@ -549,6 +588,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsPhone1Valid => string.IsNullOrEmpty(Phone1Error);
 
+        /// <summary>
+        /// Valida el teléfono principal (obligatorio, formato español con 9 dígitos).
+        /// </summary>
         private void ValidatePhone1()
         {
             if (string.IsNullOrWhiteSpace(Phone1))
@@ -594,6 +636,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsPhone2Valid => string.IsNullOrEmpty(Phone2Error);
 
+        /// <summary>
+        /// Valida el segundo teléfono. Es opcional, pero si se incluye debe ser válido.
+        /// </summary>
         private void ValidatePhone2()
         {
             if (string.IsNullOrWhiteSpace(Phone2))
@@ -617,6 +662,9 @@ namespace Job_Match.Maui.ViewModels
         // Tipo de servicio (Checkbox)
         public ObservableCollection<ServiceTypeSelectable> ServiceTypes { get; set; } = new();
 
+        /// <summary>
+        /// Carga la lista de tipos de servicio desde la API.
+        /// </summary>
         private async void LoadServiceTypesAsync()
         {
             var result = await _apiService.GetServiceTypesAsync();
@@ -666,6 +714,10 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Filtra los servicios según el tipo de servicio seleccionado
+        /// y actualiza la lista mostrada al usuario.
+        /// </summary>
         private void FilterServicesByType()
         {
             if (SelectedServiceType == null)
@@ -695,6 +747,9 @@ namespace Job_Match.Maui.ViewModels
         // Todos los servicios (sin filtrar)
         private List<ServiceSelectable> _allServices = new();
 
+        /// <summary>
+        /// Carga la lista de servicios disponibles desde la API y los guarda en memoria.
+        /// </summary>
         private async void LoadServicesAsync()
         {
             var result = await _apiService.GetServicesAsync();
@@ -717,6 +772,11 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Ejecuta el proceso de cambio de perfil de cliente a proveedor.
+        /// Valida los campos, construye el DTO y llama al endpoint correspondiente de la API.
+        /// </summary>
+        /// <returns>True si la operación fue exitosa; False en caso de error o validación fallida.</returns>
         public async Task<bool> ChangeToProviderAsync()
         {
             var session = UserSessionService.Instance;

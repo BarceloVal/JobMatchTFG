@@ -9,12 +9,18 @@ namespace Job_Match.API.Controllers
     [Route("api/services")]
     public class m_serviceController : ControllerBase
     {
+        #region parameters
+
         private readonly job_match_context _context;
 
         public m_serviceController(job_match_context context)
         {
             _context = context;
         }
+
+        #endregion
+
+        #region methods GET
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<m_service>>> GetServices()
@@ -26,5 +32,7 @@ namespace Job_Match.API.Controllers
 
             return Ok(list);
         }
+
+        #endregion
     }
 }

@@ -8,8 +8,8 @@ namespace Job_Match.Data.Models.Dtos
 {
     public class ProfileClientDto
     {
-        public Guid Id { get; set; }          // <- Este debe ser el id del m_user_client
-        public Guid IdUser { get; set; }      // <- Este es el id del usuario general
+        public Guid Id { get; set; }
+        public Guid IdUser { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Mail { get; set; }
