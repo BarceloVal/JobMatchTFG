@@ -24,8 +24,21 @@ namespace Job_Match.API.Controllers
         [HttpPost("subscribe")]
         public async Task<IActionResult> SubscribeToOffer([FromBody] OfferSubscriptionDto dto)
         {
-            await _service.SubscribeToOfferAsync(dto);
-            return Ok();
+            try
+            {
+                var alreadySubscribed = await _service.IsAlreadySubscribedAsync(dto);
+
+                if (alreadySubscribed)
+                    return Conflict("Ya estás inscrito a esta oferta."); // 🔴 409 Conflict
+
+                await _service.SubscribeToOfferAsync(dto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR API] {ex.Message}");
+                return StatusCode(500, "Error interno del servidor.");
+            }
         }
 
         #endregion

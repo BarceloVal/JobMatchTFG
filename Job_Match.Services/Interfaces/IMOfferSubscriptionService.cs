@@ -11,5 +11,6 @@ namespace Job_Match.Services.Interfaces
     public interface IMOfferSubscriptionService
     {
         Task SubscribeToOfferAsync(OfferSubscriptionDto dto);
+        Task<bool> IsAlreadySubscribedAsync(OfferSubscriptionDto dto);
     }
 }

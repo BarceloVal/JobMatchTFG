@@ -40,7 +40,7 @@ public partial class OfferProvider : ContentPage
         {
             var apiService = new Job_Match.Maui.ApiService.ApiService();
 
-            var idUser = UserSessionService.Instance.Id; // este es el id de m_user
+            var idUser = UserSessionService.Instance.Id;
             var idProvider = await apiService.GetProviderIdFromUserIdAsync(idUser);
 
             var dto = new OfferSubscriptionDto
@@ -49,12 +49,25 @@ public partial class OfferProvider : ContentPage
                 IdUserProvider = idProvider
             };
 
-            await apiService.SubscribeToOfferAsync(dto);
-            await DisplayAlert("Éxito", "Te has inscrito a la oferta", "OK");
+            var response = await apiService.SubscribeToOfferWithResponseAsync(dto);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                await DisplayAlert("Aviso", "Ya estás inscrito a esta oferta", "Aceptar");
+                return;
+            }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                await DisplayAlert("Error", "Error al inscribirse", "Aceptar");
+                return;
+            }
+
+            await DisplayAlert("Éxito", "Te has inscrito a la oferta", "Aceptar");
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"No se pudo inscribir: {ex.Message}", "OK");
+            await DisplayAlert("Error", $"No se pudo inscribir: {ex.Message}", "Aceptar");
         }
     }
 }

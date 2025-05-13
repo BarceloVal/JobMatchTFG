@@ -535,6 +535,11 @@ namespace Job_Match.Maui.ApiService
                 throw new Exception("Error al suscribirse a la oferta");
         }
 
+        public async Task<HttpResponseMessage> SubscribeToOfferWithResponseAsync(OfferSubscriptionDto dto)
+        {
+            return await _httpClient.PostAsJsonAsync("api/offer-subscriptions/subscribe", dto);
+        }
+
         #endregion
 
         #region changeClientToProvider

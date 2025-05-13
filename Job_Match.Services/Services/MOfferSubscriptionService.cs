@@ -64,5 +64,12 @@ namespace Job_Match.Services.Services
                 throw;
             }
         }
+
+        public async Task<bool> IsAlreadySubscribedAsync(OfferSubscriptionDto dto)
+        {
+            return await _context.t_offer_subscriptions
+                .AnyAsync(x => x.id_task_request == dto.IdTaskRequest && x.id_user_provider == dto.IdUserProvider);
+        }
+
     }
 }
