@@ -144,6 +144,9 @@
 	  <MauiXaml Update="Views\OfferProvider.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\OfferProvidersSubscription.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ProfileClient.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

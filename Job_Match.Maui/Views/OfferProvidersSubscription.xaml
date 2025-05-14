@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Job_Match.Maui.UserControls"
+             x:Class="Job_Match.Maui.Views.OfferProvidersSubscription"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto, *">
+        <VerticalStackLayout Grid.Row="0" Spacing="0">
+            <!-- Mi encabezado personalizado -->
+            <controls:HeaderControl />
+        </VerticalStackLayout>
+
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="15">
+
+                <Label Text="{Binding OfferTitle}"
+                       FontAttributes="Bold"
+                       FontSize="24"
+                       TextColor="#980c0f"
+                       HorizontalOptions="Center" />
+
+                <CollectionView ItemsSource="{Binding Providers}"
+                                VerticalScrollBarVisibility="Always">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="#ccc" CornerRadius="15" Padding="12" Margin="0,5" HasShadow="True">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="{Binding TradeName}" FontAttributes="Bold" FontSize="18" TextColor="#980c0f"/>
+                                    <Label Text="{Binding FullName}" FontSize="16" TextColor="#333"/>
+                                    <Label Text="{Binding Mail}" FontSize="14" TextColor="#444"/>
+                                    <Label Text="{Binding Phone1}" FontSize="14" TextColor="#444"/>
+                                    <Label Text="{Binding PostalCodeName}" FontSize="14" TextColor="#444"/>
+                                    <Label Text="{Binding Description}" FontSize="13" TextColor="#666" LineBreakMode="WordWrap"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

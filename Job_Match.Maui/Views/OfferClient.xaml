@@ -141,35 +141,19 @@
                                 </Label.FormattedText>
                             </Label>
 
-                            <!-- Proveedores que se han suscrito -->
-                            <Label Text="Proveedores inscritos:"
-                                   FontAttributes="Bold"
-                                   FontSize="16"
-                                   TextColor="#444"
-                                   Margin="0,10,0,5" />
-
-                            <CollectionView ItemsSource="{Binding Providers}"
-                                            HeightRequest="120">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Frame BorderColor="#ddd" CornerRadius="10" Padding="10" Margin="5,0">
-                                            <VerticalStackLayout>
-                                                <Label Text="{Binding TradeName}"
-                                                       FontAttributes="Bold"
-                                                       FontSize="16"
-                                                       TextColor="#222"/>
-                                                <Label Text="{Binding FullName}"
-                                                       FontSize="14"
-                                                       TextColor="#555"/>
-                                                <Label Text="{Binding Mail}"
-                                                       FontSize="14"
-                                                       TextColor="#555"/>
-                                            </VerticalStackLayout>
-                                        </Frame>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-
+                            <Button
+                                x:Name="btnViewProviders"
+                                Text="Ver proveedores inscritos"
+                                BackgroundColor="#980c0f"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="45"
+                                WidthRequest="340"
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                Margin="0, 10, 0, 10"
+                                Clicked="btnViewProviders_Clicked"
+                                CommandParameter="{Binding}" />
 
                             <HorizontalStackLayout Spacing="15" HorizontalOptions="Center" Margin="0,10">
 
@@ -181,7 +165,7 @@
                                     TextColor="White"
                                     CornerRadius="10"
                                     HeightRequest="45"
-                                    WidthRequest="150"
+                                    WidthRequest="160"
                                     FontAttributes="Bold"
                                     Clicked="btnEdit_Clicked"
                                     CommandParameter="{Binding}"/>
@@ -194,7 +178,7 @@
                                     TextColor="White"
                                     CornerRadius="10"
                                     HeightRequest="45"
-                                    WidthRequest="150"
+                                    WidthRequest="160"
                                     FontAttributes="Bold"
                                     Clicked="btnDelete_Clicked"
                                     CommandParameter="{Binding}"/>

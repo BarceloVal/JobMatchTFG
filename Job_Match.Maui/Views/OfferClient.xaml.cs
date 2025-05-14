@@ -77,4 +77,16 @@ public partial class OfferClient : ContentPage
             }
         }
     }
+
+    private async void btnViewProviders_Clicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var selectedOffer = button?.CommandParameter as TaskRequestWithProvidersDto;
+
+        if (selectedOffer != null)
+        {
+            var json = JsonConvert.SerializeObject(selectedOffer);
+            await Shell.Current.GoToAsync($"OfferProvidersSubscription?data={Uri.EscapeDataString(json)}");
+        }
+    }
 }
