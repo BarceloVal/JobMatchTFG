@@ -140,10 +140,12 @@ namespace Job_Match.Services.Services
         public async Task<List<TaskRequestWithOfferDto>> GetOpenOffersAsync()
         {
             var result = await _context.t_task_requests
-                .Where(t => t.active)
+                .Where(t => t.active && t.id_statusNavigation.name == "Abierta")
                 .Include(t => t.id_serviceNavigation)
                     .ThenInclude(s => s.id_service_typeNavigation) // si existe esta relación
                 .Include(t => t.id_statusNavigation)
+                .Include(t => t.id_postal_codeNavigation)
+                .Include(t => t.id_user_clientNavigation)
                 .Select(t => new TaskRequestWithOfferDto
                 {
                     Id = t.id,
@@ -158,7 +160,8 @@ namespace Job_Match.Services.Services
                      t.id_postal_codeNavigation.cod_loc_name,
                     IdPostalCode = t.id_postal_code,
                     ServiceId = t.id_service,
-                    ServiceTypeId = t.id_serviceNavigation.id_service_type
+                    ServiceTypeId = t.id_serviceNavigation.id_service_type,
+                    Active = t.active
                 })
                 .ToListAsync();
 

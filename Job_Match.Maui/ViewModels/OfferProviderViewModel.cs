@@ -169,7 +169,17 @@ namespace Job_Match.Maui.ViewModels
         public async Task SearchOpenOffersAsync()
         {
             var allOffers = await _apiService.GetOpenOffersAsync();
-            var filtered = allOffers.AsQueryable();
+            var filtered = allOffers
+                .Where(o =>
+                    !string.IsNullOrWhiteSpace(o.Status) &&
+                    o.Status.Trim().ToLower() == "abierta" &&
+                    o.Active)
+                .AsQueryable();
+
+            foreach (var o in allOffers)
+            {
+                Console.WriteLine($"Oferta: {o.Title} - Estado: {o.Status} - Activa: {o.Active}");
+            }
 
             if (SelectedPostalCode != null)
                 filtered = filtered.Where(o => o.IdPostalCode == SelectedPostalCode.id);

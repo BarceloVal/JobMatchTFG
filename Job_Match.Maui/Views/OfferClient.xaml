@@ -20,7 +20,7 @@
                 FontAttributes="Bold"
                 FontSize="18"
                 CornerRadius="10"
-                WidthRequest="330"
+                WidthRequest="350"
                 Margin="30, 20, 30, 10"
                 Clicked="btnCreateOffer_Clicked"
                 MaximumWidthRequest="500"/>

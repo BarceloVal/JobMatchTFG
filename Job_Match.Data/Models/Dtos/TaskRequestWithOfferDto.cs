@@ -19,6 +19,6 @@ namespace Job_Match.Data.Models.Dtos
         public Guid ServiceId { get; set; }
         public Guid ServiceTypeId { get; set; }
         public string PostalCodeName { get; set; }
-
+        public bool Active { get; set; }
     }
 }
