@@ -5,13 +5,15 @@
              x:Class="Job_Match.Maui.Views.OfferProvidersSubscription"
              Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, *, Auto, Auto">
+
         <VerticalStackLayout Grid.Row="0" Spacing="0">
             <!-- Mi encabezado personalizado -->
             <controls:HeaderControl />
         </VerticalStackLayout>
 
-        <ScrollView>
+        <!-- Contenido con scroll -->
+        <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="20" Spacing="15">
 
                 <Label Text="{Binding OfferTitle}"
@@ -24,21 +26,132 @@
                                 VerticalScrollBarVisibility="Always">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame BorderColor="#ccc" CornerRadius="15" Padding="12" Margin="0,5" HasShadow="True">
+                            <Frame BorderColor="#ccc" CornerRadius="15" Padding="12" Margin="0, 5, 0, 5" HasShadow="True">
                                 <VerticalStackLayout Spacing="6">
-                                    <Label Text="{Binding TradeName}" FontAttributes="Bold" FontSize="18" TextColor="#980c0f"/>
-                                    <Label Text="{Binding FullName}" FontSize="16" TextColor="#333"/>
-                                    <Label Text="{Binding Mail}" FontSize="14" TextColor="#444"/>
-                                    <Label Text="{Binding Phone1}" FontSize="14" TextColor="#444"/>
-                                    <Label Text="{Binding PostalCodeName}" FontSize="14" TextColor="#444"/>
-                                    <Label Text="{Binding Description}" FontSize="13" TextColor="#666" LineBreakMode="WordWrap"/>
+
+                                    <!-- Nombre comercial -->
+                                    <Label
+                                        Text="{Binding TradeName}"
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        TextColor="#980c0f"/>
+
+                                    <!-- Nombre completo -->
+                                    <HorizontalStackLayout>
+                                        <Label
+                                            Text="Nombre completo: "
+                                            FontSize="15"
+                                            FontAttributes="Bold"
+                                            TextColor="Black" />
+
+                                        <Label
+                                            Text="{Binding FullName}"
+                                            FontSize="15"
+                                            TextColor="Black"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Mail -->
+                                    <HorizontalStackLayout>
+                                        <Label
+                                            Text="Mail: "
+                                            FontSize="15"
+                                            FontAttributes="Bold"
+                                            TextColor="Black" />
+
+                                        <Label
+                                            Text="{Binding Mail}"
+                                            FontSize="15"
+                                            TextColor="Black"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Teléfono 1 -->
+                                    <HorizontalStackLayout>
+                                        <Label
+                                            Text="Teléfono 1: "
+                                            FontSize="15"
+                                            FontAttributes="Bold"
+                                            TextColor="Black" />
+
+                                        <Label
+                                            Text="{Binding Phone1}"
+                                            FontSize="15"
+                                            TextColor="Black"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Teléfono 2 -->
+                                    <HorizontalStackLayout>
+                                        <Label
+                                            Text="Teléfono 2: "
+                                            FontSize="15"
+                                            FontAttributes="Bold"
+                                            TextColor="Black" />
+
+                                        <Label
+                                            Text="{Binding Phone2}"
+                                            FontSize="15"
+                                            TextColor="Black"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Código postal -->
+                                    <VerticalStackLayout>
+                                        <Label
+                                            Text="Población: "
+                                            FontSize="15"
+                                            FontAttributes="Bold"
+                                            TextColor="Black"/>
+
+                                        <Label
+                                            Text="{Binding PostalCodeName}"
+                                            FontSize="15"
+                                            TextColor="Black"
+                                            LineBreakMode="WordWrap"/>
+
+                                    </VerticalStackLayout>
+
+                                    <!-- Descripción -->
+                                    <VerticalStackLayout>
+                                        <Label
+                                            Text="Descripción: "
+                                            FontSize="15"
+                                            FontAttributes="Bold"
+                                            TextColor="Black" />
+
+                                        <Label
+                                            Text="{Binding Description}"
+                                            FontSize="15"
+                                            TextColor="Black"
+                                            LineBreakMode="WordWrap"/>
+                                    </VerticalStackLayout>
                                 </VerticalStackLayout>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-
             </VerticalStackLayout>
         </ScrollView>
+
+        <!-- Línea separadora fija -->
+        <BoxView
+            Grid.Row="2"
+            HeightRequest="1"
+            BackgroundColor="#980c0f"
+            HorizontalOptions="Fill"
+            Margin="20,10" />
+
+        <!-- Botón Volver -->
+        <Button
+            Grid.Row="3"
+            x:Name="btnBackToOfferClient"
+            Text="Volver"
+            BackgroundColor="#980c0f"
+            TextColor="White"
+            CornerRadius="10"
+            FontAttributes="Bold"
+            FontSize="18"
+            HeightRequest="45"
+            WidthRequest="200"
+            HorizontalOptions="Center"
+            Margin="0,5,0,20"
+            Clicked="btnBackToOfferClient_Clicked" />
     </Grid>
 </ContentPage>

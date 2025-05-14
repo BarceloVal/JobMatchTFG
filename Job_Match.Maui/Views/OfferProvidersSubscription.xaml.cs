@@ -24,4 +24,9 @@ public partial class OfferProvidersSubscription : ContentPage
     {
         InitializeComponent();
     }
+
+    private async void btnBackToOfferClient_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("OfferClient");
+    }
 }
