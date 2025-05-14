@@ -12,5 +12,6 @@ namespace Job_Match.Services.Interfaces
     {
         Task SubscribeToOfferAsync(OfferSubscriptionDto dto);
         Task<bool> IsAlreadySubscribedAsync(OfferSubscriptionDto dto);
+        Task<List<SubscribedOfferDto>> GetOffersByProviderAsync(Guid idUserProvider);
     }
 }

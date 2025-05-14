@@ -65,6 +65,7 @@
 	  <None Remove="Resources\Images\jobmatchwhite.png" />
 	  <None Remove="Resources\Images\mail.png" />
 	  <None Remove="Resources\Images\menu.png" />
+	  <None Remove="Resources\Images\mylistoffers.png" />
 	  <None Remove="Resources\Images\myoffers.png" />
 	  <None Remove="Resources\Images\password.png" />
 	  <None Remove="Resources\Images\passwordoff.png" />
@@ -136,6 +137,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MyOffersProvider.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\OfferClient.xaml">

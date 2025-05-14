@@ -1,5 +1,6 @@
 ﻿using Job_Match.Data.Models.Dtos;
 using Job_Match.Services.Interfaces;
+using Job_Match.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Job_Match.API.Controllers
@@ -42,5 +43,16 @@ namespace Job_Match.API.Controllers
         }
 
         #endregion
+
+        #region methods GET
+
+        [HttpGet("by-provider/{idUserProvider}")]
+        public async Task<ActionResult<List<SubscribedOfferDto>>> GetOffersByProvider(Guid idUserProvider)
+        {
+            var result = await _service.GetOffersByProviderAsync(idUserProvider);
+            return Ok(result);
+        }
+
+        #endregion+
     }
 }

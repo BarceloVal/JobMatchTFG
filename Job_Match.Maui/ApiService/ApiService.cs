@@ -540,6 +540,17 @@ namespace Job_Match.Maui.ApiService
             return await _httpClient.PostAsJsonAsync("api/offer-subscriptions/subscribe", dto);
         }
 
+        public async Task<List<SubscribedOfferDto>> GetOffersByProviderAsync(Guid idUserProvider)
+        {
+            var response = await _httpClient.GetAsync($"api/offer-subscriptions/by-provider/{idUserProvider}");
+
+            if (!response.IsSuccessStatusCode)
+                return new List<SubscribedOfferDto>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<SubscribedOfferDto>>(json);
+        }
+
         #endregion
 
         #region changeClientToProvider

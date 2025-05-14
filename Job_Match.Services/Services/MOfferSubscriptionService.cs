@@ -71,5 +71,25 @@ namespace Job_Match.Services.Services
                 .AnyAsync(x => x.id_task_request == dto.IdTaskRequest && x.id_user_provider == dto.IdUserProvider);
         }
 
+        public async Task<List<SubscribedOfferDto>> GetOffersByProviderAsync(Guid idUserProvider)
+        {
+            return await _context.t_offer_subscriptions
+                .Where(os => os.id_user_provider == idUserProvider && os.active)
+                .Include(os => os.id_task_requestNavigation)
+                    .ThenInclude(tr => tr.id_statusNavigation)
+                .Include(os => os.id_task_requestNavigation.id_postal_codeNavigation)
+                .Select(os => new SubscribedOfferDto
+                {
+                    IdOffer = os.id_task_request,
+                    Title = os.id_task_requestNavigation.title,
+                    Description = os.id_task_requestNavigation.description,
+                    Status = os.id_task_requestNavigation.id_statusNavigation.name,
+                    Active = os.id_task_requestNavigation.active,
+                    DateStart = os.id_task_requestNavigation.date_start,
+                    DateEnd = os.id_task_requestNavigation.date_end,
+                    PostalCodeName = os.id_task_requestNavigation.id_postal_codeNavigation.DisplayText
+                }).ToListAsync();
+        }
+
     }
 }
