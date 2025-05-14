@@ -253,6 +253,21 @@ namespace Job_Match.Maui.ViewModels
                     }
                     break;
 
+                case "NIF":
+                    if (!Regex.IsMatch(Document, @"^[A-Za-z0-9]{1,9}$"))
+                    {
+                        DocumentError = "NIF no válido. Debe tener hasta 9 caracteres alfanuméricos.";
+                    }
+                    else if (!Regex.IsMatch(Document, @"^[A-Z0-9]{1,9}$"))
+                    {
+                        DocumentError = "El NIF debe estar en mayúsculas.";
+                    }
+                    else
+                    {
+                        DocumentError = "";
+                    }
+                    break;
+
                 case "PAS":
                     DocumentError = doc.Length >= 5 ? "" : "Pasaporte demasiado corto.";
                     break;
