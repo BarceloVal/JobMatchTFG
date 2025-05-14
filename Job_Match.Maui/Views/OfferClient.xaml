@@ -141,6 +141,15 @@
                                 </Label.FormattedText>
                             </Label>
 
+                            <!-- Conatdor de proveedores -->
+                            <Label
+                                Text="{Binding Providers.Count, StringFormat='Proveedores inscritos: {0}'}"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                TextColor="Black"
+                                Margin="0,5,0,0"/>
+
+                            <!-- Botón para ver los proveedores -->
                             <Button
                                 x:Name="btnViewProviders"
                                 Text="Ver proveedores inscritos"
