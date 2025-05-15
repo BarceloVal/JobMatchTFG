@@ -3,6 +3,7 @@ using Job_Match.Data.Context;
 using Job_Match.Data.Models;
 using Job_Match.Data.Models.Dtos;
 using Job_Match.Services.Interfaces;
+using Job_Match.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,8 @@ namespace Job_Match.API.Controllers
     [Route("api/m_user_provider")]
     public class m_user_providerController : ControllerBase
     {
+        #region parameters
+
         private readonly IMProviderService _providerService;
         private readonly job_match_context _context;
 
@@ -22,6 +25,9 @@ namespace Job_Match.API.Controllers
             _context = context;
         }
 
+        #endregion
+
+        #region methods POST
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProviderDto dto)
         {
@@ -41,10 +47,19 @@ namespace Job_Match.API.Controllers
             return Ok();
         }
 
+        #endregion
+
+        #region methods GET
         [HttpGet("by-mail/{mail}")]
         public async Task<ActionResult<ProfileProviderDto>> GetByMail(string mail)
         {
-            var provider = await _providerService.GetProviderByMailAsync(mail);
+            var provider = await _context.m_user_providers
+                .Include(p => p.id_userNavigation)
+                .Include(p => p.id_postal_codeNavigation)
+                .Include(p => p.m_service_providers.Where(sp => sp.active))
+                    .ThenInclude(sp => sp.m_service)
+                        .ThenInclude(s => s.id_service_typeNavigation)
+                .FirstOrDefaultAsync(p => p.mail == mail);
 
             if (provider == null)
                 return NotFound();
@@ -67,7 +82,13 @@ namespace Job_Match.API.Controllers
                 Phone1 = provider.phone_number_1,
                 Phone2 = provider.phone_number_2,
                 Description = provider.description,
-                MapCoordinates = provider.map_coordinates
+                MapCoordinates = provider.map_coordinates,
+                Services = provider.m_service_providers.Select(sp => new ServiceDto
+                {
+                    Id = sp.m_service.id,
+                    ServiceName = sp.m_service.name,
+                    ServiceTypeName = sp.m_service.id_service_typeNavigation.name
+                }).ToList()
             };
 
             return Ok(dto);
@@ -117,5 +138,62 @@ namespace Job_Match.API.Controllers
             var exists = await _providerService.ProviderExistsAsync(idUser);
             return exists ? Ok() : NotFound();
         }
+
+        [HttpGet("by-id-user/{id_user}")]
+        public async Task<ActionResult<ProfileProviderDto>> GetByUserId(Guid id_user)
+        {
+            var provider = await _context.m_user_providers
+                .Include(x => x.id_userNavigation)
+                .Include(x => x.id_postal_codeNavigation)
+                .Where(x => x.id_user == id_user)
+                .Select(x => new ProfileProviderDto
+                {
+                    IdUser = x.id_user,
+                    IdProvider = x.id,
+                    FirstName = x.id_userNavigation.first_name,
+                    LastName = x.id_userNavigation.last_name,
+                    TradeName = x.trade_name,
+                    Mail = x.mail,
+                    Password = x.id_userNavigation.password,
+                    IdDocType = x.id_doc_type,
+                    Document = x.num_doc,
+                    Website = x.web_site,
+                    Address = x.address,
+                    IdPostalCode = x.id_postal_code,
+                    PostalCodeName = x.id_postal_codeNavigation.cod_auto_name + "/" +
+                                     x.id_postal_codeNavigation.cod_pro_name + "/" +
+                                     x.id_postal_codeNavigation.cod_loc_name,
+                    Phone1 = x.phone_number_1,
+                    Phone2 = x.phone_number_2,
+                    Description = x.description,
+                    MapCoordinates = x.map_coordinates,
+                    Services = new List<ServiceDto>()
+                })
+                .FirstOrDefaultAsync();
+
+            if (provider == null)
+                return NotFound();
+
+            return Ok(provider);
+        }
+
+        #endregion
+
+        #region methods PUT
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProfileProvider([FromBody] UpdateProfileProviderDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var success = await _providerService.UpdateProviderProfileAsync(dto);
+            if (!success)
+                return StatusCode(500, "Error al actualizar el perfil de proveedor");
+
+            return NoContent();
+        }
+
+        #endregion
     }
 }

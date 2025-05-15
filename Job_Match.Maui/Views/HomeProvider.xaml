@@ -5,58 +5,88 @@
              x:Class="Job_Match.Maui.Views.HomeProvider"
              Shell.NavBarIsVisible="False">
 
-    <VerticalStackLayout Spacing="0">
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
 
-        <!-- Mi encabezado personalizado -->
-        <controls:HeaderControl />
+            <!-- Mi encabezado personalizado -->
+            <controls:HeaderControl />
 
-        <!-- Buscar solicitudes -->
-        <Grid Margin="0, 30, 0, 50">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+            <!-- Buscar solicitudes -->
+            <Grid Margin="0, 0, 0, 50">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <Image
-                Grid.Row="0"
-                Source="requestservice.png"
-                WidthRequest="200"
-                HeightRequest="200"/>
+                <Image
+                    Grid.Row="0"
+                    Source="requestservice.png"
+                    WidthRequest="180"
+                    HeightRequest="180"/>
 
-            <Button
-                x:Name="btnrequest"
-                Grid.Row="1"
-                Text="Ver mis ofertas de servicios"
-                BackgroundColor="#980c0f"
-                TextColor="White"
-                Margin="20"
-                Clicked="btnrequest_Clicked"/>
+                <Button
+                    x:Name="btnrequest"
+                    Grid.Row="1"
+                    Text="Ver solicitud de servicios"
+                    BackgroundColor="#980c0f"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Margin="20"
+                    Clicked="btnrequest_Clicked"/>
 
-        </Grid>
+            </Grid>
 
-        <!-- Ofertas -->
-        <Grid VerticalOptions="End">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+            <!-- Buscar ofertas -->
+            <Grid VerticalOptions="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <Image
-                Grid.Row="0"
-                Source="myoffers.png"
-                WidthRequest="150"
-                HeightRequest="150"/>
+                <Image
+                    Grid.Row="0"
+                    Source="myoffers.png"
+                    WidthRequest="130"
+                    HeightRequest="130"/>
 
-            <Button
-                x:Name="btnoffers"
-                Grid.Row="1"
-                Text="Ver mis ofertas abiertas"
-                BackgroundColor="#980c0f"
-                TextColor="White"
-                Margin="20"
-                Clicked="btnoffers_Clicked"/>
+                <Button
+                    x:Name="btnoffers"
+                    Grid.Row="1"
+                    Text="Buscar ofertas abiertas"
+                    BackgroundColor="#980c0f"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Margin="20"
+                    Clicked="btnoffers_Clicked"/>
 
-        </Grid>
+            </Grid>
 
-    </VerticalStackLayout>
+            <!-- Ver las ofertas en las que esta inscrito el proveedor-->
+            <Grid Margin="0, 30, 0, 50" VerticalOptions="End">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Image
+                    Grid.Row="0"
+                    Source="mylistoffers.png"
+                    WidthRequest="130"
+                    HeightRequest="130"/>
+
+                <Button
+                    x:Name="btnMyOffers"
+                    Grid.Row="1"
+                    Text="Ver mis ofertas"
+                    BackgroundColor="#980c0f"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Margin="20"
+                    Clicked="btnMyOffers_Clicked"/>
+
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
+

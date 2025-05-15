@@ -238,5 +238,90 @@ namespace Job_Match.Services.Services
             return await _context.m_user_providers
                 .AnyAsync(p => p.id_user == idUser);
         }
+
+        public async Task<bool> UpdateProviderProfileAsync(UpdateProfileProviderDto dto)
+        {
+            var provider = await _context.m_user_providers
+                .Include(p => p.id_userNavigation)
+                .FirstOrDefaultAsync(p => p.id == dto.Id && p.id_user == dto.IdUser);
+
+            if (provider == null)
+            {
+                Console.WriteLine($"[WARN] No se encontró proveedor con Id: {dto.Id} y IdUser: {dto.IdUser}");
+                return false;
+            }
+
+            // Actualizar campos del proveedor
+            provider.trade_name = dto.TradeName;
+            provider.id_doc_type = dto.IdDocType;
+            provider.num_doc = dto.Document;
+            provider.address = dto.Address;
+            provider.id_postal_code = dto.IdPostalCode;
+            provider.phone_number_1 = dto.Phone1;
+            provider.phone_number_2 = dto.Phone2;
+            provider.description = dto.Description;
+            provider.web_site = dto.Website;
+            provider.map_coordinates = dto.MapCoordinates;
+            provider.last_update = DateTime.UtcNow;
+
+            // Actualizar datos del usuario
+            var user = provider.id_userNavigation;
+            user.first_name = dto.FirstName;
+            user.last_name = dto.LastName;
+            user.last_update = DateTime.UtcNow;
+            // Comprobar si existe un registro de servicio
+            var existingService = await _context.m_service_providers
+                .FirstOrDefaultAsync(sp => sp.id_user_provider == provider.id);
+
+            if (existingService != null)
+            {
+                if (dto.IdService.HasValue && existingService.id_service != dto.IdService.Value)
+                {
+                    // Eliminar el existente
+                    _context.m_service_providers.Remove(existingService);
+                    await _context.SaveChangesAsync(); // IMPORTANTE: guardar primero para liberar la relación
+
+                    // Crear uno nuevo
+                    var newService = new m_service_provider
+                    {
+                        id_user_provider = provider.id,
+                        id_service = dto.IdService.Value,
+                        created_on = DateTime.UtcNow,
+                        last_update = DateTime.UtcNow,
+                        active = true,
+                        id_mask = await GenerarNuevoServiceProviderIdMaskAsync()
+                    };
+
+                    _context.m_service_providers.Add(newService);
+                }
+            }
+            else if (dto.IdService.HasValue)
+            {
+                // Si no existía nada antes, solo agregar
+                var newService = new m_service_provider
+                {
+                    id_user_provider = provider.id,
+                    id_service = dto.IdService.Value,
+                    created_on = DateTime.UtcNow,
+                    last_update = DateTime.UtcNow,
+                    active = true,
+                    id_mask = await GenerarNuevoServiceProviderIdMaskAsync()
+                };
+
+                _context.m_service_providers.Add(newService);
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[ERROR] Falló actualización de perfil: " + ex.Message);
+                return false;
+            }
+        }
+
     }
 }

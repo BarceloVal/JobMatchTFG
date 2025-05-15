@@ -11,6 +11,9 @@ namespace Job_Match.Maui.ViewModels
 {
     public class CreateOfferViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Constructor del ViewModel. Carga listas de códigos postales, tipos de servicio y servicios desde la API.
+        /// </summary>
         public CreateOfferViewModel()
         {
             LoadPostalCodesAsync();
@@ -21,7 +24,10 @@ namespace Job_Match.Maui.ViewModels
         // Evento que notifica a la interfaz de usuario cuando una propiedad cambia
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Lanza el evento cuando una propiedad cambia
+        /// <summary>
+        /// Lanza el evento que notifica a la interfaz cuando una propiedad ha cambiado, para actualizar la interfaz.
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad afectada (se completa automáticamente).</param>
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -61,6 +67,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsTitleValid => string.IsNullOrEmpty(TitleError);
 
+        /// <summary>
+        /// Valida el título de la oferta. Obligatorio, máximo 100 caracteres.
+        /// </summary>
         private void ValidateTitle()
         {
             if (string.IsNullOrWhiteSpace(Title))
@@ -89,6 +98,10 @@ namespace Job_Match.Maui.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Carga la lista de códigos postales disponibles desde la API.
+        /// </summary>
         private async void LoadPostalCodesAsync()
         {
             List<m_postal_code> result = await _apiService.GetPostalCodesAsync();
@@ -113,6 +126,9 @@ namespace Job_Match.Maui.ViewModels
         // Tipo de servicio (Checkbox)
         public ObservableCollection<ServiceTypeSelectable> ServiceTypes { get; set; } = new();
 
+        /// <summary>
+        /// Carga la lista de tipos de servicio disponibles desde la API.
+        /// </summary>
         private async void LoadServiceTypesAsync()
         {
             var result = await _apiService.GetServiceTypesAsync();
@@ -162,6 +178,9 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Filtra los servicios según el tipo seleccionado y actualiza la lista mostrada.
+        /// </summary>
         private void FilterServicesByType()
         {
             if (SelectedServiceType == null)
@@ -191,6 +210,9 @@ namespace Job_Match.Maui.ViewModels
         // Todos los servicios (sin filtrar)
         private List<ServiceSelectable> _allServices = new();
 
+        /// <summary>
+        /// Carga la lista de servicios desde la API y guarda una copia local para filtrar.
+        /// </summary>
         private async void LoadServicesAsync()
         {
             var result = await _apiService.GetServicesAsync();
@@ -251,6 +273,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsDescriptionValid => string.IsNullOrEmpty(DescriptionError);
 
+        /// <summary>
+        /// Valida la descripción. Obligatoria, máximo 1000 caracteres.
+        /// </summary>
         private void ValidateDescription()
         {
             if (string.IsNullOrWhiteSpace(Description))
@@ -293,6 +318,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsDateStartValid => string.IsNullOrEmpty(DateStartError);
 
+        /// <summary>
+        /// Valida la fecha de inicio. Obligatoria y debe tener el formato "dd/MM/yyyy".
+        /// </summary>
         private void ValidateDateStart()
         {
             if (string.IsNullOrWhiteSpace(DateStart))
@@ -335,11 +363,14 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsDateEndValid => string.IsNullOrEmpty(DateEndError);
 
+        /// <summary>
+        /// Valida la fecha de fin. Es opcional pero si se especifica debe tener formato válido.
+        /// </summary>
         private void ValidateDateEnd()
         {
             if (string.IsNullOrWhiteSpace(DateEnd))
             {
-                DateEndError = string.Empty; // opcional
+                DateEndError = string.Empty;
                 return;
             }
 
@@ -349,6 +380,10 @@ namespace Job_Match.Maui.ViewModels
                 DateEndError = string.Empty;
         }
 
+        /// <summary>
+        /// Obtiene el ID del estado "Abierta" desde la API de estados.
+        /// </summary>
+        /// <returns>ID del estado "Abierta", o Guid.Empty si no se encuentra.</returns>
         private async Task<Guid> GetOpenStatusIdAsync()
         {
             var statuses = await _apiService.GetStatusAsync();
@@ -357,6 +392,11 @@ namespace Job_Match.Maui.ViewModels
         }
 
         public ObservableCollection<TaskRequestWithProvidersDto> ActiveOffers { get; set; } = new();
+
+        /// <summary>
+        /// Carga las ofertas activas del cliente autenticado desde la API y las guarda en una colección observable.
+        /// </summary>
+        /// <param name="clientId">ID del cliente cuyas ofertas se van a cargar.</param>
         public async Task LoadActiveOffersAsync(Guid clientId)
         {
             Console.WriteLine($"[DEBUG] Cargando ofertas para cliente con ID: {clientId}");
@@ -372,6 +412,11 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Ejecuta la creación de una nueva oferta de servicio.
+        /// Valida los campos, construye el DTO y lo envía a la API.
+        /// </summary>
+        /// <returns>True si la oferta fue creada con éxito; False si ocurrió algún error o validación fallida.</returns>
         public async Task<bool> CreateOfferAsync()
         {
             var session = UserSessionService.Instance;

@@ -11,6 +11,8 @@ namespace Job_Match.API.Controllers
     [Route("api/task-request")]
     public class t_task_requestController : ControllerBase
     {
+        #region parameters
+
         private readonly IMTaskRequestService _service;
         private readonly job_match_context _context;
         private readonly IMTaskRequestService _taskRequestService;
@@ -21,6 +23,10 @@ namespace Job_Match.API.Controllers
             _context = context;
             _taskRequestService = taskRequestService;
         }
+
+        #endregion
+
+        #region methods POST
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTaskRequestDto dto)
@@ -37,6 +43,10 @@ namespace Job_Match.API.Controllers
                 return StatusCode(500, $"ERROR desde el servidor: {ex.Message}");
             }
         }
+
+        #endregion
+
+        #region methods GET
 
         [HttpGet("client/{idUserClient}")]
         public async Task<ActionResult<List<TaskRequestWithProvidersDto>>> GetByClient(Guid idUserClient)
@@ -66,6 +76,17 @@ namespace Job_Match.API.Controllers
             return Ok(activeOffers);
         }
 
+        [HttpGet("open")]
+        public async Task<ActionResult<IEnumerable<TaskRequestWithOfferDto>>> GetOpenOffers()
+        {
+            var result = await _taskRequestService.GetOpenOffersAsync();
+            return Ok(result);
+        }
+
+        #endregion
+
+        #region methods PUT
+
         [HttpPut]
         public async Task<IActionResult> UpdateTaskRequest([FromBody] UpdateTaskRequestDto dto)
         {
@@ -91,5 +112,6 @@ namespace Job_Match.API.Controllers
             return Ok();
         }
 
+        #endregion
     }
 }

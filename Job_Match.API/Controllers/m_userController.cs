@@ -101,7 +101,21 @@ namespace Job_Match.API.Controllers
 
             // Desactivar cliente
             var client = await _context.m_user_clients.FirstOrDefaultAsync(x => x.id_user == dto.IdUser);
-            if (client != null) client.active = false;
+            if (client != null)
+            {
+                client.active = false;
+
+                // Desactivar todas las ofertas activas del cliente
+                var clientOffers = await _context.t_task_requests
+                    .Where(t => t.id_user_client == client.id && t.active)
+                    .ToListAsync();
+
+                foreach (var offer in clientOffers)
+                {
+                    offer.active = false;
+                    offer.last_update = DateTime.Now;
+                }
+            }
 
             await _context.SaveChangesAsync();
 

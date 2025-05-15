@@ -136,5 +136,36 @@ namespace Job_Match.Services.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<List<TaskRequestWithOfferDto>> GetOpenOffersAsync()
+        {
+            var result = await _context.t_task_requests
+                .Where(t => t.active && t.id_statusNavigation.name == "Abierta")
+                .Include(t => t.id_serviceNavigation)
+                    .ThenInclude(s => s.id_service_typeNavigation) // si existe esta relación
+                .Include(t => t.id_statusNavigation)
+                .Include(t => t.id_postal_codeNavigation)
+                .Include(t => t.id_user_clientNavigation)
+                .Select(t => new TaskRequestWithOfferDto
+                {
+                    Id = t.id,
+                    Title = t.title,
+                    ClientName = t.id_user_clientNavigation.name,
+                    ServiceName = t.id_serviceNavigation.name,
+                    ServiceTypeName = t.id_serviceNavigation.id_service_typeNavigation.name,
+                    Description = t.description,
+                    Status = t.id_statusNavigation.name,
+                    PostalCodeName = t.id_postal_codeNavigation.cod_auto_name + " / " +
+                     t.id_postal_codeNavigation.cod_pro_name + " / " +
+                     t.id_postal_codeNavigation.cod_loc_name,
+                    IdPostalCode = t.id_postal_code,
+                    ServiceId = t.id_service,
+                    ServiceTypeId = t.id_serviceNavigation.id_service_type,
+                    Active = t.active
+                })
+                .ToListAsync();
+
+            return result;
+        }
     }
 }

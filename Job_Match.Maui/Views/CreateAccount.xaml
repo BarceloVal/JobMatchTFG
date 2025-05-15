@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Job_Match.Maui.Views.CreateAccount" >
+             x:Class="Job_Match.Maui.Views.CreateAccount"
+             Shell.NavBarIsVisible="False">
 
     <Grid BackgroundColor="White" RowDefinitions="*,Auto">
 
@@ -45,7 +46,7 @@
                 TextColor="White"
                 FontAttributes="Bold"
                 FontSize="18"
-                CornerRadius="30"
+                CornerRadius="10"
                 Margin="0, 30, 0, 10"
                 Clicked="btnClient_Clicked"
                 HorizontalOptions="FillAndExpand"
@@ -59,7 +60,7 @@
                 TextColor="White"
                 FontAttributes="Bold"
                 FontSize="18"
-                CornerRadius="30"
+                CornerRadius="10"
                 Margin="0, 10, 0, 10"
                 Clicked="btnProvider_Clicked"
                 HorizontalOptions="FillAndExpand"

@@ -83,4 +83,7 @@ public partial class m_user_provider
 
     [InverseProperty("id_user_providerNavigation")]
     public virtual ICollection<m_service_provider> m_service_providers { get; set; } = new List<m_service_provider>();
+
+    [InverseProperty("id_user_providerNavigation")]
+    public virtual ICollection<t_offer_subscription> t_offer_subscriptions { get; set; } = new List<t_offer_subscription>();
 }

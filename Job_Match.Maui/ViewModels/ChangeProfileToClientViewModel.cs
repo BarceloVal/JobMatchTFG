@@ -18,6 +18,9 @@ namespace Job_Match.Maui.ViewModels
 {
     public class ChangeProfileToClientViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Constructor del ViewModel. Inicializa los tipos de documento y códigos postales desde la API.
+        /// </summary>
         public ChangeProfileToClientViewModel()
         {
             LoadDocTypesAsync();
@@ -27,7 +30,10 @@ namespace Job_Match.Maui.ViewModels
         // Evento que notifica a la interfaz de usuario cuando una propiedad cambia
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Lanza el evento cuando una propiedad cambia
+        /// <summary>
+        /// Lanza el evento que notifica a la interfaz que una propiedad ha cambiado.
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad (se completa automáticamente si se omite).</param>
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -67,6 +73,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsFirstNameValid => string.IsNullOrEmpty(FirstNameError);
 
+        /// <summary>
+        /// Valida el nombre. Es obligatorio y debe tener máximo 30 caracteres.
+        /// </summary>
         private void ValidateFirstName()
         {
             if (string.IsNullOrWhiteSpace(FirstName))
@@ -109,6 +118,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsLastNameValid => string.IsNullOrEmpty(LastNameError);
 
+        /// <summary>
+        /// Valida el apellido. Es obligatorio y debe tener máximo 30 caracteres.
+        /// </summary>
         private void ValidateLastName()
         {
             if (string.IsNullOrWhiteSpace(LastName))
@@ -135,6 +147,9 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
+        /// <summary>
+        /// Carga los tipos de documento disponibles desde la API y los asigna a la lista correspondiente.
+        /// </summary>
         private async void LoadDocTypesAsync()
         {
             var result = await _apiService.GetDocTypesAsync();
@@ -186,6 +201,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsDocumentValid => string.IsNullOrEmpty(DocumentError);
 
+        /// <summary>
+        /// Valida el documento según el tipo seleccionado (DNI, NIE o PAS).
+        /// </summary>
         private void ValidateDocument()
         {
             if (string.IsNullOrWhiteSpace(Document))
@@ -228,6 +246,21 @@ namespace Job_Match.Maui.ViewModels
                     else if (!Regex.IsMatch(Document, @"^[XYZ]\d{7}[A-Z]$"))
                     {
                         DocumentError = "Las letras del NIE deben estar en mayúscula.";
+                    }
+                    else
+                    {
+                        DocumentError = "";
+                    }
+                    break;
+
+                case "NIF":
+                    if (!Regex.IsMatch(Document, @"^[A-Za-z0-9]{1,9}$"))
+                    {
+                        DocumentError = "NIF no válido. Debe tener hasta 9 caracteres alfanuméricos.";
+                    }
+                    else if (!Regex.IsMatch(Document, @"^[A-Z0-9]{1,9}$"))
+                    {
+                        DocumentError = "El NIF debe estar en mayúsculas.";
                     }
                     else
                     {
@@ -278,6 +311,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsAddressValid => string.IsNullOrEmpty(AddressError);
 
+        /// <summary>
+        /// Valida la dirección. Es obligatoria y debe tener máximo 50 caracteres.
+        /// </summary>
         private void ValidateAddress()
         {
             if (string.IsNullOrWhiteSpace(Address))
@@ -306,6 +342,10 @@ namespace Job_Match.Maui.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Carga los códigos postales disponibles desde la API y los asigna a la lista correspondiente.
+        /// </summary>
         private async void LoadPostalCodesAsync()
         {
             List<m_postal_code> result = await _apiService.GetPostalCodesAsync();
@@ -351,6 +391,9 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsPhone1Valid => string.IsNullOrEmpty(Phone1Error);
 
+        /// <summary>
+        /// Valida el teléfono principal. Es obligatorio y debe cumplir el formato español (9 dígitos empezando en 6 o 7).
+        /// </summary>
         private void ValidatePhone1()
         {
             if (string.IsNullOrWhiteSpace(Phone1))
@@ -396,10 +439,13 @@ namespace Job_Match.Maui.ViewModels
 
         public bool IsPhone2Valid => string.IsNullOrEmpty(Phone2Error);
 
+        /// <summary>
+        /// Valida el segundo teléfono. Es opcional, pero si se especifica debe tener formato válido.
+        /// </summary>
         private void ValidatePhone2()
         {
             if (string.IsNullOrWhiteSpace(Phone2))
-                Phone2Error = string.Empty; // Es válido si está vacío (opcional)
+                Phone2Error = string.Empty;
             else if (!Regex.IsMatch(Phone2, @"^[6-7]{1}[0-9]{8}$"))
                 Phone2Error = "El formato del teléfono no es válido.";
             else
@@ -408,12 +454,16 @@ namespace Job_Match.Maui.ViewModels
             OnPropertyChanged(nameof(IsPhone2Valid));
         }
 
+        /// <summary>
+        /// Realiza el proceso de cambio de proveedor a cliente.
+        /// Valida los campos, construye el DTO y llama al servicio correspondiente.
+        /// </summary>
+        /// <returns>True si el cambio fue exitoso, False en caso de error.</returns>
         public async Task<bool> ChangeToClientAsync()
         {
             var session = UserSessionService.Instance;
             var password = session.Password;
 
-            // Validar campos
             ValidateFirstName();
             ValidateLastName();
             ValidateDocument();

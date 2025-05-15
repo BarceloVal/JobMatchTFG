@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Job_Match.Maui.Views.ChangeProfileToProvider">
+             x:Class="Job_Match.Maui.Views.ChangeProfileToProvider"
+             Shell.NavBarIsVisible="False">
 
     <Grid BackgroundColor="White">
         <Grid.RowDefinitions>
@@ -463,7 +464,7 @@
             TextColor="White"
             FontAttributes="Bold"
             FontSize="18"
-            CornerRadius="30"
+            CornerRadius="10"
             WidthRequest="350"
             Margin="0, 10, 0, 20"
             Clicked="btnChangeProvider_Clicked"/>

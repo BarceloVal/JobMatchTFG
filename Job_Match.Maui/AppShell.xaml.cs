@@ -27,6 +27,9 @@ namespace Job_Match.Maui
             Routing.RegisterRoute(nameof(ChangeProfileToClient), typeof(ChangeProfileToClient));
             Routing.RegisterRoute(nameof(CreateOffer), typeof(CreateOffer));
             Routing.RegisterRoute(nameof(EditOffer), typeof(EditOffer));
+            Routing.RegisterRoute(nameof(EditProfileClient), typeof(EditProfileClient));
+            Routing.RegisterRoute(nameof(OfferProvidersSubscription), typeof(OfferProvidersSubscription));
+            Routing.RegisterRoute(nameof(MyOffersProvider), typeof(MyOffersProvider));
 
         }
     }

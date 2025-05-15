@@ -232,6 +232,12 @@ namespace Job_Match.Maui.ApiService
             return JsonConvert.DeserializeObject<ProfileClientDto>(json);
         }
 
+        public async Task<bool> UpdateClientProfileAsync(UpdateProfileClientDto dto)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/m_user_client", dto);
+            return response.IsSuccessStatusCode;
+        }
+
         #endregion
 
         #region m_user_provider
@@ -262,6 +268,32 @@ namespace Job_Match.Maui.ApiService
 
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ProfileProviderDto>(json);
+        }
+
+        public async Task<bool> UpdateProviderProfileAsync(UpdateProfileProviderDto dto)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/m_user_provider", dto);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"[UpdateProviderProfileAsync] ERROR {response.StatusCode}: {errorContent}");
+            }
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<Guid> GetProviderIdFromUserIdAsync(Guid idUser)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id-user/{idUser}");
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("No se pudo obtener el ID del proveedor");
+
+            var json = await response.Content.ReadAsStringAsync();
+            var dto = JsonConvert.DeserializeObject<ProfileProviderDto>(json);
+
+            return dto.IdProvider;
         }
 
         #endregion
@@ -435,7 +467,7 @@ namespace Job_Match.Maui.ApiService
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/task-request/active-by-client/{idUserClient}");
+                var response = await _httpClient.GetAsync($"api/m_user_client/active-by-client/{idUserClient}");
                 if (!response.IsSuccessStatusCode)
                     return new List<TaskRequestWithProvidersDto>();
 
@@ -477,6 +509,46 @@ namespace Job_Match.Maui.ApiService
                 Console.WriteLine($"Error al desactivar la oferta: {ex.Message}");
                 return false;
             }
+        }
+
+        public async Task<List<TaskRequestWithOfferDto>> GetOpenOffersAsync()
+        {
+            var response = await _httpClient.GetAsync("api/task-request/open");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<TaskRequestWithOfferDto>>(json);
+            }
+            return new List<TaskRequestWithOfferDto>();
+        }
+
+
+        #endregion
+
+        #region t_offer_subscription
+
+        public async Task SubscribeToOfferAsync(OfferSubscriptionDto dto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/offer-subscriptions/subscribe", dto);
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("Error al suscribirse a la oferta");
+        }
+
+        public async Task<HttpResponseMessage> SubscribeToOfferWithResponseAsync(OfferSubscriptionDto dto)
+        {
+            return await _httpClient.PostAsJsonAsync("api/offer-subscriptions/subscribe", dto);
+        }
+
+        public async Task<List<SubscribedOfferDto>> GetOffersByProviderAsync(Guid idUserProvider)
+        {
+            var response = await _httpClient.GetAsync($"api/offer-subscriptions/by-provider/{idUserProvider}");
+
+            if (!response.IsSuccessStatusCode)
+                return new List<SubscribedOfferDto>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<SubscribedOfferDto>>(json);
         }
 
         #endregion

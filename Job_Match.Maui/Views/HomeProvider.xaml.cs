@@ -16,4 +16,9 @@ public partial class HomeProvider : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(OfferProvider));
     }
+
+    private async void btnMyOffers_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("MyOffersProvider");
+    }
 }

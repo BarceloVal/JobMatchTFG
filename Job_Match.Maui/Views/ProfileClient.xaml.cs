@@ -16,6 +16,17 @@ namespace Job_Match.Maui.Views
             BindingContext = new ProfileClientViewModel(App.CurrentUser as ProfileClientDto);
         }
 
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var dto = await _apiService.GetClientByMailAsync(UserSessionService.Instance.Mail);
+
+            App.CurrentUser = dto;
+
+            BindingContext = new ProfileClientViewModel(dto);
+        }
+
         private async void btnSwitchUser_Clicked(object sender, EventArgs e)
         {
             var confirmed = await DisplayAlert(
@@ -77,6 +88,12 @@ namespace Job_Match.Maui.Views
             {
                 await DisplayAlert("Error", "No se pudo desactivar la cuenta. Intenta de nuevo.", "Aceptar");
             }
+        }
+
+        private async void btnEditProfileClient_Clicked(object sender, EventArgs e)
+        {
+            var dto = await _apiService.GetClientByMailAsync(UserSessionService.Instance.Mail);
+            await Navigation.PushAsync(new EditProfileClient(dto));
         }
     }
 }

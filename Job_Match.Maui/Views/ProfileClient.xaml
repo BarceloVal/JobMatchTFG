@@ -20,79 +20,72 @@
                    HorizontalOptions="Center" />
 
             <!-- Datos del perfil -->
-            <VerticalStackLayout Spacing="6" Padding="20">
-                <Label FormattedText="{x:StaticResource NombreFormattedText}" />
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Nombre: " FontAttributes="Bold"/>
-                            <Span Text="{Binding FirstName}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+            <VerticalStackLayout Spacing="10" Padding="20">
 
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Apellido/s: " FontAttributes="Bold" />
-                            <Span Text="{Binding LastName}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                <!-- Grupo de datos personales -->
+                <Frame BackgroundColor="#f5f5f5" Padding="10" CornerRadius="8" HasShadow="False">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Datos personales" TextColor="#980c0f" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" Margin="5"/>
 
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Mail: " FontAttributes="Bold" />
-                            <Span Text="{Binding Mail}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                        <!-- Nombre -->
+                        <HorizontalStackLayout>
+                            <Label Text="Nombre: " FontAttributes="Bold" />
+                            <Label Text="{Binding FirstName}" />
+                        </HorizontalStackLayout>
 
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Documento: " FontAttributes="Bold" />
-                            <Span Text="{Binding Document}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                        <!-- Apellido -->
+                        <HorizontalStackLayout>
+                            <Label Text="Apellido: " FontAttributes="Bold" />
+                            <Label Text="{Binding LastName}" />
+                        </HorizontalStackLayout>
 
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Dirección: " FontAttributes="Bold" />
-                            <Span Text="{Binding Address}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                        <!-- Documento -->
+                        <HorizontalStackLayout>
+                            <Label Text="Documento: " FontAttributes="Bold" />
+                            <Label Text="{Binding Document}" />
+                        </HorizontalStackLayout>
 
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Código Postal: " FontAttributes="Bold" />
-                            <Span Text="{Binding PostalCodeName}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                    </VerticalStackLayout>
+                </Frame>
 
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Teléfono 1: " FontAttributes="Bold" />
-                            <Span Text="{Binding Phone1}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                <!-- Contacto y ubicación -->
+                <Frame BackgroundColor="#f5f5f5" Padding="10" CornerRadius="8" HasShadow="False">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Datos de perfil" TextColor="#980c0f" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" Margin="5"/>
 
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Teléfono 2: " FontAttributes="Bold" />
-                            <Span Text="{Binding Phone2}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                        <!-- Mail -->
+                        <HorizontalStackLayout>
+                            <Label Text="Mail: " FontAttributes="Bold" />
+                            <Label Text="{Binding Mail}" />
+                        </HorizontalStackLayout>
+
+                        <!-- Dirección -->
+                        <HorizontalStackLayout>
+                            <Label Text="Dirección: " FontAttributes="Bold" />
+                            <Label Text="{Binding Address}" />
+                        </HorizontalStackLayout>
+
+                        <!-- Código postal -->
+                        <HorizontalStackLayout>
+                            <Label Text="Pobl.: " FontAttributes="Bold" />
+                            <Label Text="{Binding PostalCodeName}" />
+                        </HorizontalStackLayout>
+
+                        <!-- Teléfono 1 -->
+                        <HorizontalStackLayout>
+                            <Label Text="Teléfono 1: " FontAttributes="Bold" />
+                            <Label Text="{Binding Phone1}" />
+                        </HorizontalStackLayout>
+
+                        <!-- Teléfono 2 -->
+                        <HorizontalStackLayout>
+                            <Label Text="Teléfono 2: " FontAttributes="Bold" />
+                            <Label Text="{Binding Phone2}" />
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+                </Frame>
+
             </VerticalStackLayout>
 
             <!-- Botón para cambiar de perfil -->
@@ -101,12 +94,25 @@
                 Text="Cambiar perfil a proveedor"
                 BackgroundColor="#980c0f"
                 TextColor="White"
-                CornerRadius="20"
+                CornerRadius="10"
                 FontAttributes="Bold"
                 Padding="14,10"
-                WidthRequest="250"
+                WidthRequest="350"
                 HorizontalOptions="Center"
                 Clicked="btnSwitchUser_Clicked"/>
+
+            <!-- Botón para editar el perfil -->
+            <Button
+                x:Name="btnEditProfileClient"
+                Text="Editar perfil"
+                BackgroundColor="#980c0f"
+                TextColor="White"
+                CornerRadius="10"
+                FontAttributes="Bold"
+                Padding="14,10"
+                WidthRequest="350"
+                HorizontalOptions="Center"
+                Clicked="btnEditProfileClient_Clicked"/>
 
             <!-- Botón para deshabilitar la cuenta -->
             <Button
@@ -114,10 +120,10 @@
                 Text="Deshabilitar cuenta"
                 BackgroundColor="#980c0f"
                 TextColor="White"
-                CornerRadius="20"
+                CornerRadius="10"
                 FontAttributes="Bold"
                 Padding="14,10"
-                WidthRequest="250"
+                WidthRequest="350"
                 HorizontalOptions="Center"
                 Clicked="btnDisableAccount_Clicked"/>
         </VerticalStackLayout>

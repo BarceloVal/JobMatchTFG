@@ -8,9 +8,7 @@ namespace Job_Match.Data.Models.Dtos
 {
     public class ChangeClientToProviderDto
     {
-        public Guid IdUser { get; set; }  // obligatorio siempre
-
-        // Nuevos campos obligatorios para proveedor
+        public Guid IdUser { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? Document { get; set; }
@@ -20,13 +18,13 @@ namespace Job_Match.Data.Models.Dtos
         public string? Phone1 { get; set; }
         public string? Phone2 { get; set; }
 
-        // Ya estaban
+
         public string? TradeName { get; set; }
         public string? Description { get; set; }
         public string? Website { get; set; }
         public string? MapCoordinates { get; set; }
         public Guid? IdServiceType { get; set; }
         public Guid? IdService { get; set; }
-        public string Password { get; set; } // necesario para hashear
+        public string Password { get; set; }
     }
 }

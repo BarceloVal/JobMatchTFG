@@ -13,5 +13,6 @@ namespace Job_Match.Services.Interfaces
         Task<List<TaskRequestWithProvidersDto>> GetAllOffersByClientAsync(Guid idUserClient);
         Task<TaskRequestWithProvidersDto?> GetOfferDetailsAsync(Guid offerId);
         Task<bool> UpdateTaskRequestAsync(UpdateTaskRequestDto dto);
+        Task<List<TaskRequestWithOfferDto>> GetOpenOffersAsync();
     }
 }

@@ -42,6 +42,8 @@ public partial class job_match_context : DbContext
 
     public virtual DbSet<t_task_score> t_task_scores { get; set; }
 
+    public virtual DbSet<t_offer_subscription> t_offer_subscriptions { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=VALENTINA\\SQLEXPRESS;Database=JOB_MATCH;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -190,6 +192,31 @@ public partial class job_match_context : DbContext
             entity.HasOne(d => d.id_user_reviewerNavigation).WithMany(p => p.t_task_scoreid_user_reviewerNavigations)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_t_task_score_m_user_reviewer");
+        });
+
+        modelBuilder.Entity<t_offer_subscription>(entity =>
+        {
+            entity.HasKey(e => new { e.id_task_request, e.id_user_provider });
+
+            // entity.Property(e => e.active);
+
+            entity.Property(e => e.created_on)
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("GETDATE()");
+
+            entity.Property(e => e.last_update).HasColumnType("datetime");
+
+            entity.HasOne(d => d.id_task_requestNavigation)
+                .WithMany(p => p.t_offer_subscriptions)
+                .HasForeignKey(d => d.id_task_request)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_t_offer_subscription_t_task_request");
+
+            entity.HasOne(d => d.id_user_providerNavigation)
+                .WithMany(p => p.t_offer_subscriptions)
+                .HasForeignKey(d => d.id_user_provider)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_t_offer_subscription_m_user_provider");
         });
 
         OnModelCreatingPartial(modelBuilder);

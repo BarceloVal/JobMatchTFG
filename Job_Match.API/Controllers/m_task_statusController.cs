@@ -8,6 +8,8 @@ namespace Job_Match.API.Controllers
     [Route("api/task-status")]
     public class m_task_statusController : ControllerBase
     {
+        #region parameters
+
         private readonly IMTaskStatusService _service;
 
         public m_task_statusController(IMTaskStatusService service)
@@ -15,12 +17,17 @@ namespace Job_Match.API.Controllers
             _service = service;
         }
 
-        // GET: api/taskstatus
+        #endregion
+
+        #region methods GET
+
         [HttpGet]
         public async Task<ActionResult<List<m_task_status>>> GetAll()
         {
             var statuses = await _service.GetAllAsync();
             return Ok(statuses);
         }
+
+        #endregion
     }
 }

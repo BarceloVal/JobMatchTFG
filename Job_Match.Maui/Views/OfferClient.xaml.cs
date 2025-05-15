@@ -29,6 +29,11 @@ public partial class OfferClient : ContentPage
         {
             Console.WriteLine("No se encontró el ID del cliente en la sesión.");
         }
+
+        if (clientId != null)
+        {
+            await _viewModel.LoadActiveOffersAsync(clientId.Value);
+        }
     }
 
     private async void btnCreateOffer_Clicked(object sender, EventArgs e)
@@ -70,6 +75,18 @@ public partial class OfferClient : ContentPage
             {
                 await DisplayAlert("Error", "No se pudo eliminar la oferta.", "Aceptar");
             }
+        }
+    }
+
+    private async void btnViewProviders_Clicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var selectedOffer = button?.CommandParameter as TaskRequestWithProvidersDto;
+
+        if (selectedOffer != null)
+        {
+            var json = JsonConvert.SerializeObject(selectedOffer);
+            await Shell.Current.GoToAsync($"OfferProvidersSubscription?data={Uri.EscapeDataString(json)}");
         }
     }
 }
