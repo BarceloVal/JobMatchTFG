@@ -24,6 +24,7 @@ public partial class t_task_contact
     [Column(TypeName = "datetime")]
     public DateTime? date_status { get; set; }
 
+    public bool can_chat { get; set; }
     public bool active { get; set; }
 
     [Column(TypeName = "datetime")]
