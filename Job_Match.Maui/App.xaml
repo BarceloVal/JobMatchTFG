@@ -10,10 +10,25 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <!-- Oculta el mensaje de error si es que no lo hay (validaciones) -->
+
+            <!-- Converters -->
             <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
             <converters:NullOrEmptyToBoolConverter x:Key="NullOrEmptyToBoolConverter"/>
             <converters:StatusToColorConverter x:Key="StatusToColorConverter" />
+
+            <!-- Estilos de mensajes para el chat -->
+            <Style x:Key="MyMessageStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="LightGreen" />
+                <Setter Property="HorizontalOptions" Value="End" />
+                <Setter Property="Margin" Value="10,2" />
+            </Style>
+
+            <Style x:Key="OtherMessageStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="LightGray" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Margin" Value="10,2" />
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

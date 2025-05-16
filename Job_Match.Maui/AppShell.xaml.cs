@@ -30,6 +30,8 @@ namespace Job_Match.Maui
             Routing.RegisterRoute(nameof(EditProfileClient), typeof(EditProfileClient));
             Routing.RegisterRoute(nameof(OfferProvidersSubscription), typeof(OfferProvidersSubscription));
             Routing.RegisterRoute(nameof(MyOffersProvider), typeof(MyOffersProvider));
+            Routing.RegisterRoute(nameof(ChatListClientPage), typeof(ChatListClientPage));
+            Routing.RegisterRoute(nameof(ChatConversationPage), typeof(ChatConversationPage));
 
         }
     }

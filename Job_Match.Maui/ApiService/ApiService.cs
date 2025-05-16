@@ -553,6 +553,32 @@ namespace Job_Match.Maui.ApiService
 
         #endregion
 
+        #region t_task_message
+
+        // Obtener mensaje entre cliente y proveedor
+        public async Task<List<ChatMessageDto>> GetMessagesBetweenUsersAsync(Guid idSender, Guid idReceiver)
+        {
+            var response = await _httpClient.GetAsync($"api/task-messages/between/{idSender}/{idReceiver}");
+
+            if (!response.IsSuccessStatusCode)
+                return new List<ChatMessageDto>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<ChatMessageDto>>(json);
+        }
+
+        // Enviar mensaje
+        public async Task<bool> SendMessageAsync(SendMessageDto dto)
+        {
+            var json = JsonConvert.SerializeObject(dto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("api/task-messages/send", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        #endregion
+
         #region changeClientToProvider
 
         public async Task<bool> ChangeClientToProviderAsync(ChangeClientToProviderDto dto)
@@ -620,6 +646,32 @@ namespace Job_Match.Maui.ApiService
             {
                 Console.WriteLine($"Error al verificar existencia de cliente: {ex.Message}");
                 return false;
+            }
+        }
+
+        #endregion
+
+        #region GENERIC methods
+
+        public async Task<T?> GetAsync<T>(string endpoint)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(endpoint);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"[GetAsync] Error en endpoint {endpoint}: {response.StatusCode}");
+                    return default;
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[GetAsync] Exception en endpoint {endpoint}: {ex.Message}");
+                return default;
             }
         }
 

@@ -103,7 +103,7 @@ namespace Job_Match.Services.Services
 
                 return new ChatSummaryDto
                 {
-                    IdUserProvider = provider?.id ?? Guid.Empty,
+                    IdUserProvider = provider?.id_user ?? Guid.Empty,
                     ProviderName = provider?.id_userNavigation?.first_name + " " + provider?.id_userNavigation?.last_name,
                     LastMessage = lastMessage?.message,
                     LastMessageDate = lastMessage?.sent_on
@@ -112,5 +112,62 @@ namespace Job_Match.Services.Services
 
             return result;
         }
+
+        public async Task<List<ChatMessageDto>> GetMessagesBetweenUsersAsync(Guid idUser1, Guid idUser2)
+        {
+            Console.WriteLine($"[Buscar Mensajes] idUser1: {idUser1}, idUser2: {idUser2}");
+
+            var messages = await _context.t_task_messages
+                .Where(m =>
+                ((m.id_user_sender == idUser1 && m.id_user_reciver == idUser2) ||
+                 (m.id_user_sender == idUser2 && m.id_user_reciver == idUser1)) &&
+                 m.active == true)
+                .OrderBy(m => m.sent_on)
+                .ToListAsync();
+
+            Console.WriteLine($"[Mensajes encontrados]: {messages.Count}");
+
+            var users = await _context.m_users
+                .Where(u => u.id == idUser1 || u.id == idUser2)
+                .ToListAsync();
+
+            var result = messages.Select(m =>
+            {
+                var sender = users.FirstOrDefault(u => u.id == m.id_user_sender);
+
+                return new ChatMessageDto
+                {
+                    Id = m.id,
+                    IdSender = m.id_user_sender,
+                    SenderName = sender != null ? $"{sender.first_name} {sender.last_name}" : "",
+                    Message = m.message,
+                    SentOn = m.sent_on,
+                    IsMine = m.id_user_sender == idUser1
+                };
+            }).ToList();
+
+            return result;
+        }
+
+        // ENviar mensaje
+        public async Task<bool> SendMessageAsync(SendMessageDto dto)
+        {
+            var message = new t_task_message
+            {
+                id = Guid.NewGuid(),
+                id_user_sender = dto.IdSender,
+                id_user_reciver = dto.IdReceiver,
+                message = dto.Message,
+                sent_on = DateTime.Now,
+                created_on = DateTime.Now,
+                last_update = DateTime.Now,
+                active = true
+            };
+
+            _context.t_task_messages.Add(message);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
     }
 }

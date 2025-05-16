@@ -16,4 +16,9 @@ public partial class HomeClient : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(OfferClient));
     }
+
+    private async void btncontact_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(ChatListClientPage));
+    }
 }
