@@ -58,6 +58,8 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\arrowdown.png" />
+	  <None Remove="Resources\Images\chaticon.png" />
+	  <None Remove="Resources\Images\chats.png" />
 	  <None Remove="Resources\Images\help.png" />
 	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\iconoffers.png" />
