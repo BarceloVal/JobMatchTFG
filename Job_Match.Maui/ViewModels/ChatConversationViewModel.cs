@@ -58,8 +58,8 @@ namespace Job_Match.MAUI.ViewModels
 
             var dto = new SendMessageDto
             {
-                IdSender = UserSessionService.Instance.Id,
-                IdReceiver = IdProviderUser,
+                IdSender = UserSessionService.Instance.Id, // ID del usuario cliente logueado
+                IdReceiver = IdProviderUser,               // ID del proveedor con quien habla
                 Message = NewMessage
             };
 
@@ -68,12 +68,13 @@ namespace Job_Match.MAUI.ViewModels
             {
                 Messages.Add(new ChatMessageDto
                 {
-                    IdSender = IdClientUser,
+                    IdSender = dto.IdSender,
                     Message = NewMessage,
                     SentOn = DateTime.Now,
                     IsMine = true,
                     SenderName = "Tú"
                 });
+
                 NewMessage = string.Empty;
             }
         }
