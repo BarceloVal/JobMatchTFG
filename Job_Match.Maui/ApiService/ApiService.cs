@@ -296,6 +296,27 @@ namespace Job_Match.Maui.ApiService
             return dto.IdProvider;
         }
 
+        public async Task<ProfileProviderDto?> GetProviderByIdAsync(Guid idProvider)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id/{idProvider}");
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ProfileProviderDto>(json);
+        }
+
+        public async Task<ProfileProviderDto?> GetProviderByUserIdAsync(Guid idUser)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id-user/{idUser}");
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ProfileProviderDto>(json);
+        }
+
         #endregion
 
         #region m_service_type

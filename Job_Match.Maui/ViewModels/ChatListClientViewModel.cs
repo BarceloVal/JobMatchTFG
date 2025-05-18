@@ -41,7 +41,7 @@ namespace Job_Match.MAUI.ViewModels
             LoadChatsCommand = new Command(async () => await LoadChatsAsync());
         }
 
-        private async Task LoadChatsAsync()
+        public async Task LoadChatsAsync()
         {
             if (IsBusy) return;
             IsBusy = true;

@@ -7,10 +7,6 @@
              x:Class="Job_Match.Maui.Views.ChatConversationPage"
              Shell.NavBarIsVisible="False">
 
-    <ContentPage.BindingContext>
-        <vm:ChatConversationViewModel />
-    </ContentPage.BindingContext>
-
     <ContentPage.Resources>
         <ResourceDictionary>
             <conv:MessageStyleConverter x:Key="MessageStyleConverter" />
@@ -29,8 +25,40 @@
 
     <Grid RowDefinitions="Auto,*,Auto" Padding="0">
 
-        <!-- Encabezado -->
-        <controls:HeaderControl Grid.Row="0" />
+        <!-- ENCABEZADO PERSONALIZADO -->
+        <Grid
+            Grid.Row="0"
+            ColumnDefinitions="Auto,*,Auto"
+            BackgroundColor="#980c0f"
+            HeightRequest="50"
+            VerticalOptions="Start">
+
+            <!-- Flecha de volver -->
+            <ImageButton
+                Source="arrowback.png"
+                Clicked="btnBack_Clicked"
+                WidthRequest="35"
+                HeightRequest="35"
+                Margin="10, 0, 0, 0"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Grid.Column="0" />
+
+            <!-- Nombre del proveedor centrado en el espacio disponible -->
+            <Label
+                Text="{Binding ProviderName}"
+                Grid.Column="1"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="Center"
+                HorizontalTextAlignment="Center"
+                TextColor="White"
+                FontSize="20"
+                FontAttributes="Bold" />
+
+            <!-- Caja invisible para equilibrar el ancho -->
+            <ContentView Grid.Column="2" WidthRequest="55" />
+        </Grid>
 
         <!-- Lista de mensajes -->
         <CollectionView x:Name="MessagesList"

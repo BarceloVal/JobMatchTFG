@@ -15,6 +15,18 @@ namespace Job_Match.Maui.Views
             Loaded += ChatListClientPage_Loaded;
         }
 
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (ChatNavigationState.HasSentNewMessage)
+            {
+                ChatNavigationState.HasSentNewMessage = false;
+                await ViewModel.LoadChatsAsync();
+            }
+        }
+
+
         private async void ChatListClientPage_Loaded(object sender, EventArgs e)
         {
             ViewModel.LoadChatsCommand.Execute(null);

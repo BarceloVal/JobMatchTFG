@@ -323,5 +323,22 @@ namespace Job_Match.Services.Services
             }
         }
 
+        public async Task<ProfileProviderDto?> GetProviderByIdAsync(Guid idProvider)
+        {
+            var provider = await _context.m_user_providers
+                .Include(p => p.id_userNavigation)
+                .FirstOrDefaultAsync(p => p.id == idProvider);
+
+            if (provider == null) return null;
+
+            return new ProfileProviderDto
+            {
+                IdProvider = provider.id,
+                IdUser = provider.id_user,
+                FirstName = provider.id_userNavigation?.first_name,
+                LastName = provider.id_userNavigation?.last_name,
+                // si querés, agregá más campos
+            };
+        }
     }
 }

@@ -10,18 +10,21 @@ namespace Job_Match.Maui.Views
         public Guid IdClientUser { get; set; }
         public Guid IdProviderUser { get; set; }
 
+        private ChatConversationViewModel ViewModel => BindingContext as ChatConversationViewModel;
+
         public ChatConversationPage()
         {
             InitializeComponent();
             BindingContext = new ChatConversationViewModel();
+            BindingContextChanged += ChatConversationPage_BindingContextChanged;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            if (BindingContext is ChatConversationViewModel vm)
-                await vm.LoadMessagesAsync(IdClientUser, IdProviderUser);
+            if (ViewModel != null)
+                await ViewModel.LoadMessagesAsync(IdClientUser, IdProviderUser);
         }
 
         private void ChatConversationPage_BindingContextChanged(object sender, EventArgs e)
@@ -40,6 +43,11 @@ namespace Job_Match.Maui.Views
                     });
                 };
             }
+        }
+
+        private async void btnBack_Clicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

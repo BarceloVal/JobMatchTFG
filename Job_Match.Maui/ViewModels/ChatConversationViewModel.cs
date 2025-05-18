@@ -23,6 +23,17 @@ namespace Job_Match.MAUI.ViewModels
             }
         }
 
+        private string _providerName;
+        public string ProviderName
+        {
+            get => _providerName;
+            set
+            {
+                _providerName = value;
+                OnPropertyChanged(nameof(ProviderName));
+            }
+        }
+
         public ICommand SendMessageCommand { get; }
 
         // Reemplazá esto por lo que recibas desde navegación
@@ -34,19 +45,36 @@ namespace Job_Match.MAUI.ViewModels
             SendMessageCommand = new Command(async () => await SendMessageAsync());
         }
 
-        public async Task LoadMessagesAsync(Guid idClientUser, Guid idProviderUser)
+        public async Task LoadMessagesAsync(Guid idClientUser, Guid idProvider)
         {
-            Console.WriteLine($"[LoadMessagesAsync] Cliente: {idClientUser} - Proveedor: {idProviderUser}");
+            Console.WriteLine($"[LoadMessagesAsync] Cliente: {idClientUser} - Proveedor (id): {idProvider}");
 
             IdClientUser = idClientUser;
-            IdProviderUser = idProviderUser;
+            IdProviderUser = idProvider;
 
-            var list = await _apiService.GetMessagesBetweenUsersAsync(idClientUser, idProviderUser);
+            // 1. Obtener el ProfileProviderDto desde el ID del proveedor
+            var providerDto = await _apiService.GetProviderByUserIdAsync(idProvider);
+
+            if (providerDto != null)
+            {
+                ProviderName = $"{providerDto.FirstName} {providerDto.LastName}";
+                Console.WriteLine($"PROVIDER NAME: {ProviderName}");
+
+                // 2. Obtener el ID del usuario (m_user) del proveedor
+                IdProviderUser = providerDto.IdUser;
+            }
+            else
+            {
+                Console.WriteLine("No se encontró el proveedor.");
+            }
+
+            // 3. Obtener los mensajes usando los ID de usuario
+            var list = await _apiService.GetMessagesBetweenUsersAsync(idClientUser, IdProviderUser);
 
             Messages.Clear();
             foreach (var msg in list)
             {
-                msg.IsMine = msg.IdSender == idClientUser; // o comparalo con UserSessionService.Instance.Id si preferís
+                msg.IsMine = msg.IdSender == idClientUser;
                 Messages.Add(msg);
             }
         }
@@ -76,6 +104,8 @@ namespace Job_Match.MAUI.ViewModels
                 });
 
                 NewMessage = string.Empty;
+
+                ChatNavigationState.HasSentNewMessage = true;
             }
         }
 
@@ -88,4 +118,11 @@ namespace Job_Match.MAUI.ViewModels
         protected void OnPropertyChanged(string name) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
+
+    // Clase auxiliar
+    public static class ChatNavigationState
+    {
+        public static bool HasSentNewMessage { get; set; } = false;
+    }
+
 }

@@ -177,6 +177,17 @@ namespace Job_Match.API.Controllers
             return Ok(provider);
         }
 
+        [HttpGet("by-id/{idProvider}")]
+        public async Task<IActionResult> GetById(Guid idProvider)
+        {
+            var result = await _providerService.GetProviderByIdAsync(idProvider);
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+
         #endregion
 
         #region methods PUT

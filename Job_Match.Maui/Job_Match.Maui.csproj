@@ -57,6 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\arrowback.png" />
 	  <None Remove="Resources\Images\arrowdown.png" />
 	  <None Remove="Resources\Images\chaticon.png" />
 	  <None Remove="Resources\Images\chats.png" />
