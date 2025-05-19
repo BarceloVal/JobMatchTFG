@@ -54,11 +54,7 @@ namespace Job_Match.Maui.Views
             {
                 if (((Button)sender).BindingContext is ChatSummaryDto selectedChat)
                 {
-                    await Shell.Current.GoToAsync(nameof(ChatConversationPage), new Dictionary<string, object>
-            {
-                { "IdClientUser", UserSessionService.Instance.Id },
-                { "IdProviderUser", selectedChat.IdUserProvider }
-            });
+                    await Shell.Current.GoToAsync($"{nameof(ChatConversationPage)}?IdClientUser={UserSessionService.Instance.Id}&IdProviderUser={selectedChat.IdUserProvider}");
                 }
             }
             catch (Exception ex)

@@ -47,7 +47,7 @@
                                                LineBreakMode="TailTruncation"
                                                MaxLines="1" />
 
-                                        <Label Text="{Binding LastMessageDate, StringFormat='{0:g}'}"
+                                        <Label Text="{Binding LastMessageDateFormatted}"
                                                FontSize="12"
                                                TextColor="#999" />
                                     </StackLayout>

@@ -109,6 +109,7 @@ namespace Job_Match.API.Controllers
             var result = providers.Select(p => new ProviderWithServicesDto
             {
                 Id = p.id,
+                IdUser = p.id_user,
                 TradeName = p.trade_name,
                 PhoneNumber1 = p.phone_number_1,
                 PhoneNumber2 = p.phone_number_2,

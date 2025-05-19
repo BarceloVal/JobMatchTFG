@@ -340,5 +340,6 @@ namespace Job_Match.Services.Services
                 // si querés, agregá más campos
             };
         }
+
     }
 }

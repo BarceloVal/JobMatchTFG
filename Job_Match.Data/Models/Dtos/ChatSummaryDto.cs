@@ -12,5 +12,8 @@ namespace Job_Match.Data.Models.Dtos
         public string ProviderName { get; set; } = string.Empty;
         public string? LastMessage { get; set; }
         public DateTime? LastMessageDate { get; set; }
+        public string LastMessageDateFormatted =>
+            LastMessageDate.HasValue ? LastMessageDate.Value.ToString("dd/MM/yyyy HH:mm") : "";
+
     }
 }

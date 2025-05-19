@@ -200,6 +200,15 @@
                                        TextColor="#27ae60"/>
                             </HorizontalStackLayout>
 
+                            <!-- Botón de contactar -->
+                            <Button
+                                x:Name="btnContact"
+                                Clicked="btnContact_Clicked"
+                                Text="Contactar"
+                                BackgroundColor="#980c0f"
+                                FontSize="18"
+                                BindingContext="{Binding .}" />
+
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>

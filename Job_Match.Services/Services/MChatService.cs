@@ -23,8 +23,13 @@ namespace Job_Match.Services.Services
         public async Task<bool> StartChatAsync(StartChatDto dto)
         {
             // Validar que el proveedor y cliente existen
-            var userClient = await _context.m_user_clients.FindAsync(dto.IdUserClient);
-            var userProvider = await _context.m_user_providers.FindAsync(dto.IdUserProvider);
+            var userClient = await _context.m_user_clients
+                .FirstOrDefaultAsync(x => x.id_user == dto.IdUserClient);
+
+            var userProvider = await _context.m_user_providers
+                .FirstOrDefaultAsync(x => x.id_user == dto.IdUserProvider);
+
+            Console.WriteLine($"[StartChatAsync] Client encontrado: {userClient != null}, Provider encontrado: {userProvider != null}");
 
             if (userClient == null || userProvider == null) return false;
 

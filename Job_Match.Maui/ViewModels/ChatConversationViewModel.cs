@@ -109,11 +109,6 @@ namespace Job_Match.MAUI.ViewModels
             }
         }
 
-        public async void Initialize(Guid idClient, Guid idProvider)
-        {
-            await LoadMessagesAsync(idClient, idProvider);
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

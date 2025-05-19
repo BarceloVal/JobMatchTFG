@@ -696,6 +696,25 @@ namespace Job_Match.Maui.ApiService
             }
         }
 
+        public async Task<bool> PostAsync<T>(string endpoint, T data)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(data);
+                Console.WriteLine($"POST JSON to {endpoint}: {json}");
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync(endpoint, content);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PostAsync] Error al hacer POST a {endpoint}: {ex.Message}");
+                return false;
+            }
+        }
+
         #endregion
     }
 }

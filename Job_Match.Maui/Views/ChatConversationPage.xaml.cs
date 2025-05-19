@@ -7,8 +7,40 @@ namespace Job_Match.Maui.Views
     [QueryProperty(nameof(IdProviderUser), "IdProviderUser")]
     public partial class ChatConversationPage : ContentPage
     {
-        public Guid IdClientUser { get; set; }
-        public Guid IdProviderUser { get; set; }
+        private Guid _idClientUser;
+        private Guid _idProviderUser;
+
+        public string IdClientUser
+        {
+            set
+            {
+                if (Guid.TryParse(value, out var parsed))
+                {
+                    _idClientUser = parsed;
+                    _ = TryInitialize();
+                }
+            }
+        }
+
+        public string IdProviderUser
+        {
+            set
+            {
+                if (Guid.TryParse(value, out var parsed))
+                {
+                    _idProviderUser = parsed;
+                    _ = TryInitialize();
+                }
+            }
+        }
+
+        private async Task TryInitialize()
+        {
+            if (_idClientUser != Guid.Empty && _idProviderUser != Guid.Empty && ViewModel != null)
+            {
+                await ViewModel.LoadMessagesAsync(_idClientUser, _idProviderUser);
+            }
+        }
 
         private ChatConversationViewModel ViewModel => BindingContext as ChatConversationViewModel;
 
@@ -22,9 +54,6 @@ namespace Job_Match.Maui.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-
-            if (ViewModel != null)
-                await ViewModel.LoadMessagesAsync(IdClientUser, IdProviderUser);
         }
 
         private void ChatConversationPage_BindingContextChanged(object sender, EventArgs e)
@@ -36,6 +65,7 @@ namespace Job_Match.Maui.Views
                     // Esperar un poco para asegurar que el nuevo mensaje se renderice
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
+
                         if (MessagesList.ItemsSource is IList<ChatMessageDto> messages && messages.Count > 0)
                         {
                             MessagesList.ScrollTo(messages.Last(), position: ScrollToPosition.End, animate: true);
