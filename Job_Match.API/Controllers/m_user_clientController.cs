@@ -116,7 +116,7 @@ namespace Job_Match.API.Controllers
                     .Include(os => os.id_user_providerNavigation.id_userNavigation)
                     .Select(os => new ProviderTaskRequestDto
                     {
-                        Id = os.id_user_providerNavigation.id_user,
+                        IdUser = os.id_user_providerNavigation.id_user,
                         FullName = os.id_user_providerNavigation.id_userNavigation.first_name + " " +
                                    os.id_user_providerNavigation.id_userNavigation.last_name,
                         TradeName = os.id_user_providerNavigation.trade_name,
