@@ -11,34 +11,8 @@
             <!-- Mi encabezado personalizado -->
             <controls:HeaderControl />
 
-            <!-- Buscar solicitudes -->
-            <Grid Margin="0, 0, 0, 50">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <Image
-                    Grid.Row="0"
-                    Source="requestservice.png"
-                    WidthRequest="180"
-                    HeightRequest="180"/>
-
-                <Button
-                    x:Name="btnrequest"
-                    Grid.Row="1"
-                    Text="Ver solicitud de servicios"
-                    BackgroundColor="#980c0f"
-                    TextColor="White"
-                    CornerRadius="10"
-                    Margin="20"
-                    Clicked="btnrequest_Clicked"/>
-
-            </Grid>
-
             <!-- Buscar ofertas -->
-            <Grid VerticalOptions="Center">
+            <Grid VerticalOptions="Start" Margin="0, 40, 0, 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -63,7 +37,7 @@
             </Grid>
 
             <!-- Ver las ofertas en las que esta inscrito el proveedor-->
-            <Grid Margin="0, 30, 0, 50" VerticalOptions="End">
+            <Grid Margin="0, 30, 0, 10" VerticalOptions="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -84,6 +58,31 @@
                     CornerRadius="10"
                     Margin="20"
                     Clicked="btnMyOffers_Clicked"/>
+
+            </Grid>
+
+            <!-- Contactos -->
+            <Grid  Margin="0, 0, 0, 50">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Image
+                    Grid.Row="0"
+                    Source="chats.png"
+                    WidthRequest="200"
+                    HeightRequest="200"/>
+
+                <Button
+                    x:Name="btncontact"
+                    Grid.Row="1"
+                    Text="Ver mis mensajes"
+                    BackgroundColor="#980c0f"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Margin="20, 0, 20, 0"
+                    Clicked="btncontact_Clicked"/>
 
             </Grid>
         </VerticalStackLayout>
