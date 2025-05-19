@@ -29,6 +29,6 @@ public partial class MyOffersProvider : ContentPage
 
     private async void btnBackToMenuProvider_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(".."); // O cambia a "HomeProvider" si está registrado en el routing
+        await Shell.Current.GoToAsync("..");
     }
 }

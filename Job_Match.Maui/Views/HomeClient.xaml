@@ -11,7 +11,7 @@
             <controls:HeaderControl />
 
             <!-- Buscar solicitudes -->
-            <Grid Margin="0, 30, 0, 50">
+            <Grid Margin="0, 15, 0, 50">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

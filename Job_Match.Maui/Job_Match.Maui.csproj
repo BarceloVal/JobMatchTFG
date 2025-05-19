@@ -63,6 +63,7 @@
 	  <None Remove="Resources\Images\chats.png" />
 	  <None Remove="Resources\Images\help.png" />
 	  <None Remove="Resources\Images\home.png" />
+	  <None Remove="Resources\Images\iconchat.png" />
 	  <None Remove="Resources\Images\iconoffers.png" />
 	  <None Remove="Resources\Images\jobmatchred.png" />
 	  <None Remove="Resources\Images\jobmatchwhite.png" />

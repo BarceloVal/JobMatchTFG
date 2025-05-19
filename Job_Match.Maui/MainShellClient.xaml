@@ -26,9 +26,14 @@
         <ShellContent ContentTemplate="{DataTemplate views:RequestServiceClient}" />
     </FlyoutItem>
 
-    <!-- Página para ver las ofertas del proveedor-->
+    <!-- Página para ver las ofertas del proveedor -->
     <FlyoutItem Title="Ver mis ofertas abiertas" Route="OfferClient" FlyoutIcon="iconoffers.png">
         <ShellContent ContentTemplate="{DataTemplate views:OfferClient}" />
+    </FlyoutItem>
+
+    <!-- Página para ver los chats del cliente -->
+    <FlyoutItem Title="Ver mis mensajes" Route="ChatListClientPage" FlyoutIcon="iconchat.png">
+        <ShellContent ContentTemplate="{DataTemplate views:ChatListClientPage}" />
     </FlyoutItem>
 
     <!-- Ayuda para el usuario sobre la página de cliente -->

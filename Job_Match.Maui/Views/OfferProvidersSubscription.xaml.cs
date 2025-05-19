@@ -28,7 +28,7 @@ public partial class OfferProvidersSubscription : ContentPage
 
     private async void btnBackToOfferClient_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("OfferClient");
+        await Shell.Current.GoToAsync("..");
     }
 
     private async void btnContact_Clicked(object sender, EventArgs e)
