@@ -5,10 +5,12 @@ namespace Job_Match.Maui.Views
 {
     [QueryProperty(nameof(IdClientUser), "IdClientUser")]
     [QueryProperty(nameof(IdProviderUser), "IdProviderUser")]
+    [QueryProperty(nameof(IdTaskRequest), "IdTaskRequest")]
     public partial class ChatConversationPage : ContentPage
     {
         private Guid _idClientUser;
         private Guid _idProviderUser;
+        private Guid _idTaskRequest;
 
         public string IdClientUser
         {
@@ -34,11 +36,26 @@ namespace Job_Match.Maui.Views
             }
         }
 
+        public string IdTaskRequest
+        {
+            set
+            {
+                if (Guid.TryParse(value, out var parsed))
+                {
+                    _idTaskRequest = parsed;
+                }
+
+                // TryInitialize se ejecutará igual con o sin TaskRequest
+                _ = TryInitialize();
+            }
+        }
+
         private async Task TryInitialize()
         {
             if (_idClientUser != Guid.Empty && _idProviderUser != Guid.Empty && ViewModel != null)
             {
-                await ViewModel.LoadMessagesAsync(_idClientUser, _idProviderUser);
+                ViewModel.IdTaskRequest = _idTaskRequest;
+                await ViewModel.LoadMessagesAsync(_idClientUser, _idProviderUser, _idTaskRequest);
             }
         }
 

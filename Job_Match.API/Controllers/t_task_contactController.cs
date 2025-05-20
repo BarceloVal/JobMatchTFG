@@ -28,6 +28,13 @@ namespace Job_Match.API.Controllers
             return Ok("Chat iniciado correctamente.");
         }
 
+        [HttpPost("ensure")]
+        public async Task<IActionResult> EnsureContact([FromBody] EnsureContactDto dto)
+        {
+            await _chatService.EnsureContactExistsAsync(dto.IdUserClient, dto.IdUserProvider, dto.IdTaskRequest);
+            return Ok("Contacto verificado o creado.");
+        }
+
         #endregion
 
         #region methods GET
@@ -36,6 +43,13 @@ namespace Job_Match.API.Controllers
         public async Task<IActionResult> GetChatsForClient(Guid idClient)
         {
             var result = await _chatService.GetAllChatsForClientAsync(idClient);
+            return Ok(result);
+        }
+
+        [HttpGet("provider/{idProvider}")]
+        public async Task<IActionResult> GetChatsForProvider(Guid idProvider)
+        {
+            var result = await _chatService.GetAllChatsForProviderAsync(idProvider);
             return Ok(result);
         }
 

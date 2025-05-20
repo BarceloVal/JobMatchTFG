@@ -54,7 +54,14 @@ namespace Job_Match.Maui.Views
             {
                 if (((Button)sender).BindingContext is ChatSummaryDto selectedChat)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(ChatConversationPage)}?IdClientUser={UserSessionService.Instance.Id}&IdProviderUser={selectedChat.IdUserProvider}");
+                    var uri = $"{nameof(ChatConversationPage)}" +
+                              $"?IdClientUser={UserSessionService.Instance.Id}" +
+                              $"&IdProviderUser={selectedChat.IdUserProvider}";
+
+                    if (selectedChat.IdTaskRequest.HasValue)
+                        uri += $"&IdTaskRequest={selectedChat.IdTaskRequest.Value}";
+
+                    await Shell.Current.GoToAsync(uri);
                 }
             }
             catch (Exception ex)

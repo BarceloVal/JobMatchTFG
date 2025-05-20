@@ -68,4 +68,8 @@ public partial class m_user_client
 
     [InverseProperty("id_user_clientNavigation")]
     public virtual ICollection<t_task_request> t_task_requests { get; set; } = new List<t_task_request>();
+
+    [InverseProperty(nameof(t_task_contact.id_user_clientNavigation))]
+    public virtual ICollection<t_task_contact> t_task_contacts { get; set; } = new List<t_task_contact>();
+
 }

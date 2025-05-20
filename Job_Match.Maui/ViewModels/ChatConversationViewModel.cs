@@ -34,6 +34,8 @@ namespace Job_Match.MAUI.ViewModels
             }
         }
 
+        public Guid? IdTaskRequest { get; set; }
+
         public ICommand SendMessageCommand { get; }
 
         // Reemplazá esto por lo que recibas desde navegación
@@ -45,12 +47,13 @@ namespace Job_Match.MAUI.ViewModels
             SendMessageCommand = new Command(async () => await SendMessageAsync());
         }
 
-        public async Task LoadMessagesAsync(Guid idClientUser, Guid idProvider)
+        public async Task LoadMessagesAsync(Guid idClientUser, Guid idProvider, Guid idTaskRequest)
         {
             Console.WriteLine($"[LoadMessagesAsync] Cliente: {idClientUser} - Proveedor (id): {idProvider}");
 
             IdClientUser = idClientUser;
             IdProviderUser = idProvider;
+            IdTaskRequest = idTaskRequest;
 
             // 1. Obtener el ProfileProviderDto desde el ID del proveedor
             var providerDto = await _apiService.GetProviderByUserIdAsync(idProvider);
@@ -84,10 +87,21 @@ namespace Job_Match.MAUI.ViewModels
             if (string.IsNullOrWhiteSpace(NewMessage))
                 return;
 
+            // 1. Crear contacto si no existe
+            var contactDto = new EnsureContactDto
+            {
+                IdUserClient = UserSessionService.Instance.Id,
+                IdUserProvider = IdProviderUser,
+                IdTaskRequest = IdTaskRequest.HasValue && IdTaskRequest != Guid.Empty ? IdTaskRequest : null
+            };
+
+            await _apiService.PostAsync("api/task-contacts/ensure", contactDto);
+
+            // 2. Enviar el mensaje
             var dto = new SendMessageDto
             {
-                IdSender = UserSessionService.Instance.Id, // ID del usuario cliente logueado
-                IdReceiver = IdProviderUser,               // ID del proveedor con quien habla
+                IdSender = UserSessionService.Instance.Id, // ID del cliente logueado
+                IdReceiver = IdProviderUser,
                 Message = NewMessage
             };
 
@@ -104,7 +118,6 @@ namespace Job_Match.MAUI.ViewModels
                 });
 
                 NewMessage = string.Empty;
-
                 ChatNavigationState.HasSentNewMessage = true;
             }
         }

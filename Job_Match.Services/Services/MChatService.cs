@@ -174,5 +174,84 @@ namespace Job_Match.Services.Services
             return true;
         }
 
+        public async Task<List<ChatSummaryDto>> GetAllChatsForProviderAsync(Guid idProvider)
+        {
+            var chats = await _context.t_task_contacts
+                .Where(c => c.id_user_provider == idProvider && c.active && c.can_chat)
+                .Include(c => c.id_task_requestNavigation)
+                    .ThenInclude(r => r.id_user_clientNavigation)
+                .ToListAsync();
+
+            var result = new List<ChatSummaryDto>();
+
+            foreach (var chat in chats)
+            {
+                var idTaskRequest = chat.id_task_request;
+
+                var lastMessage = await _context.t_task_messages
+                    .Where(m => m.id_task_request == idTaskRequest)
+                    .OrderByDescending(m => m.sent_on)
+                    .FirstOrDefaultAsync();
+
+                var client = chat.id_task_requestNavigation.id_user_clientNavigation;
+
+                result.Add(new ChatSummaryDto
+                {
+                    IdUserClient = client.id,
+                    ClientName = client.name,
+                    LastMessage = lastMessage?.message ?? "(sin mensajes)",
+                    LastMessageDate = lastMessage?.sent_on ?? chat.created_on
+                });
+            }
+
+            return result.OrderByDescending(c => c.LastMessageDate).ToList();
+        }
+
+        public async Task EnsureContactExistsAsync(Guid idUserClient, Guid idUserProvider, Guid? idTaskRequest)
+        {
+            // Obtener el m_user_client y m_user_provider desde el id_user
+            var client = await _context.m_user_clients.FirstOrDefaultAsync(c => c.id_user == idUserClient);
+            var provider = await _context.m_user_providers.FirstOrDefaultAsync(p => p.id_user == idUserProvider);
+
+            if (client == null || provider == null)
+            {
+                Console.WriteLine("[EnsureContactExistsAsync] No se encontró el cliente o proveedor.");
+                return;
+            }
+
+            // Verificar si ya existe el contacto
+            var exists = await _context.t_task_contacts.AnyAsync(c =>
+                c.id_user_client == client.id &&
+                c.id_user_provider == provider.id &&
+                (
+                    (idTaskRequest == null && c.id_task_request == null) ||
+                    (idTaskRequest != null && c.id_task_request == idTaskRequest)
+                )
+            );
+
+            if (!exists)
+            {
+                var newContact = new t_task_contact
+                {
+                    id = Guid.NewGuid(),
+                    id_user_client = client.id,
+                    id_user_provider = provider.id,
+                    id_task_request = idTaskRequest,
+                    can_chat = true,
+                    active = true,
+                    created_on = DateTime.Now,
+                    last_update = DateTime.Now
+                };
+
+                _context.t_task_contacts.Add(newContact);
+                await _context.SaveChangesAsync();
+
+                Console.WriteLine("[EnsureContactExistsAsync] Contacto creado.");
+            }
+            else
+            {
+                Console.WriteLine("[EnsureContactExistsAsync] Ya existía el contacto.");
+            }
+        }
     }
 }
