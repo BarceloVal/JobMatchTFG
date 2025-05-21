@@ -281,5 +281,26 @@ namespace Job_Match.Services.Services
                 Console.WriteLine("[EnsureContactExistsAsync] Ya existía el contacto.");
             }
         }
+
+        public async Task MarkMessagesAsReadAsync(Guid idUserReader, Guid idUserSender)
+        {
+            var unreadMessages = await _context.t_task_messages
+                .Where(m => m.id_user_sender == idUserSender &&
+                            m.id_user_reciver == idUserReader &&
+                            m.read_on == null)
+                .ToListAsync();
+
+            foreach (var msg in unreadMessages)
+            {
+                msg.read_on = DateTime.Now;
+                msg.last_update = DateTime.Now;
+            }
+
+            if (unreadMessages.Any())
+            {
+                await _context.SaveChangesAsync();
+                Console.WriteLine($"[{nameof(MarkMessagesAsReadAsync)}] {unreadMessages.Count} mensajes marcados como leídos.");
+            }
+        }
     }
 }

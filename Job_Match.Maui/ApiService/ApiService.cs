@@ -620,6 +620,16 @@ namespace Job_Match.Maui.ApiService
             return response.IsSuccessStatusCode;
         }
 
+        // Leer los mensajes
+        public async Task MarkMessagesAsReadAsync(Guid idReceiver, Guid idSender)
+        {
+            var response = await _httpClient.PutAsync($"api/task-messages/mark-as-read/{idReceiver}/{idSender}", null);
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"[MarkMessagesAsReadAsync] Error: {response.StatusCode}");
+            }
+        }
+
         #endregion
 
         #region changeClientToProvider

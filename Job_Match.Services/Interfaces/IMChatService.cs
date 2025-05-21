@@ -15,5 +15,6 @@ namespace Job_Match.Services.Interfaces
         Task<bool> SendMessageAsync(SendMessageDto dto);
         Task<List<ChatSummaryDto>> GetAllChatsForProviderAsync(Guid idProvider);
         Task EnsureContactExistsAsync(Guid idUserClient, Guid idUserProvider, Guid? idTaskRequest);
+        Task MarkMessagesAsReadAsync(Guid idUserReader, Guid idUserSender);
     }
 }

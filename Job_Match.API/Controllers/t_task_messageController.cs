@@ -52,5 +52,16 @@ namespace Job_Match.API.Controllers
         }
 
         #endregion
+
+        #region methods PUT
+
+        [HttpPut("mark-as-read/{idReceiver}/{idSender}")]
+        public async Task<IActionResult> MarkAsRead(Guid idReceiver, Guid idSender)
+        {
+            await _chatService.MarkMessagesAsReadAsync(idReceiver, idSender);
+            return NoContent();
+        }
+
+        #endregion
     }
 }

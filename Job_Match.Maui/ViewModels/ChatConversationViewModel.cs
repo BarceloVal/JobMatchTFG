@@ -99,6 +99,8 @@ namespace Job_Match.MAUI.ViewModels
                 msg.IsMine = msg.IdSender == myUserId;
                 Messages.Add(msg);
             }
+
+            await _apiService.MarkMessagesAsReadAsync(myUserId, isClient ? idProvider : idClientUser);
         }
 
         private async Task SendMessageAsync()
