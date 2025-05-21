@@ -78,7 +78,8 @@ namespace Job_Match.Services.Services
                 Providers = o.t_task_contacts.Select(c => new ProviderTaskRequestDto
                 {
                     Id = c.id_user_provider,
-                    FullName = $"{c.id_user_providerNavigation.id_userNavigation.first_name} {c.id_user_providerNavigation.id_userNavigation.last_name}"
+                    FullName = $"{c.id_user_providerNavigation.id_userNavigation.first_name} {c.id_user_providerNavigation.id_userNavigation.last_name}",
+                    IdTaskRequest = o.id
                 }).ToList()
             }).ToList();
         }
@@ -112,7 +113,8 @@ namespace Job_Match.Services.Services
                 Providers = o.t_task_contacts.Select(c => new ProviderTaskRequestDto
                 {
                     Id = c.id_user_provider,
-                    FullName = $"{c.id_user_providerNavigation.id_userNavigation.first_name} {c.id_user_providerNavigation.id_userNavigation.last_name}"
+                    FullName = $"{c.id_user_providerNavigation.id_userNavigation.first_name} {c.id_user_providerNavigation.id_userNavigation.last_name}",
+                    IdTaskRequest = o.id
                 }).ToList()
             };
         }

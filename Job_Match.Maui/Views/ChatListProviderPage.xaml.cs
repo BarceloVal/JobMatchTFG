@@ -19,13 +19,12 @@ public partial class ChatListProviderPage : ContentPage
             if (((Button)sender).BindingContext is ChatSummaryDto selectedChat)
             {
                 var uri = $"{nameof(ChatConversationPage)}" +
-                          $"?IdClientUser={UserSessionService.Instance.Id}" +
-                          $"&IdProviderUser={selectedChat.IdUserProvider}";
-
-                if (selectedChat.IdTaskRequest.HasValue)
-                    uri += $"&IdTaskRequest={selectedChat.IdTaskRequest.Value}";
+                  $"?IdClientUser={UserSessionService.Instance.Id}" +
+                  $"&IdProviderUser={selectedChat.IdUserProvider}" +
+                  $"&IdTaskRequest={(selectedChat.IdTaskRequest?.ToString() ?? Guid.Empty.ToString())}";
 
                 await Shell.Current.GoToAsync(uri);
+
             }
         }
         catch (Exception ex)

@@ -38,13 +38,17 @@ public partial class OfferProvidersSubscription : ContentPage
 
         if (sender is Button btn && btn.BindingContext is ProviderTaskRequestDto provider)
         {
-            var idClientUser = UserSessionService.Instance.Id; // ID del cliente logueado
-            var idProviderUser = provider.IdUser;              // ID del proveedor
+            var idClientUser = UserSessionService.Instance.Id;
+            var idProviderUser = provider.IdUser;
+            var idTaskRequest = provider.IdTaskRequest;
+
+            Console.WriteLine($"IdTaskRequest: {provider.IdTaskRequest}");
 
             var dto = new StartChatDto
             {
                 IdUserClient = idClientUser,
-                IdUserProvider = idProviderUser
+                IdUserProvider = idProviderUser,
+                IdTaskRequest = idTaskRequest
             };
 
             var api = new Job_Match.Maui.ApiService.ApiService();
@@ -52,7 +56,12 @@ public partial class OfferProvidersSubscription : ContentPage
 
             if (result)
             {
-                await Shell.Current.GoToAsync($"{nameof(ChatConversationPage)}?IdClientUser={idClientUser}&IdProviderUser={idProviderUser}");
+                await Shell.Current.GoToAsync(
+                    $"{nameof(ChatConversationPage)}" +
+                    $"?IdClientUser={idClientUser}" +
+                    $"&IdProviderUser={idProviderUser}" +
+                    $"&IdTaskRequest={idTaskRequest}"
+                );
             }
             else
             {

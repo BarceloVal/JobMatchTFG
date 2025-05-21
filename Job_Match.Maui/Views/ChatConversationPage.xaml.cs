@@ -19,7 +19,8 @@ namespace Job_Match.Maui.Views
                 if (Guid.TryParse(value, out var parsed))
                 {
                     _idClientUser = parsed;
-                    _ = TryInitialize();
+                    _clientSet = true;
+                    TryInitializeIfReady();
                 }
             }
         }
@@ -31,7 +32,8 @@ namespace Job_Match.Maui.Views
                 if (Guid.TryParse(value, out var parsed))
                 {
                     _idProviderUser = parsed;
-                    _ = TryInitialize();
+                    _providerSet = true;
+                    TryInitializeIfReady();
                 }
             }
         }
@@ -40,21 +42,24 @@ namespace Job_Match.Maui.Views
         {
             set
             {
+                Console.WriteLine($"[SETTER] IdTaskRequest = {value}");
                 if (Guid.TryParse(value, out var parsed))
                 {
                     _idTaskRequest = parsed;
                 }
 
-                // TryInitialize se ejecutará igual con o sin TaskRequest
-                _ = TryInitialize();
+                _taskSet = true;
+                TryInitializeIfReady();
             }
         }
 
-        private async Task TryInitialize()
+        private bool _clientSet, _providerSet, _taskSet;
+
+        private async void TryInitializeIfReady()
         {
-            if (_idClientUser != Guid.Empty && _idProviderUser != Guid.Empty && ViewModel != null)
+            if (_clientSet && _providerSet && ViewModel != null)
             {
-                ViewModel.IdTaskRequest = _idTaskRequest;
+                ViewModel.IdTaskRequest = _idTaskRequest; // podría ser Guid.Empty y está bien
                 await ViewModel.LoadMessagesAsync(_idClientUser, _idProviderUser, _idTaskRequest);
             }
         }

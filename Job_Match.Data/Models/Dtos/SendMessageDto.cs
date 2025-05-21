@@ -11,5 +11,6 @@ namespace Job_Match.Data.Models.Dtos
         public Guid IdSender { get; set; }
         public Guid IdReceiver { get; set; }
         public string Message { get; set; }
+        public Guid? IdTaskRequest { get; set; }
     }
 }

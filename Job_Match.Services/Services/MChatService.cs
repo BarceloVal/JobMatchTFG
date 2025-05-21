@@ -33,17 +33,38 @@ namespace Job_Match.Services.Services
 
             if (userClient == null || userProvider == null) return false;
 
-            if (dto.IdTaskRequest != null)
+            // Verificar o crear contacto
+            var contact = await _context.t_task_contacts.FirstOrDefaultAsync(x =>
+                x.id_user_client == userClient.id &&
+                x.id_user_provider == userProvider.id &&
+                (
+                    (dto.IdTaskRequest == null && x.id_task_request == null) ||
+                    (dto.IdTaskRequest != null && x.id_task_request == dto.IdTaskRequest)
+                ));
+
+            if (contact == null)
             {
-                // Caso: oferta
-                var contact = await _context.t_task_contacts.FirstOrDefaultAsync(x =>
-                    x.id_user_provider == dto.IdUserProvider &&
-                    x.id_task_request == dto.IdTaskRequest);
+                // Crear nuevo contacto si no existe
+                contact = new t_task_contact
+                {
+                    id = Guid.NewGuid(),
+                    id_user_client = userClient.id,
+                    id_user_provider = userProvider.id,
+                    id_task_request = dto.IdTaskRequest,
+                    can_chat = true,
+                    active = true,
+                    created_on = DateTime.Now,
+                    last_update = DateTime.Now
+                };
 
-                if (contact == null) return false;
-
+                _context.t_task_contacts.Add(contact);
+                Console.WriteLine("[StartChatAsync] Contacto creado.");
+            }
+            else
+            {
                 contact.can_chat = true;
                 contact.last_update = DateTime.Now;
+                Console.WriteLine("[StartChatAsync] Contacto actualizado (ya existía).");
             }
 
             // Crear mensaje inicial si viene texto
@@ -63,6 +84,7 @@ namespace Job_Match.Services.Services
                 };
 
                 await _context.t_task_messages.AddAsync(message);
+                Console.WriteLine("[StartChatAsync] Mensaje creado.");
             }
 
             await _context.SaveChangesAsync();
@@ -162,6 +184,7 @@ namespace Job_Match.Services.Services
                 id = Guid.NewGuid(),
                 id_user_sender = dto.IdSender,
                 id_user_reciver = dto.IdReceiver,
+                id_task_request = (dto.IdTaskRequest == Guid.Empty) ? null : dto.IdTaskRequest,
                 message = dto.Message,
                 sent_on = DateTime.Now,
                 created_on = DateTime.Now,
@@ -224,8 +247,8 @@ namespace Job_Match.Services.Services
                 c.id_user_client == client.id &&
                 c.id_user_provider == provider.id &&
                 (
-                    (idTaskRequest == null && c.id_task_request == null) ||
-                    (idTaskRequest != null && c.id_task_request == idTaskRequest)
+                    (idTaskRequest == null || idTaskRequest == Guid.Empty) && c.id_task_request == null ||
+                    (idTaskRequest != null && idTaskRequest != Guid.Empty && c.id_task_request == idTaskRequest)
                 )
             );
 

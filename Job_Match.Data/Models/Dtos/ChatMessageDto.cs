@@ -16,6 +16,7 @@ namespace Job_Match.Data.Models.Dtos
 
         // Esto lo usarás en la interfaz para saber si mostrarlo alineado a la derecha o izquierda
         public bool IsMine { get; set; }
+        public Guid? IdTaskRequest { get; set; }
     }
 
 }

@@ -53,7 +53,9 @@ namespace Job_Match.MAUI.ViewModels
 
             IdClientUser = idClientUser;
             IdProviderUser = idProvider;
-            IdTaskRequest = idTaskRequest;
+
+            if (idTaskRequest != Guid.Empty)
+                IdTaskRequest = idTaskRequest;
 
             // 1. Obtener el ProfileProviderDto desde el ID del proveedor
             var providerDto = await _apiService.GetProviderByUserIdAsync(idProvider);
@@ -92,7 +94,8 @@ namespace Job_Match.MAUI.ViewModels
             {
                 IdUserClient = UserSessionService.Instance.Id,
                 IdUserProvider = IdProviderUser,
-                IdTaskRequest = IdTaskRequest.HasValue && IdTaskRequest != Guid.Empty ? IdTaskRequest : null
+                //IdTaskRequest = IdTaskRequest.HasValue && IdTaskRequest != Guid.Empty ? IdTaskRequest : null
+                IdTaskRequest = IdTaskRequest
             };
 
             await _apiService.PostAsync("api/task-contacts/ensure", contactDto);
@@ -102,7 +105,8 @@ namespace Job_Match.MAUI.ViewModels
             {
                 IdSender = UserSessionService.Instance.Id, // ID del cliente logueado
                 IdReceiver = IdProviderUser,
-                Message = NewMessage
+                Message = NewMessage,
+                IdTaskRequest = IdTaskRequest
             };
 
             var success = await _apiService.SendMessageAsync(dto);
@@ -114,7 +118,8 @@ namespace Job_Match.MAUI.ViewModels
                     Message = NewMessage,
                     SentOn = DateTime.Now,
                     IsMine = true,
-                    SenderName = "Tú"
+                    SenderName = "Tú",
+                    IdTaskRequest = dto.IdTaskRequest
                 });
 
                 NewMessage = string.Empty;

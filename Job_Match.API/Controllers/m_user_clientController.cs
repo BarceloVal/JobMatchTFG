@@ -127,7 +127,8 @@ namespace Job_Match.API.Controllers
                         Mail = os.id_user_providerNavigation.mail,
                         Phone1 = os.id_user_providerNavigation.phone_number_1,
                         Phone2 = os.id_user_providerNavigation.phone_number_2,
-                        Description = os.id_user_providerNavigation.description
+                        Description = os.id_user_providerNavigation.description,
+                        IdTaskRequest = t.id
                     })
                     .ToListAsync();
 
