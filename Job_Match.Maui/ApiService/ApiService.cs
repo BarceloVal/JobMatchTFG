@@ -238,6 +238,28 @@ namespace Job_Match.Maui.ApiService
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<ProfileClientDto?> GetClientProfileByUserIdAsync(Guid idUser)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_client/profile/{idUser}");
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ProfileClientDto>(json);
+        }
+
+        public async Task<Guid?> GetUserIdFromClientIdAsync(Guid clientId)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_client/user-id-from-client-id/{clientId}");
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Guid>(json);
+        }
+
         #endregion
 
         #region m_user_provider

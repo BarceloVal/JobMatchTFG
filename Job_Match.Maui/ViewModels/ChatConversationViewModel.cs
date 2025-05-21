@@ -57,29 +57,46 @@ namespace Job_Match.MAUI.ViewModels
             if (idTaskRequest != Guid.Empty)
                 IdTaskRequest = idTaskRequest;
 
-            // 1. Obtener el ProfileProviderDto desde el ID del proveedor
-            var providerDto = await _apiService.GetProviderByUserIdAsync(idProvider);
+            var myUserId = UserSessionService.Instance.Id;
+            var isClient = myUserId == idClientUser;
 
-            if (providerDto != null)
+            if (isClient)
             {
-                ProviderName = $"{providerDto.FirstName} {providerDto.LastName}";
-                Console.WriteLine($"PROVIDER NAME: {ProviderName}");
-
-                // 2. Obtener el ID del usuario (m_user) del proveedor
-                IdProviderUser = providerDto.IdUser;
+                // Soy cliente, el proveedor ya es el id_user → obtengo el nombre
+                var providerDto = await _apiService.GetProviderByUserIdAsync(idProvider);
+                if (providerDto != null)
+                    ProviderName = $"{providerDto.FirstName} {providerDto.LastName}";
             }
             else
             {
-                Console.WriteLine("No se encontró el proveedor.");
+                // Soy proveedor: idClientUser es el id del cliente, necesito obtener el id_user
+                var idUserClient = await _apiService.GetUserIdFromClientIdAsync(idClientUser);
+                if (idUserClient.HasValue)
+                {
+                    var clientDto = await _apiService.GetClientProfileByUserIdAsync(idUserClient.Value);
+                    if (clientDto != null)
+                        ProviderName = $"{clientDto.FirstName} {clientDto.LastName}";
+
+                    idClientUser = idUserClient.Value; // corregir para el fetch de mensajes
+                    IdClientUser = idUserClient.Value;
+                }
+
+                // Además: necesito el id_user del proveedor, ya que el parámetro es el id del proveedor
+                var providerDto = await _apiService.GetProviderByIdAsync(idProvider);
+                if (providerDto != null)
+                {
+                    idProvider = providerDto.IdUser; // corregir para el fetch de mensajes
+                    IdProviderUser = providerDto.IdUser;
+                }
             }
 
-            // 3. Obtener los mensajes usando los ID de usuario
-            var list = await _apiService.GetMessagesBetweenUsersAsync(idClientUser, IdProviderUser);
-
+            // Obtener los mensajes con los id_user reales
+            var messages = await _apiService.GetMessagesBetweenUsersAsync(idClientUser, idProvider);
             Messages.Clear();
-            foreach (var msg in list)
+
+            foreach (var msg in messages)
             {
-                msg.IsMine = msg.IdSender == idClientUser;
+                msg.IsMine = msg.IdSender == myUserId;
                 Messages.Add(msg);
             }
         }
@@ -89,12 +106,28 @@ namespace Job_Match.MAUI.ViewModels
             if (string.IsNullOrWhiteSpace(NewMessage))
                 return;
 
+            var myUserId = UserSessionService.Instance.Id;
+
+            // Determinar el receptor correctamente
+            Guid receiverId;
+            bool isClient = myUserId == IdClientUser;
+
+            if (isClient)
+            {
+                // Soy cliente, el proveedor es el receptor
+                receiverId = IdProviderUser;
+            }
+            else
+            {
+                // Soy proveedor, el cliente es el receptor
+                receiverId = IdClientUser;
+            }
+
             // 1. Crear contacto si no existe
             var contactDto = new EnsureContactDto
             {
-                IdUserClient = UserSessionService.Instance.Id,
+                IdUserClient = IdClientUser,
                 IdUserProvider = IdProviderUser,
-                //IdTaskRequest = IdTaskRequest.HasValue && IdTaskRequest != Guid.Empty ? IdTaskRequest : null
                 IdTaskRequest = IdTaskRequest
             };
 
@@ -103,8 +136,8 @@ namespace Job_Match.MAUI.ViewModels
             // 2. Enviar el mensaje
             var dto = new SendMessageDto
             {
-                IdSender = UserSessionService.Instance.Id, // ID del cliente logueado
-                IdReceiver = IdProviderUser,
+                IdSender = myUserId,
+                IdReceiver = receiverId,
                 Message = NewMessage,
                 IdTaskRequest = IdTaskRequest
             };
@@ -114,7 +147,7 @@ namespace Job_Match.MAUI.ViewModels
             {
                 Messages.Add(new ChatMessageDto
                 {
-                    IdSender = dto.IdSender,
+                    IdSender = myUserId,
                     Message = NewMessage,
                     SentOn = DateTime.Now,
                     IsMine = true,

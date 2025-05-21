@@ -199,31 +199,36 @@ namespace Job_Match.Services.Services
 
         public async Task<List<ChatSummaryDto>> GetAllChatsForProviderAsync(Guid idProvider)
         {
-            var chats = await _context.t_task_contacts
+            var contactos = await _context.t_task_contacts
                 .Where(c => c.id_user_provider == idProvider && c.active && c.can_chat)
-                .Include(c => c.id_task_requestNavigation)
-                    .ThenInclude(r => r.id_user_clientNavigation)
+                .Include(c => c.id_user_clientNavigation)
+                    .ThenInclude(client => client.id_userNavigation)
+                .Include(c => c.id_user_providerNavigation)
                 .ToListAsync();
 
             var result = new List<ChatSummaryDto>();
 
-            foreach (var chat in chats)
+            foreach (var contact in contactos)
             {
-                var idTaskRequest = chat.id_task_request;
+                var idUserClient = contact.id_user_clientNavigation.id_user;
+                var idUserProvider = contact.id_user_providerNavigation.id_user;
 
                 var lastMessage = await _context.t_task_messages
-                    .Where(m => m.id_task_request == idTaskRequest)
+                    .Where(m =>
+                        (m.id_user_sender == idUserClient && m.id_user_reciver == idUserProvider) ||
+                        (m.id_user_sender == idUserProvider && m.id_user_reciver == idUserClient))
                     .OrderByDescending(m => m.sent_on)
                     .FirstOrDefaultAsync();
 
-                var client = chat.id_task_requestNavigation.id_user_clientNavigation;
+                var client = contact.id_user_clientNavigation;
 
                 result.Add(new ChatSummaryDto
                 {
                     IdUserClient = client.id,
-                    ClientName = client.name,
+                    ClientName = client.id_userNavigation.first_name + " " + client.id_userNavigation.last_name,
+                    IdUserProvider = idUserProvider,
                     LastMessage = lastMessage?.message ?? "(sin mensajes)",
-                    LastMessageDate = lastMessage?.sent_on ?? chat.created_on
+                    LastMessageDate = lastMessage?.sent_on ?? contact.created_on
                 });
             }
 

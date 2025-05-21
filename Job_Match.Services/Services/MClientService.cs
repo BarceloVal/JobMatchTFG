@@ -283,5 +283,11 @@ namespace Job_Match.Services.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<Guid?> GetUserIdFromClientIdAsync(Guid clientId)
+        {
+            var client = await _context.m_user_clients.FirstOrDefaultAsync(c => c.id == clientId);
+            return client?.id_user;
+        }
     }
 }

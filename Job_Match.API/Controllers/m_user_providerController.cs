@@ -140,13 +140,13 @@ namespace Job_Match.API.Controllers
             return exists ? Ok() : NotFound();
         }
 
-        [HttpGet("by-id-user/{id_user}")]
-        public async Task<ActionResult<ProfileProviderDto>> GetByUserId(Guid id_user)
+        [HttpGet("by-id-user/{idUser}")]
+        public async Task<ActionResult<ProfileProviderDto>> GetByUserId(Guid idUser)
         {
             var provider = await _context.m_user_providers
                 .Include(x => x.id_userNavigation)
                 .Include(x => x.id_postal_codeNavigation)
-                .Where(x => x.id_user == id_user)
+                .Where(x => x.id_user == idUser)
                 .Select(x => new ProfileProviderDto
                 {
                     IdUser = x.id_user,

@@ -151,6 +151,16 @@ namespace Job_Match.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("user-id-from-client-id/{clientId}")]
+        public async Task<ActionResult<Guid>> GetUserIdFromClientId(Guid clientId)
+        {
+            var idUser = await _clientService.GetUserIdFromClientIdAsync(clientId);
+            if (idUser == null)
+                return NotFound();
+
+            return Ok(idUser);
+        }
+
         #endregion
 
         #region methods PUT

@@ -1,6 +1,7 @@
 using Job_Match.Data.Models.Dtos;
 using Job_Match.Maui.ApiService;
 using Job_Match.Maui.ViewModels;
+using Job_Match.MAUI.ViewModels;
 
 namespace Job_Match.Maui.Views;
 
@@ -12,6 +13,20 @@ public partial class ChatListProviderPage : ContentPage
         BindingContext = new ChatListProviderViewModel();
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (ChatNavigationState.HasSentNewMessage)
+        {
+            ChatNavigationState.HasSentNewMessage = false;
+            if (BindingContext is ChatListProviderViewModel vm)
+            {
+                await vm.LoadChatsAsync();
+            }
+        }
+    }
+
     private async void btnEnterChat_Clicked(object sender, EventArgs e)
     {
         try
@@ -19,12 +34,11 @@ public partial class ChatListProviderPage : ContentPage
             if (((Button)sender).BindingContext is ChatSummaryDto selectedChat)
             {
                 var uri = $"{nameof(ChatConversationPage)}" +
-                  $"?IdClientUser={UserSessionService.Instance.Id}" +
-                  $"&IdProviderUser={selectedChat.IdUserProvider}" +
+                  $"?IdClientUser={selectedChat.IdUserClient}" +
+                  $"&IdProviderUser={UserSessionService.Instance.IdUserProvider}" +
                   $"&IdTaskRequest={(selectedChat.IdTaskRequest?.ToString() ?? Guid.Empty.ToString())}";
 
                 await Shell.Current.GoToAsync(uri);
-
             }
         }
         catch (Exception ex)

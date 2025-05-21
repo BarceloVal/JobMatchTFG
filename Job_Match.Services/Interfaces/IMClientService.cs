@@ -17,6 +17,7 @@ namespace Job_Match.Services.Interfaces
         Task<bool> ClientExistsAsync(Guid idUser);
         Task<bool> UpdateClientProfileAsync(UpdateProfileClientDto dto);
         Task<ProfileClientDto?> GetClientProfileAsync(Guid idUser);
+        Task<Guid?> GetUserIdFromClientIdAsync(Guid clientId);
     }
 
 }
