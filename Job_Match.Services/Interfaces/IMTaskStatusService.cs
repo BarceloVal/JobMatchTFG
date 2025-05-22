@@ -11,5 +11,6 @@ namespace Job_Match.Services.Interfaces
     public interface IMTaskStatusService
     {
         Task<List<m_task_status>> GetAllAsync();
+        Task<List<TaskStatusDto>> GetAllTaskStatusesAsync();
     }
 }

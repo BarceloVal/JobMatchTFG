@@ -1,4 +1,5 @@
 ﻿using Job_Match.Data.Models;
+using Job_Match.Data.Models.Dtos;
 using Job_Match.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

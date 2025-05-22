@@ -21,6 +21,7 @@ public partial class MyOffersProvider : ContentPage
         if (idUserProvider != Guid.Empty)
         {
             _ = _viewModel.LoadMyOffersAsync(idUserProvider);
+            _ = _viewModel.LoadTaskStatusesAsync();
         }
         else
         {
@@ -47,5 +48,21 @@ public partial class MyOffersProvider : ContentPage
     private async void btnBack_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("..");
+    }
+
+    private async void btnClean_Clicked(object sender, EventArgs e)
+    {
+        _viewModel.SelectedTaskStatus = null;
+
+        var idProvider = UserSessionService.Instance.IdUserProvider ?? Guid.Empty;
+        if (idProvider != Guid.Empty)
+            await _viewModel.LoadMyOffersAsync(idProvider);
+    }
+
+    private async void btnSearch_Clicked(object sender, EventArgs e)
+    {
+        var idProvider = UserSessionService.Instance.IdUserProvider ?? Guid.Empty;
+        if (idProvider != Guid.Empty)
+            await _viewModel.LoadMyOffersAsync(idProvider);
     }
 }
