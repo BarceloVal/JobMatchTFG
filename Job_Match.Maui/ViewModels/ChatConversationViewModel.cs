@@ -100,6 +100,9 @@ namespace Job_Match.MAUI.ViewModels
                 Messages.Add(msg);
             }
 
+            // Esperar un poco y luego hacer scroll
+            await Task.Delay(100); // Espera para asegurar que se rendericen los mensajes
+
             await _apiService.MarkMessagesAsReadAsync(myUserId, isClient ? idProvider : idClientUser);
         }
 

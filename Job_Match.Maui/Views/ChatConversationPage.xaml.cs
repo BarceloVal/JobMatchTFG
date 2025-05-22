@@ -59,8 +59,19 @@ namespace Job_Match.Maui.Views
         {
             if (_clientSet && _providerSet && ViewModel != null)
             {
-                ViewModel.IdTaskRequest = _idTaskRequest; // podría ser Guid.Empty y está bien
+                ViewModel.IdTaskRequest = _idTaskRequest;
                 await ViewModel.LoadMessagesAsync(_idClientUser, _idProviderUser, _idTaskRequest);
+
+                // Esperar para que se rendericen los mensajes
+                await Task.Delay(100);
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    if (MessagesList.ItemsSource is IList<ChatMessageDto> messages && messages.Count > 0)
+                    {
+                        MessagesList.ScrollTo(messages.Last(), position: ScrollToPosition.End, animate: false);
+                    }
+                });
             }
         }
 
@@ -84,10 +95,8 @@ namespace Job_Match.Maui.Views
             {
                 vm.Messages.CollectionChanged += (s, ev) =>
                 {
-                    // Esperar un poco para asegurar que el nuevo mensaje se renderice
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
-
                         if (MessagesList.ItemsSource is IList<ChatMessageDto> messages && messages.Count > 0)
                         {
                             MessagesList.ScrollTo(messages.Last(), position: ScrollToPosition.End, animate: true);
