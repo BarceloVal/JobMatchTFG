@@ -126,6 +126,9 @@ namespace Job_Match.Services.Services
                     .OrderByDescending(m => m.sent_on)
                     .FirstOrDefault();
 
+                var unreadCount = messages
+                    .Count(m => m.id_user_sender == providerUserId && m.id_user_reciver == userId && m.read_on == null);
+
                 var provider = providers.FirstOrDefault(p => p.id_user == providerUserId);
 
                 return new ChatSummaryDto
@@ -133,7 +136,8 @@ namespace Job_Match.Services.Services
                     IdUserProvider = provider?.id_user ?? Guid.Empty,
                     ProviderName = provider?.id_userNavigation?.first_name + " " + provider?.id_userNavigation?.last_name,
                     LastMessage = lastMessage?.message,
-                    LastMessageDate = lastMessage?.sent_on
+                    LastMessageDate = lastMessage?.sent_on,
+                    UnreadCount = unreadCount
                 };
             }).ToList();
 
@@ -220,6 +224,12 @@ namespace Job_Match.Services.Services
                     .OrderByDescending(m => m.sent_on)
                     .FirstOrDefaultAsync();
 
+                var unreadCount = await _context.t_task_messages
+                   .CountAsync(m =>
+                       m.id_user_sender == idUserClient &&
+                       m.id_user_reciver == idUserProvider &&
+                       m.read_on == null);
+
                 var client = contact.id_user_clientNavigation;
 
                 result.Add(new ChatSummaryDto
@@ -228,7 +238,8 @@ namespace Job_Match.Services.Services
                     ClientName = client.id_userNavigation.first_name + " " + client.id_userNavigation.last_name,
                     IdUserProvider = idUserProvider,
                     LastMessage = lastMessage?.message ?? "(sin mensajes)",
-                    LastMessageDate = lastMessage?.sent_on ?? contact.created_on
+                    LastMessageDate = lastMessage?.sent_on ?? contact.created_on,
+                    UnreadCount = unreadCount
                 });
             }
 

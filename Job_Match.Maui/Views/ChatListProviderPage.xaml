@@ -34,12 +34,40 @@
                                 <Grid ColumnDefinitions="*, Auto"
                                       RowDefinitions="Auto, Auto">
 
+
                                     <!-- Información del chat -->
                                     <StackLayout Grid.Column="0" Spacing="4">
-                                        <Label Text="{Binding ClientName}"
-                                               FontAttributes="Bold"
-                                               FontSize="18"
-                                               TextColor="#222" />
+                                        <Grid ColumnDefinitions="Auto,Auto" VerticalOptions="Center">
+                                            <!-- Nombre del cliente -->
+                                            <Label Text="{Binding ClientName}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="18"
+                                                   TextColor="#222"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Start" />
+
+                                            <!-- Burbuja de notificación -->
+                                            <Frame Grid.Column="1"
+                                                   WidthRequest="18"
+                                                   HeightRequest="18"
+                                                   BackgroundColor="Red"
+                                                   CornerRadius="9"
+                                                   HasShadow="False"
+                                                   IsVisible="{Binding UnreadCount, Converter={StaticResource NullOrZeroToBoolConverter}}"
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Start"
+                                                   Margin="4,0,0,0"
+                                                   Padding="0">
+                                                <Label Text="{Binding UnreadCount}"
+                                                       TextColor="White"
+                                                       FontSize="11"
+                                                       FontAttributes="Bold"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Frame>
+                                        </Grid>
 
                                         <Label Text="{Binding LastMessage}"
                                                FontSize="14"
@@ -66,6 +94,7 @@
                                         WidthRequest="80"
                                         VerticalOptions="Center"
                                         HorizontalOptions="Center" />
+
                                 </Grid>
                             </Frame>
                         </DataTemplate>

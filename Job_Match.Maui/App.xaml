@@ -15,6 +15,7 @@
             <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
             <converters:NullOrEmptyToBoolConverter x:Key="NullOrEmptyToBoolConverter"/>
             <converters:StatusToColorConverter x:Key="StatusToColorConverter" />
+            <converters:NullOrZeroToBoolConverter x:Key="NullOrZeroToBoolConverter" />
 
             <!-- Estilos de mensajes para el chat -->
             <Style x:Key="MyMessageStyle" TargetType="Frame">
