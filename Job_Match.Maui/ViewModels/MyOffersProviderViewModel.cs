@@ -23,6 +23,18 @@ namespace Job_Match.Maui.ViewModels
                 MyOffers.Add(offer);
         }
 
+        public async Task QuitOfferAsync(Guid idProvider, Guid idTaskRequest)
+        {
+            var dto = new QuitOfferDto
+            {
+                IdUserProvider = idProvider,
+                IdTaskRequest = idTaskRequest
+            };
+
+            await _api.PostAsync("api/offer-subscriptions/quit", dto);
+            await LoadMyOffersAsync(idProvider); // Recargar después de quitar
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 

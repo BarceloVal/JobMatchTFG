@@ -7,20 +7,45 @@
 
     <Grid RowDefinitions="Auto, *, Auto, Auto">
 
-        <VerticalStackLayout Grid.Row="0" Spacing="0">
-            <!-- Mi encabezado personalizado -->
-            <controls:HeaderControl />
-        </VerticalStackLayout>
+        <!-- ENCABEZADO PERSONALIZADO -->
+        <Grid
+            Grid.Row="0"
+            ColumnDefinitions="Auto,*,Auto"
+            BackgroundColor="#980c0f"
+            HeightRequest="50"
+            VerticalOptions="Start">
+
+            <!-- Flecha de volver -->
+            <ImageButton
+                x:Name="btnBack"
+                Source="arrowback.png"
+                Clicked="btnBack_Clicked"
+                WidthRequest="35"
+                HeightRequest="35"
+                Margin="10, 0, 0, 0"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Grid.Column="0" />
+
+            <!-- Nombre del proveedor centrado en el espacio disponible -->
+            <Label
+                Text="Mis ofertas inscritas"
+                Grid.Column="1"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="Center"
+                HorizontalTextAlignment="Center"
+                TextColor="White"
+                FontSize="20"
+                FontAttributes="Bold"/>
+
+            <!-- Caja invisible para equilibrar el ancho -->
+            <ContentView Grid.Column="2" WidthRequest="55" />
+        </Grid>
 
         <!-- Contenido con scroll -->
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="20">
-                <Label Text="Mis ofertas inscritas"
-                       FontSize="22"
-                       FontAttributes="Bold"
-                       TextColor="#980c0f"
-                       HorizontalOptions="Center"/>
-
                 <CollectionView ItemsSource="{Binding MyOffers}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -60,6 +85,15 @@
                                            TextColor="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
                                            Margin="0, 10, 0, 5"/>
 
+                                    <!-- Botón para salirse de la oferta -->
+                                    <Button
+                                        x:Name="btnQuitOffer"
+                                        Text="Quitarse de la oferta"
+                                        BackgroundColor="#980c0f"
+                                        Margin="0, 10, 0, 5"
+                                        Clicked="btnQuitOffer_Clicked"
+                                        CommandParameter="{Binding}"/>
+
                                 </VerticalStackLayout>
                             </Frame>
                         </DataTemplate>
@@ -67,29 +101,5 @@
                 </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
-
-        <!-- Línea separadora -->
-        <BoxView
-            Grid.Row="2"
-            HeightRequest="1"
-            BackgroundColor="#980c0f"
-            Margin="0, 10, 0, 10"
-            HorizontalOptions="FillAndExpand" />
-
-        <!-- Botón Volver -->
-        <Button
-            Grid.Row="3"
-            x:Name="btnBackToMenuProvider"
-            Text="Volver"
-            BackgroundColor="#980c0f"
-            TextColor="White"
-            CornerRadius="10"
-            FontAttributes="Bold"
-            FontSize="18"
-            HeightRequest="45"
-            WidthRequest="350"
-            HorizontalOptions="Center"
-            Margin="0,5,0,20"
-            Clicked="btnBackToMenuProvider_Clicked" />
     </Grid>
 </ContentPage>

@@ -91,5 +91,21 @@ namespace Job_Match.Services.Services
                 }).ToListAsync();
         }
 
+        public async Task<bool> QuitOfferAsync(QuitOfferDto dto)
+        {
+            var record = await _context.t_offer_subscriptions.FirstOrDefaultAsync(x =>
+                x.id_user_provider == dto.IdUserProvider &&
+                x.id_task_request == dto.IdTaskRequest &&
+                x.active);
+
+            if (record == null)
+                return false;
+
+            record.active = false;
+            record.last_update = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using Job_Match.Data.Models.Dtos;
 using Job_Match.Maui.ApiService;
 using Job_Match.Maui.ViewModels;
 
@@ -27,7 +28,23 @@ public partial class MyOffersProvider : ContentPage
         }
     }
 
-    private async void btnBackToMenuProvider_Clicked(object sender, EventArgs e)
+    private async void btnQuitOffer_Clicked(object sender, EventArgs e)
+    {
+        if (((Button)sender).CommandParameter is SubscribedOfferDto selectedOffer)
+        {
+            bool confirm = await DisplayAlert("Confirmar", "¿Deseas quitarte de esta oferta?", "Sí", "Cancelar");
+            if (!confirm) return;
+
+            var idProvider = UserSessionService.Instance.IdUserProvider ?? Guid.Empty;
+
+            if (idProvider != Guid.Empty)
+            {
+                await _viewModel.QuitOfferAsync(idProvider, selectedOffer.IdOffer);
+            }
+        }
+    }
+
+    private async void btnBack_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("..");
     }
