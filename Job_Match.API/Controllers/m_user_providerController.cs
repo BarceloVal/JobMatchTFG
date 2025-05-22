@@ -109,6 +109,7 @@ namespace Job_Match.API.Controllers
             var result = providers.Select(p => new ProviderWithServicesDto
             {
                 Id = p.id,
+                IdUser = p.id_user,
                 TradeName = p.trade_name,
                 PhoneNumber1 = p.phone_number_1,
                 PhoneNumber2 = p.phone_number_2,
@@ -139,13 +140,13 @@ namespace Job_Match.API.Controllers
             return exists ? Ok() : NotFound();
         }
 
-        [HttpGet("by-id-user/{id_user}")]
-        public async Task<ActionResult<ProfileProviderDto>> GetByUserId(Guid id_user)
+        [HttpGet("by-id-user/{idUser}")]
+        public async Task<ActionResult<ProfileProviderDto>> GetByUserId(Guid idUser)
         {
             var provider = await _context.m_user_providers
                 .Include(x => x.id_userNavigation)
                 .Include(x => x.id_postal_codeNavigation)
-                .Where(x => x.id_user == id_user)
+                .Where(x => x.id_user == idUser)
                 .Select(x => new ProfileProviderDto
                 {
                     IdUser = x.id_user,
@@ -176,6 +177,17 @@ namespace Job_Match.API.Controllers
 
             return Ok(provider);
         }
+
+        [HttpGet("by-id/{idProvider}")]
+        public async Task<IActionResult> GetById(Guid idProvider)
+        {
+            var result = await _providerService.GetProviderByIdAsync(idProvider);
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
 
         #endregion
 

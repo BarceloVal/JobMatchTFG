@@ -57,9 +57,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\arrowback.png" />
 	  <None Remove="Resources\Images\arrowdown.png" />
+	  <None Remove="Resources\Images\chats.png" />
 	  <None Remove="Resources\Images\help.png" />
 	  <None Remove="Resources\Images\home.png" />
+	  <None Remove="Resources\Images\iconchat.png" />
 	  <None Remove="Resources\Images\iconoffers.png" />
 	  <None Remove="Resources\Images\jobmatchred.png" />
 	  <None Remove="Resources\Images\jobmatchwhite.png" />
@@ -101,6 +104,21 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ChangeProfileToProvider.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChatConversationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChatListClientPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChatListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChatListProviderPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ClientChatListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CreateClientAccount.xaml">
@@ -160,9 +178,6 @@
 	  <MauiXaml Update="Views\RequestServiceClient.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\RequestServiceProvider.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -172,6 +187,9 @@
 	<ItemGroup>
 	  <Compile Update="MainShellProvider.xaml.cs">
 	    <DependentUpon>MainShellProvider.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ChatListProviderPage.xaml.cs">
+	    <DependentUpon>ChatListProviderPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\CreateClientAccount.xaml.cs">
 	    <DependentUpon>CreateClientAccount.xaml</DependentUpon>

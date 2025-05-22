@@ -1,3 +1,4 @@
+using Job_Match.Data.Models.Dtos;
 using Job_Match.Maui.ApiService;
 using Job_Match.Maui.ViewModels;
 
@@ -20,6 +21,7 @@ public partial class MyOffersProvider : ContentPage
         if (idUserProvider != Guid.Empty)
         {
             _ = _viewModel.LoadMyOffersAsync(idUserProvider);
+            _ = _viewModel.LoadTaskStatusesAsync();
         }
         else
         {
@@ -27,8 +29,40 @@ public partial class MyOffersProvider : ContentPage
         }
     }
 
-    private async void btnBackToMenuProvider_Clicked(object sender, EventArgs e)
+    private async void btnQuitOffer_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(".."); // O cambia a "HomeProvider" si está registrado en el routing
+        if (((Button)sender).CommandParameter is SubscribedOfferDto selectedOffer)
+        {
+            bool confirm = await DisplayAlert("Confirmar", "¿Deseas quitarte de esta oferta?", "Sí", "Cancelar");
+            if (!confirm) return;
+
+            var idProvider = UserSessionService.Instance.IdUserProvider ?? Guid.Empty;
+
+            if (idProvider != Guid.Empty)
+            {
+                await _viewModel.QuitOfferAsync(idProvider, selectedOffer.IdOffer);
+            }
+        }
+    }
+
+    private async void btnBack_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("..");
+    }
+
+    private async void btnClean_Clicked(object sender, EventArgs e)
+    {
+        _viewModel.SelectedTaskStatus = null;
+
+        var idProvider = UserSessionService.Instance.IdUserProvider ?? Guid.Empty;
+        if (idProvider != Guid.Empty)
+            await _viewModel.LoadMyOffersAsync(idProvider);
+    }
+
+    private async void btnSearch_Clicked(object sender, EventArgs e)
+    {
+        var idProvider = UserSessionService.Instance.IdUserProvider ?? Guid.Empty;
+        if (idProvider != Guid.Empty)
+            await _viewModel.LoadMyOffersAsync(idProvider);
     }
 }

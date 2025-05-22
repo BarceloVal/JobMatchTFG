@@ -7,11 +7,6 @@ public partial class HomeProvider : ContentPage
         InitializeComponent();
     }
 
-    private async void btnrequest_Clicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(RequestServiceProvider));
-    }
-
     private async void btnoffers_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(OfferProvider));
@@ -19,6 +14,11 @@ public partial class HomeProvider : ContentPage
 
     private async void btnMyOffers_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("MyOffersProvider");
+        await Shell.Current.GoToAsync(nameof(MyOffersProvider));
+    }
+
+    private async void btncontact_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(ChatListProviderPage));
     }
 }

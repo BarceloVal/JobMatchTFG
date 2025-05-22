@@ -12,7 +12,7 @@ public partial class t_task_message
     [Key]
     public Guid id { get; set; }
 
-    public Guid id_task_request { get; set; }
+    public Guid? id_task_request { get; set; }
 
     public Guid id_user_sender { get; set; }
 

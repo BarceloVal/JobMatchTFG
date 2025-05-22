@@ -20,7 +20,6 @@ namespace Job_Match.Maui
             Routing.RegisterRoute(nameof(ProfileClient), typeof(ProfileClient));
             Routing.RegisterRoute(nameof(ProfileProvider), typeof(ProfileProvider));
             Routing.RegisterRoute(nameof(RequestServiceClient), typeof(RequestServiceClient));
-            Routing.RegisterRoute(nameof(RequestServiceProvider), typeof(RequestServiceProvider));
             Routing.RegisterRoute(nameof(HelpProvider), typeof(HelpProvider));
             Routing.RegisterRoute(nameof(HelpClient), typeof(HelpClient));
             Routing.RegisterRoute(nameof(ChangeProfileToProvider), typeof(ChangeProfileToProvider));
@@ -28,8 +27,12 @@ namespace Job_Match.Maui
             Routing.RegisterRoute(nameof(CreateOffer), typeof(CreateOffer));
             Routing.RegisterRoute(nameof(EditOffer), typeof(EditOffer));
             Routing.RegisterRoute(nameof(EditProfileClient), typeof(EditProfileClient));
+            Routing.RegisterRoute(nameof(EditProfileProvider), typeof(EditProfileProvider));
             Routing.RegisterRoute(nameof(OfferProvidersSubscription), typeof(OfferProvidersSubscription));
             Routing.RegisterRoute(nameof(MyOffersProvider), typeof(MyOffersProvider));
+            Routing.RegisterRoute(nameof(ChatListClientPage), typeof(ChatListClientPage));
+            Routing.RegisterRoute(nameof(ChatListProviderPage), typeof(ChatListProviderPage));
+            Routing.RegisterRoute(nameof(ChatConversationPage), typeof(ChatConversationPage));
 
         }
     }

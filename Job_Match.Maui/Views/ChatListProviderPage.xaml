@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Job_Match.Maui.UserControls"
+             x:Class="Job_Match.Maui.Views.ChatListProviderPage"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- Encabezado -->
+            <controls:HeaderControl />
+
+            <StackLayout Padding="20">
+                <Label
+                    Text="Contactos"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    Margin="0, 0, 0, 10"
+                    HorizontalOptions="Center" />
+
+                <CollectionView
+                    ItemsSource="{Binding Chats}"
+                    SelectionMode="None"
+                    Margin="10">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame
+                                Margin="0,8"
+                                Padding="12"
+                                CornerRadius="16"
+                                BackgroundColor="White"
+                                HasShadow="True">
+                                <Grid ColumnDefinitions="*, Auto"
+                                      RowDefinitions="Auto, Auto">
+
+
+                                    <!-- Información del chat -->
+                                    <StackLayout Grid.Column="0" Spacing="4">
+                                        <Grid ColumnDefinitions="Auto,Auto" VerticalOptions="Center">
+                                            <!-- Nombre del cliente -->
+                                            <Label Text="{Binding ClientName}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="18"
+                                                   TextColor="#222"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Start" />
+
+                                            <!-- Burbuja de notificación -->
+                                            <Frame Grid.Column="1"
+                                                   WidthRequest="18"
+                                                   HeightRequest="18"
+                                                   BackgroundColor="Red"
+                                                   CornerRadius="9"
+                                                   HasShadow="False"
+                                                   IsVisible="{Binding UnreadCount, Converter={StaticResource NullOrZeroToBoolConverter}}"
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Start"
+                                                   Margin="4,0,0,0"
+                                                   Padding="0">
+                                                <Label Text="{Binding UnreadCount}"
+                                                       TextColor="White"
+                                                       FontSize="11"
+                                                       FontAttributes="Bold"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Frame>
+                                        </Grid>
+
+                                        <Label Text="{Binding LastMessage}"
+                                               FontSize="14"
+                                               TextColor="#666"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="1" />
+
+                                        <Label Text="{Binding LastMessageDateFormatted}"
+                                               FontSize="12"
+                                               TextColor="#999" />
+                                    </StackLayout>
+
+                                    <!-- Botón elegante para entrar al chat -->
+                                    <Button
+                                        x:Name="btnEnterChat"
+                                        Grid.Column="1" Grid.RowSpan="2"
+                                        Text="Entrar"
+                                        Clicked="btnEnterChat_Clicked"
+                                        BackgroundColor="#980c0f"
+                                        TextColor="White"
+                                        FontSize="14"
+                                        CornerRadius="20"
+                                        HeightRequest="36"
+                                        WidthRequest="80"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center" />
+
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

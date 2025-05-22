@@ -2,6 +2,7 @@
 using Job_Match.Services.Interfaces;
 using Job_Match.Services.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Job_Match.API.Controllers
 {
@@ -38,6 +39,25 @@ namespace Job_Match.API.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"[ERROR API] {ex.Message}");
+                return StatusCode(500, "Error interno del servidor.");
+            }
+        }
+
+        [HttpPost("quit")]
+        public async Task<IActionResult> QuitOffer([FromBody] QuitOfferDto dto)
+        {
+            try
+            {
+                var result = await _service.QuitOfferAsync(dto);
+
+                if (!result)
+                    return NotFound("Suscripción no encontrada o ya inactiva.");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR QuitOffer] {ex.Message}");
                 return StatusCode(500, "Error interno del servidor.");
             }
         }

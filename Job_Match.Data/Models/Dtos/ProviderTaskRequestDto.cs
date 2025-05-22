@@ -9,6 +9,7 @@ namespace Job_Match.Data.Models.Dtos
     public class ProviderTaskRequestDto
     {
         public Guid Id { get; set; }
+        public Guid IdUser { get; set; }
         public string FullName { get; set; } = "";
 
         public string TradeName { get; set; }
@@ -18,5 +19,6 @@ namespace Job_Match.Data.Models.Dtos
         public string Phone1 { get; set; }
         public string Phone2 { get; set; }
         public string Description { get; set; }
+        public Guid IdTaskRequest { get; set; }
     }
 }

@@ -238,6 +238,28 @@ namespace Job_Match.Maui.ApiService
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<ProfileClientDto?> GetClientProfileByUserIdAsync(Guid idUser)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_client/profile/{idUser}");
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ProfileClientDto>(json);
+        }
+
+        public async Task<Guid?> GetUserIdFromClientIdAsync(Guid clientId)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_client/user-id-from-client-id/{clientId}");
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Guid>(json);
+        }
+
         #endregion
 
         #region m_user_provider
@@ -294,6 +316,27 @@ namespace Job_Match.Maui.ApiService
             var dto = JsonConvert.DeserializeObject<ProfileProviderDto>(json);
 
             return dto.IdProvider;
+        }
+
+        public async Task<ProfileProviderDto?> GetProviderByIdAsync(Guid idProvider)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id/{idProvider}");
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ProfileProviderDto>(json);
+        }
+
+        public async Task<ProfileProviderDto?> GetProviderByUserIdAsync(Guid idUser)
+        {
+            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id-user/{idUser}");
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ProfileProviderDto>(json);
         }
 
         #endregion
@@ -553,6 +596,42 @@ namespace Job_Match.Maui.ApiService
 
         #endregion
 
+        #region t_task_message
+
+        // Obtener mensaje entre cliente y proveedor
+        public async Task<List<ChatMessageDto>> GetMessagesBetweenUsersAsync(Guid idSender, Guid idReceiver)
+        {
+            var response = await _httpClient.GetAsync($"api/task-messages/between/{idSender}/{idReceiver}");
+
+            if (!response.IsSuccessStatusCode)
+                return new List<ChatMessageDto>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<ChatMessageDto>>(json);
+        }
+
+        // Enviar mensaje
+        public async Task<bool> SendMessageAsync(SendMessageDto dto)
+        {
+            var json = JsonConvert.SerializeObject(dto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("api/task-messages/send", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        // Leer los mensajes
+        public async Task MarkMessagesAsReadAsync(Guid idReceiver, Guid idSender)
+        {
+            var response = await _httpClient.PutAsync($"api/task-messages/mark-as-read/{idReceiver}/{idSender}", null);
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"[MarkMessagesAsReadAsync] Error: {response.StatusCode}");
+            }
+        }
+
+        #endregion
+
         #region changeClientToProvider
 
         public async Task<bool> ChangeClientToProviderAsync(ChangeClientToProviderDto dto)
@@ -619,6 +698,51 @@ namespace Job_Match.Maui.ApiService
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al verificar existencia de cliente: {ex.Message}");
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region GENERIC methods
+
+        public async Task<T?> GetAsync<T>(string endpoint)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(endpoint);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"[GetAsync] Error en endpoint {endpoint}: {response.StatusCode}");
+                    return default;
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[GetAsync] Exception en endpoint {endpoint}: {ex.Message}");
+                return default;
+            }
+        }
+
+        public async Task<bool> PostAsync<T>(string endpoint, T data)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(data);
+                Console.WriteLine($"POST JSON to {endpoint}: {json}");
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync(endpoint, content);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PostAsync] Error al hacer POST a {endpoint}: {ex.Message}");
                 return false;
             }
         }

@@ -116,7 +116,7 @@ namespace Job_Match.API.Controllers
                     .Include(os => os.id_user_providerNavigation.id_userNavigation)
                     .Select(os => new ProviderTaskRequestDto
                     {
-                        Id = os.id_user_providerNavigation.id_user,
+                        IdUser = os.id_user_providerNavigation.id_user,
                         FullName = os.id_user_providerNavigation.id_userNavigation.first_name + " " +
                                    os.id_user_providerNavigation.id_userNavigation.last_name,
                         TradeName = os.id_user_providerNavigation.trade_name,
@@ -127,7 +127,8 @@ namespace Job_Match.API.Controllers
                         Mail = os.id_user_providerNavigation.mail,
                         Phone1 = os.id_user_providerNavigation.phone_number_1,
                         Phone2 = os.id_user_providerNavigation.phone_number_2,
-                        Description = os.id_user_providerNavigation.description
+                        Description = os.id_user_providerNavigation.description,
+                        IdTaskRequest = t.id
                     })
                     .ToListAsync();
 
@@ -148,6 +149,16 @@ namespace Job_Match.API.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpGet("user-id-from-client-id/{clientId}")]
+        public async Task<ActionResult<Guid>> GetUserIdFromClientId(Guid clientId)
+        {
+            var idUser = await _clientService.GetUserIdFromClientIdAsync(clientId);
+            if (idUser == null)
+                return NotFound();
+
+            return Ok(idUser);
         }
 
         #endregion

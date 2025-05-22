@@ -134,7 +134,7 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Población: " FontAttributes="Bold"/>
+                                        <Span Text="Población: "  FontSize="15" FontAttributes="Bold"/>
                                         <Span Text="{Binding PostalCodeName}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
@@ -144,7 +144,7 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Teléfono 1: " FontAttributes="Bold"/>
+                                        <Span Text="Teléfono 1: "  FontSize="15" FontAttributes="Bold"/>
                                         <Span Text="{Binding PhoneNumber1}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
@@ -154,7 +154,7 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Teléfono 2: " FontAttributes="Bold"/>
+                                        <Span Text="Teléfono 2: "  FontSize="15" FontAttributes="Bold"/>
                                         <Span Text="{Binding PhoneNumber2}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
@@ -164,7 +164,7 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Mail: " FontAttributes="Bold"/>
+                                        <Span Text="Mail: "  FontSize="15" FontAttributes="Bold"/>
                                         <Span Text="{Binding Mail}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
@@ -174,7 +174,7 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Web: " FontAttributes="Bold"/>
+                                        <Span Text="Web: "  FontSize="15" FontAttributes="Bold"/>
                                         <Span Text="{Binding Website}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
@@ -184,7 +184,7 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Descripción: " FontAttributes="Bold"/>
+                                        <Span Text="Descripción: "  FontSize="15" FontAttributes="Bold"/>
                                         <Span Text="{Binding Description}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
@@ -193,13 +193,23 @@
                             <!-- Servicio principal -->
                             <HorizontalStackLayout Spacing="10" Margin="0,5">
                                 <Label Text="{Binding Services[0].ServiceTypeName}"
-                                       FontSize="13"
+                                       FontSize="15"
                                        FontAttributes="Bold"
                                        TextColor="#2980b9"/>
                                 <Label Text="{Binding Services[0].Name}"
-                                       FontSize="13"
+                                       FontSize="15"
                                        TextColor="#27ae60"/>
                             </HorizontalStackLayout>
+
+                            <!-- Botón de contactar -->
+                            <Button
+                                x:Name="btnContact"
+                                Clicked="btnContact_Clicked"
+                                Text="Contactar"
+                                BackgroundColor="#980c0f"
+                                FontSize="15"
+                                HeightRequest="40"
+                                BindingContext="{Binding .}" />
 
                         </VerticalStackLayout>
                     </Frame>

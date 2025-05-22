@@ -15,5 +15,6 @@ namespace Job_Match.Services.Interfaces
         Task<bool> ChangeClientToProviderAsync(ChangeClientToProviderDto dto);
         Task<bool> ProviderExistsAsync(Guid idUser);
         Task<bool> UpdateProviderProfileAsync(UpdateProfileProviderDto dto);
+        Task<ProfileProviderDto?> GetProviderByIdAsync(Guid idProvider);
     }
 }

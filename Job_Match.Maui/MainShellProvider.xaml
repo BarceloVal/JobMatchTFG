@@ -22,14 +22,19 @@
         <ShellContent ContentTemplate="{DataTemplate views:ProfileProvider}" />
     </FlyoutItem>
 
-    <!-- Página para ver las solicitudes del proveedor -->
-    <FlyoutItem Title="Ver ofertas de servicios" Route="RequestServiceProvider" FlyoutIcon="request.png">
-        <ShellContent ContentTemplate="{DataTemplate views:RequestServiceProvider}" />
+    <!-- Página para buscar ofertas -->
+    <FlyoutItem Title="Buscar ofertas abiertas" Route="OfferProvider" FlyoutIcon="request.png">
+        <ShellContent ContentTemplate="{DataTemplate views:OfferProvider}" />
     </FlyoutItem>
 
-    <!-- Página para ver las ofertas del proveedor -->
-    <FlyoutItem Title="Ver mis ofertas abiertas" Route="OfferProvider" FlyoutIcon="iconoffers.png">
-        <ShellContent ContentTemplate="{DataTemplate views:OfferProvider}" />
+    <!-- Página para ver las ofertas en las que está el proveedor -->
+    <FlyoutItem Title="Ver mis ofertas" Route="MyOffersProvider" FlyoutIcon="iconoffers.png">
+        <ShellContent ContentTemplate="{DataTemplate views:MyOffersProvider}" />
+    </FlyoutItem>
+
+    <!-- Página para ver los chats con los clientes -->
+    <FlyoutItem Title="Contactos" Route="ChatListProviderPage" FlyoutIcon="iconchat.png">
+        <ShellContent ContentTemplate="{DataTemplate views:ChatListProviderPage}" />
     </FlyoutItem>
 
     <!-- Ayuda para el usuario sobre la página de proveedor -->
