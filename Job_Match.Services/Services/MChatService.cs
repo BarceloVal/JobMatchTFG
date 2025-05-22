@@ -225,10 +225,10 @@ namespace Job_Match.Services.Services
                     .FirstOrDefaultAsync();
 
                 var unreadCount = await _context.t_task_messages
-                   .CountAsync(m =>
-                       m.id_user_sender == idUserClient &&
-                       m.id_user_reciver == idUserProvider &&
-                       m.read_on == null);
+                    .CountAsync(m =>
+                        m.id_user_sender == idUserClient &&
+                        m.id_user_reciver == idUserProvider &&
+                        m.read_on == null);
 
                 var client = contact.id_user_clientNavigation;
 
@@ -243,7 +243,12 @@ namespace Job_Match.Services.Services
                 });
             }
 
-            return result.OrderByDescending(c => c.LastMessageDate).ToList();
+            // Ordenar primero por cantidad de mensajes sin leer, luego por fecha del último mensaje
+            return result
+             .OrderByDescending(c => c.UnreadCount) // Primero por cantidad de mensajes sin leer
+             .ThenByDescending(c => c.LastMessageDate ?? DateTime.MinValue) // Luego por última fecha
+             .ToList();
+
         }
 
         public async Task EnsureContactExistsAsync(Guid idUserClient, Guid idUserProvider, Guid? idTaskRequest)

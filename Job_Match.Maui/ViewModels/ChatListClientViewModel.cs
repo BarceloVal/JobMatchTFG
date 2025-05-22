@@ -55,19 +55,23 @@ namespace Job_Match.MAUI.ViewModels
 
                 if (response != null)
                 {
-                    foreach (var chat in response)
+                    var orderedChats = response
+                        .OrderByDescending(c => c.UnreadCount)
+                        .ThenByDescending(c => c.LastMessageDate ?? DateTime.MinValue);
+
+                    foreach (var chat in orderedChats)
                         Chats.Add(chat);
                 }
             }
             catch (Exception ex)
             {
-                // Aquí puedes manejar errores o mostrar alertas
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"[LoadChatsAsync] Error: {ex.Message}");
             }
             finally
             {
                 IsBusy = false;
             }
         }
+
     }
 }

@@ -77,7 +77,7 @@
                 <Button
                     x:Name="btncontact"
                     Grid.Row="1"
-                    Text="Ver mis mensajes"
+                    Text="Contactos"
                     BackgroundColor="#980c0f"
                     TextColor="White"
                     CornerRadius="10"

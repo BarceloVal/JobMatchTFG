@@ -33,7 +33,7 @@
     </FlyoutItem>
 
     <!-- Página para ver los chats con los clientes -->
-    <FlyoutItem Title="Ver mis mensajes" Route="ChatListProviderPage" FlyoutIcon="iconchat.png">
+    <FlyoutItem Title="Contactos" Route="ChatListProviderPage" FlyoutIcon="iconchat.png">
         <ShellContent ContentTemplate="{DataTemplate views:ChatListProviderPage}" />
     </FlyoutItem>
 
