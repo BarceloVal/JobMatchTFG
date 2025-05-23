@@ -1,4 +1,5 @@
 using Job_Match.Data.Models.Dtos;
+using Job_Match.Maui.ViewModels;
 using Job_Match.MAUI.ViewModels;
 
 namespace Job_Match.Maui.Views
@@ -108,6 +109,24 @@ namespace Job_Match.Maui.Views
 
         private async void btnBack_Clicked(object sender, EventArgs e)
         {
+            // Forzar recarga de chats al volver
+            if (Shell.Current.Navigation.NavigationStack.Count > 1)
+            {
+                var previousPage = Shell.Current.Navigation.NavigationStack[^2];
+
+                if (previousPage is ChatListProviderPage providerListPage &&
+                    providerListPage.BindingContext is ChatListProviderViewModel vm)
+                {
+                    await vm.LoadChatsAsync(); // Método que actualiza la lista de chats
+                }
+
+                if (previousPage is ChatListClientPage clientListPage &&
+                    clientListPage.BindingContext is ChatListClientViewModel vm2)
+                {
+                    await vm2.LoadChatsAsync();
+                }
+            }
+
             await Shell.Current.GoToAsync("..");
         }
     }
