@@ -37,6 +37,7 @@ namespace Job_Match.MAUI.ViewModels
         public Guid? IdTaskRequest { get; set; }
 
         public ICommand SendMessageCommand { get; }
+        public ICommand GoToProviderProfileCommand { get; }
 
         // Reemplazá esto por lo que recibas desde navegación
         public Guid IdClientUser { get; set; }
@@ -45,6 +46,7 @@ namespace Job_Match.MAUI.ViewModels
         public ChatConversationViewModel()
         {
             SendMessageCommand = new Command(async () => await SendMessageAsync());
+            GoToProviderProfileCommand = new Command(OnGoToProviderProfile);
         }
 
         public async Task LoadMessagesAsync(Guid idClientUser, Guid idProvider, Guid idTaskRequest)
@@ -162,6 +164,19 @@ namespace Job_Match.MAUI.ViewModels
 
                 NewMessage = string.Empty;
                 ChatNavigationState.HasSentNewMessage = true;
+            }
+        }
+
+        private async void OnGoToProviderProfile()
+        {
+            var myUserId = UserSessionService.Instance.Id;
+
+            // Detectar si soy cliente o proveedor, y navegar al perfil del otro
+            var targetUserId = (myUserId == IdClientUser) ? IdProviderUser : IdClientUser;
+
+            if (targetUserId != Guid.Empty)
+            {
+                await Shell.Current.GoToAsync($"ProfileUserScore?providerId={targetUserId}");
             }
         }
 
