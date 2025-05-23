@@ -44,6 +44,41 @@
             <ContentView Grid.Column="2" WidthRequest="55" />
         </Grid>
 
+        <ScrollView Grid.Row="1" Padding="20">
+            <StackLayout Spacing="10">
+
+                <!-- Nombre ya mostrado en encabezado -->
+                <Label Text="Correo electrónico:" FontAttributes="Bold" />
+                <Label Text="{Binding Mail}" />
+
+                <Label Text="Teléfono 1:" FontAttributes="Bold" />
+                <Label Text="{Binding Phone1}" />
+
+                <Label Text="Teléfono 2:" FontAttributes="Bold" />
+                <Label Text="{Binding Phone2}" />
+
+                <Label Text="Código Postal:" FontAttributes="Bold" />
+                <Label Text="{Binding PostalCode}" />
+
+                <!-- Solo si es proveedor -->
+                <Label Text="Nombre comercial:" FontAttributes="Bold" IsVisible="{Binding TradeName, Converter={StaticResource NullToBoolConverter}}" />
+                <Label Text="{Binding TradeName}" IsVisible="{Binding TradeName, Converter={StaticResource NullToBoolConverter}}" />
+
+                <Label Text="Sitio web:" FontAttributes="Bold" IsVisible="{Binding Website, Converter={StaticResource NullToBoolConverter}}" />
+                <Label Text="{Binding Website}" IsVisible="{Binding Website, Converter={StaticResource NullToBoolConverter}}" />
+
+                <Label Text="Descripción:" FontAttributes="Bold" IsVisible="{Binding Description, Converter={StaticResource NullToBoolConverter}}" />
+                <Label Text="{Binding Description}" IsVisible="{Binding Description, Converter={StaticResource NullToBoolConverter}}" />
+
+                <Label Text="Tipo de servicio:" FontAttributes="Bold" IsVisible="{Binding ServiceType, Converter={StaticResource NullToBoolConverter}}" />
+                <Label Text="{Binding ServiceType}" IsVisible="{Binding ServiceType, Converter={StaticResource NullToBoolConverter}}" />
+
+                <Label Text="Servicio:" FontAttributes="Bold" IsVisible="{Binding Service, Converter={StaticResource NullToBoolConverter}}" />
+                <Label Text="{Binding Service}" IsVisible="{Binding Service, Converter={StaticResource NullToBoolConverter}}" />
+
+            </StackLayout>
+        </ScrollView>
+
     </Grid>
 
 </ContentPage>

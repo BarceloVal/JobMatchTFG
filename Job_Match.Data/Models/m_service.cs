@@ -40,4 +40,8 @@ public partial class m_service
 
     [InverseProperty("id_serviceNavigation")]
     public virtual ICollection<t_task_request> t_task_requests { get; set; } = new List<t_task_request>();
+
+    [InverseProperty(nameof(m_service_provider.m_service))]
+    public virtual ICollection<m_service_provider> m_service_providers { get; set; } = new List<m_service_provider>();
+
 }

@@ -341,5 +341,96 @@ namespace Job_Match.Services.Services
             };
         }
 
+        public async Task<ProfileProviderDto?> GetProviderByUserIdAsync(Guid idUser)
+        {
+            var provider = await _context.m_user_providers
+                .Include(p => p.id_userNavigation)
+                .Include(p => p.id_postal_codeNavigation)
+                .FirstOrDefaultAsync(p => p.id_user == idUser && p.active);
+
+            if (provider == null)
+                return null;
+
+            var idProvider = provider.id;
+
+            var serviceData = await _context.m_service_providers
+                .Include(sp => sp.m_service)
+                    .ThenInclude(s => s.id_service_typeNavigation)
+                .Where(sp => sp.id_user_provider == idProvider && sp.active)
+                .Select(sp => new ServiceDto
+                {
+                    Id = sp.m_service.id,
+                    Name = sp.m_service.name,
+                    IdServiceType = sp.m_service.id_service_type,
+                    ServiceTypeName = sp.m_service.id_service_typeNavigation.name,
+                    ServiceName = sp.m_service.name
+                })
+                .ToListAsync();
+
+            return new ProfileProviderDto
+            {
+                IdProvider = idProvider,
+                IdUser = provider.id_user,
+                FirstName = provider.id_userNavigation.first_name,
+                LastName = provider.id_userNavigation.last_name,
+                Mail = provider.mail,
+                Phone1 = provider.phone_number_1,
+                Phone2 = provider.phone_number_2,
+                TradeName = provider.trade_name,
+                Website = provider.web_site,
+                Description = provider.description,
+                Address = provider.address,
+                IdPostalCode = provider.id_postal_code,
+                PostalCodeName = provider.id_postal_codeNavigation != null
+                    ? $"{provider.id_postal_codeNavigation.cod_auto_name}/{provider.id_postal_codeNavigation.cod_pro_name}/{provider.id_postal_codeNavigation.cod_loc_name}"
+                    : "",
+                Services = serviceData
+            };
+        }
+
+        public async Task<ProfileProviderDto?> GetProviderByIdWithServicesAsync(Guid idProvider)
+        {
+            var provider = await _context.m_user_providers
+                .Include(p => p.id_userNavigation)
+                .Include(p => p.id_postal_codeNavigation)
+                .FirstOrDefaultAsync(p => p.id == idProvider && p.active);
+
+            if (provider == null)
+                return null;
+
+            var services = await _context.m_service_providers
+                .Include(sp => sp.m_service)
+                    .ThenInclude(s => s.id_service_typeNavigation)
+                .Where(sp => sp.id_user_provider == provider.id && sp.active)
+                .Select(sp => new ServiceDto
+                {
+                    Id = sp.m_service.id,
+                    Name = sp.m_service.name,
+                    IdServiceType = sp.m_service.id_service_type,
+                    ServiceTypeName = sp.m_service.id_service_typeNavigation.name,
+                    ServiceName = sp.m_service.name
+                })
+                .ToListAsync();
+
+            return new ProfileProviderDto
+            {
+                IdProvider = provider.id,
+                IdUser = provider.id_user,
+                FirstName = provider.id_userNavigation.first_name,
+                LastName = provider.id_userNavigation.last_name,
+                Mail = provider.mail,
+                Phone1 = provider.phone_number_1,
+                Phone2 = provider.phone_number_2,
+                TradeName = provider.trade_name,
+                Website = provider.web_site,
+                Description = provider.description,
+                Address = provider.address,
+                IdPostalCode = provider.id_postal_code,
+                PostalCodeName = provider.id_postal_codeNavigation != null
+                    ? $"{provider.id_postal_codeNavigation.cod_auto_name}/{provider.id_postal_codeNavigation.cod_pro_name}/{provider.id_postal_codeNavigation.cod_loc_name}"
+                    : "",
+                Services = services
+            };
+        }
     }
 }

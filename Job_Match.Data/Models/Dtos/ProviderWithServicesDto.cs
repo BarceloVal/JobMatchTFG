@@ -20,13 +20,4 @@ namespace Job_Match.Data.Models.Dtos
         public Guid IdPostalCode { get; set; }
         public List<ServiceDto> Services { get; set; } = new();
     }
-
-    public class ServiceDto
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public Guid IdServiceType { get; set; }
-        public string ServiceTypeName { get; set; }
-        public string ServiceName { get; set; }
-    }
 }

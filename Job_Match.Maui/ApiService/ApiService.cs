@@ -320,7 +320,7 @@ namespace Job_Match.Maui.ApiService
 
         public async Task<ProfileProviderDto?> GetProviderByIdAsync(Guid idProvider)
         {
-            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id/{idProvider}");
+            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id-with-services/{idProvider}");
             if (!response.IsSuccessStatusCode)
                 return null;
 
