@@ -6,9 +6,9 @@
              x:Class="Job_Match.Maui.Views.ScoreUser"
              Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto" Padding="0">
 
-        <!-- ENCABEZADO PERSONALIZADO -->
+        <!-- Encabezado personalizado -->
         <Grid
             Grid.Row="0"
             ColumnDefinitions="Auto,*,Auto"
@@ -43,6 +43,25 @@
             <!-- Caja invisible para equilibrar el ancho -->
             <ContentView Grid.Column="2" WidthRequest="55" />
         </Grid>
+
+        <!-- Título -->
+        <Label
+            Grid.Row="1"
+            Text="Valorar usuario"
+            FontSize="25"
+            FontAttributes="Bold"
+            Margin="0, 20, 0, 10"
+            HorizontalOptions="Center"/>
+
+        <!-- Estrellas -->
+        <HorizontalStackLayout Grid.Row="2" Margin="0, 20, 0, 20" Spacing="5" HorizontalOptions="Center">
+            <ImageButton x:Name="btnStar1" Source="starempty.png" Clicked="btnStar1_Clicked" />
+            <ImageButton x:Name="btnStar2" Source="starempty.png" Clicked="btnStar2_Clicked" />
+            <ImageButton x:Name="btnStar3" Source="starempty.png" Clicked="btnStar3_Clicked" />
+            <ImageButton x:Name="btnStar4" Source="starempty.png" Clicked="btnStar4_Clicked" />
+            <ImageButton x:Name="btnStar5" Source="starempty.png" Clicked="btnStar5_Clicked" />
+        </HorizontalStackLayout>
+
     </Grid>
 
 </ContentPage>
