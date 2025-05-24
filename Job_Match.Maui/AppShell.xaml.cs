@@ -34,7 +34,7 @@ namespace Job_Match.Maui
             Routing.RegisterRoute(nameof(ChatListClientPage), typeof(ChatListClientPage));
             Routing.RegisterRoute(nameof(ChatListProviderPage), typeof(ChatListProviderPage));
             Routing.RegisterRoute(nameof(ChatConversationPage), typeof(ChatConversationPage));
-
+            Routing.RegisterRoute(nameof(ScoreUser), typeof(ScoreUser));
         }
     }
 }

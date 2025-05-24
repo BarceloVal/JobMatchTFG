@@ -39,7 +39,7 @@ namespace Job_Match.MAUI.ViewModels
         public ICommand SendMessageCommand { get; }
         public ICommand GoToProviderProfileCommand { get; }
 
-        // Reemplazá esto por lo que recibas desde navegación
+
         public Guid IdClientUser { get; set; }
         public Guid IdProviderUser { get; set; }
 

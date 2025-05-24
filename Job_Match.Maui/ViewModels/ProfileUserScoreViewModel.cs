@@ -1,16 +1,18 @@
-﻿using Java.Security;
-using Microsoft.Maui.Layouts;
+﻿using Job_Match.Maui.ApiService;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Job_Match.Maui.ViewModels
 {
     public class ProfileUserScoreViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string name) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        private readonly Job_Match.Maui.ApiService.ApiService _apiService = new();
+
         public string DisplayName { get => _displayName; set { _displayName = value; OnPropertyChanged(nameof(DisplayName)); } }
         private string _displayName;
 
@@ -41,14 +43,18 @@ namespace Job_Match.Maui.ViewModels
         public string Service { get => _service; set { _service = value; OnPropertyChanged(nameof(Service)); } }
         private string _service;
 
+        public bool IsProvider { get => _isProvider; set { _isProvider = value; OnPropertyChanged(nameof(IsProvider)); } }
         private bool _isProvider;
-        public bool IsProvider
-        {
-            get => _isProvider;
-            set { _isProvider = value; OnPropertyChanged(nameof(IsProvider)); }
-        }
 
-        private readonly Job_Match.Maui.ApiService.ApiService _apiService = new();
+        public Guid IdClientUser { get; set; }
+        public Guid IdProviderUser { get; set; }
+
+        public ICommand GoToProviderProfileCommand { get; }
+
+        public ProfileUserScoreViewModel()
+        {
+            GoToProviderProfileCommand = new Command(async () => await OnGoToProviderProfile());
+        }
 
         public async Task LoadUserProfileAsync(Guid userId)
         {
@@ -61,6 +67,8 @@ namespace Job_Match.Maui.ViewModels
                     if (provider != null)
                     {
                         IsProvider = true;
+                        IdProviderUser = provider.IdUser;
+                        IdClientUser = UserSessionService.Instance.Id;
                         DisplayName = $"{provider.FirstName} {provider.LastName}";
                         Mail = provider.Mail;
                         Phone1 = provider.Phone1;
@@ -85,6 +93,8 @@ namespace Job_Match.Maui.ViewModels
                 if (client != null)
                 {
                     IsProvider = false;
+                    IdClientUser = client.IdUser;
+                    IdProviderUser = UserSessionService.Instance.Id;
                     DisplayName = $"{client.FirstName} {client.LastName}";
                     Mail = client.Mail;
                     Phone1 = client.Phone1;
@@ -98,9 +108,15 @@ namespace Job_Match.Maui.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-    }
+        private async Task OnGoToProviderProfile()
+        {
+            var myUserId = UserSessionService.Instance.Id;
+            var targetUserId = (myUserId == IdClientUser) ? IdProviderUser : IdClientUser;
 
+            if (targetUserId != Guid.Empty)
+            {
+                await Shell.Current.GoToAsync($"ScoreUser?providerId={targetUserId}");
+            }
+        }
+    }
 }

@@ -6,7 +6,6 @@ namespace Job_Match.Maui.Views;
 public partial class ProfileUserScore : ContentPage
 {
     public string ProviderIdString { get; set; }
-
     private ProfileUserScoreViewModel ViewModel => BindingContext as ProfileUserScoreViewModel;
 
     public ProfileUserScore()
@@ -33,4 +32,6 @@ public partial class ProfileUserScore : ContentPage
     {
         await Shell.Current.GoToAsync("..");
     }
+
+
 }
