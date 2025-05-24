@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Java.Security;
+using Microsoft.Maui.Layouts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -39,6 +41,12 @@ namespace Job_Match.Maui.ViewModels
         public string Service { get => _service; set { _service = value; OnPropertyChanged(nameof(Service)); } }
         private string _service;
 
+        private bool _isProvider;
+        public bool IsProvider
+        {
+            get => _isProvider;
+            set { _isProvider = value; OnPropertyChanged(nameof(IsProvider)); }
+        }
 
         private readonly Job_Match.Maui.ApiService.ApiService _apiService = new();
 
@@ -46,36 +54,37 @@ namespace Job_Match.Maui.ViewModels
         {
             try
             {
-                // 1. Obtener el ID del proveedor a partir del id_user
-                Guid providerId = await _apiService.GetProviderIdFromUserIdAsync(userId);
-
-                // 2. Obtener el perfil completo del proveedor usando ese ID
-                var provider = await _apiService.GetProviderByIdAsync(providerId);
-                if (provider != null)
+                try
                 {
-                    DisplayName = $"{provider.FirstName} {provider.LastName}";
-                    Mail = provider.Mail;
-                    Phone1 = provider.Phone1;
-                    Phone2 = provider.Phone2;
-                    PostalCode = provider.PostalCodeName;
-                    TradeName = provider.TradeName;
-                    Website = provider.Website;
-                    Description = provider.Description;
-
-                    // Verificamos si tiene servicios asociados
-                    if (provider.Services != null && provider.Services.Any())
+                    Guid providerId = await _apiService.GetProviderIdFromUserIdAsync(userId);
+                    var provider = await _apiService.GetProviderByIdAsync(providerId);
+                    if (provider != null)
                     {
-                        ServiceType = provider.Services[0].ServiceTypeName;
-                        Service = provider.Services[0].ServiceName;
+                        IsProvider = true;
+                        DisplayName = $"{provider.FirstName} {provider.LastName}";
+                        Mail = provider.Mail;
+                        Phone1 = provider.Phone1;
+                        Phone2 = provider.Phone2;
+                        PostalCode = provider.PostalCodeName;
+                        TradeName = provider.TradeName;
+                        Website = provider.Website;
+                        Description = provider.Description;
+
+                        if (provider.Services != null && provider.Services.Any())
+                        {
+                            ServiceType = provider.Services[0].ServiceTypeName;
+                            Service = provider.Services[0].ServiceName;
+                        }
+
+                        return;
                     }
-
-                    return;
                 }
+                catch { }
 
-                // 3. Si no es proveedor, buscar como cliente
                 var client = await _apiService.GetClientProfileByUserIdAsync(userId);
                 if (client != null)
                 {
+                    IsProvider = false;
                     DisplayName = $"{client.FirstName} {client.LastName}";
                     Mail = client.Mail;
                     Phone1 = client.Phone1;
@@ -85,7 +94,7 @@ namespace Job_Match.Maui.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error en LoadUserProfileAsync: {ex.Message}");
+                Console.WriteLine($"Error general en LoadUserProfileAsync: {ex.Message}");
             }
         }
 
