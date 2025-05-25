@@ -1,4 +1,7 @@
+using Job_Match.Data.Models.Dtos;
+using Job_Match.Maui.ApiService;
 using Job_Match.Maui.ViewModels;
+using System.Xml.Linq;
 
 namespace Job_Match.Maui.Views
 {
@@ -51,6 +54,41 @@ namespace Job_Match.Maui.Views
             btnStar3.Source = rating >= 3 ? "starfill.png" : "starempty.png";
             btnStar4.Source = rating >= 4 ? "starfill.png" : "starempty.png";
             btnStar5.Source = rating >= 5 ? "starfill.png" : "starempty.png";
+        }
+
+        private async void btnScore_Clicked(object sender, EventArgs e)
+        {
+            if (_currentRating == 0)
+            {
+                await DisplayAlert("Atención", "Debes seleccionar una valoración entre 1 y 5 estrellas.", "Aceptar");
+                return;
+            }
+
+            var comment = txtComment.Text?.Trim();
+            var dto = new CreateTaskScoreDto
+            {
+                IdUserReviewer = UserSessionService.Instance.Id,
+                IdUserReviewed = ViewModel.IdUserReviewed,
+                Rating = _currentRating,
+                Comment = comment
+            };
+
+            var success = await new Job_Match.Maui.ApiService.ApiService().CreateTaskScoreAsync(dto);
+            if (success)
+            {
+                await DisplayAlert("Éxito", "La valoración fue enviada correctamente.", "Aceptar");
+                await Shell.Current.GoToAsync("..");
+            }
+            else
+            {
+                await DisplayAlert("Error", "No se pudo enviar la valoración. Intenta nuevamente.", "Aceptar");
+            }
+        }
+
+        private void txtComment_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int count = e.NewTextValue.Length;
+            lblCharCount.Text = $"{count}/1000";
         }
     }
 }

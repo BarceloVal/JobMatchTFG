@@ -632,6 +632,19 @@ namespace Job_Match.Maui.ApiService
 
         #endregion
 
+        #region t_task_score
+
+        public async Task<bool> CreateTaskScoreAsync(CreateTaskScoreDto dto)
+        {
+            var json = JsonConvert.SerializeObject(dto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("api/task-score", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        #endregion
+
         #region changeClientToProvider
 
         public async Task<bool> ChangeClientToProviderAsync(ChangeClientToProviderDto dto)

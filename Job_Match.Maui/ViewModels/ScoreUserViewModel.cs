@@ -20,10 +20,14 @@ namespace Job_Match.Maui.ViewModels
         public string DisplayName { get => _displayName; set { _displayName = value; OnPropertyChanged(nameof(DisplayName)); } }
         private string _displayName;
 
+        public Guid IdUserReviewed { get; set; }
+
         public async Task LoadUserScoreAsync(Guid userId)
         {
             try
             {
+                IdUserReviewed = userId;
+
                 try
                 {
                     Guid providerId = await _apiService.GetProviderIdFromUserIdAsync(userId);

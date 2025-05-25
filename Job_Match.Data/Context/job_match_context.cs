@@ -181,15 +181,15 @@ public partial class job_match_context : DbContext
 
         modelBuilder.Entity<t_task_score>(entity =>
         {
-            entity.HasOne(d => d.id_task_requestNavigation).WithMany(p => p.t_task_scores)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_t_task_score_t_task_request");
+            entity.HasKey(e => new { e.id_user_reviewer, e.id_user_reviewed });
 
-            entity.HasOne(d => d.id_user_reviewedNavigation).WithMany(p => p.t_task_scoreid_user_reviewedNavigations)
+            entity.HasOne(d => d.id_user_reviewedNavigation)
+                .WithMany(p => p.t_task_scoreid_user_reviewedNavigations)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_t_task_score_m_user_reviewed");
 
-            entity.HasOne(d => d.id_user_reviewerNavigation).WithMany(p => p.t_task_scoreid_user_reviewerNavigations)
+            entity.HasOne(d => d.id_user_reviewerNavigation)
+                .WithMany(p => p.t_task_scoreid_user_reviewerNavigations)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_t_task_score_m_user_reviewer");
         });
