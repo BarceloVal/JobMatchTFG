@@ -14,7 +14,6 @@
 
             <VerticalStackLayout Spacing="20" Padding="20">
 
-                <!-- Título -->
                 <Label Text="Ayuda para usuarios proveedores"
                        FontSize="22"
                        FontAttributes="Bold"
@@ -29,7 +28,52 @@
                                FontAttributes="Bold"
                                TextColor="#980c0f"
                                HorizontalOptions="Center" />
-                        <Label Text="En esta sección puedes explorar todas las ofertas abiertas publicadas por clientes. Puedes filtrar las ofertas por población, tipo de servicio o servicio específico, o bien dejar todos los filtros vacíos para ver todas. Una vez encuentres una oferta que te interese, puedes inscribirte con un solo clic. El cliente podrá ver tu perfil antes de decidir si contactarte."
+                        <Label Text="Explora todas las ofertas abiertas creadas por los clientes. Puedes aplicar filtros por población, tipo de servicio o servicio específico. Al encontrar una oferta de tu interés, puedes inscribirte para que el cliente revise tu perfil y decida si quiere contactarte."
+                               FontSize="15"
+                               TextColor="#444"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Inscribirse a ofertas -->
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Inscribirme a ofertas"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#980c0f"
+                               HorizontalOptions="Center" />
+                        <Label Text="Una vez inscrito en una oferta, el cliente podrá ver tu perfil completo y decidir si desea contactarte. No necesitas enviar mensajes al inscribirte, pero es recomendable tener tu información actualizada y profesional."
+                               FontSize="15"
+                               TextColor="#444"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Gestionar mis ofertas inscritas -->
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Mis ofertas inscritas"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#980c0f"
+                               HorizontalOptions="Center" />
+                        <Label Text="Consulta las ofertas en las que te has inscrito, filtrando por estado (abierta, en proceso, finalizada, etc.). Puedes revisar los detalles de cada una y prepararte para cuando el cliente se ponga en contacto."
+                               FontSize="15"
+                               TextColor="#444"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Chats con clientes -->
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Chats con clientes"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#980c0f"
+                               HorizontalOptions="Center" />
+                        <Label Text="Puedes recibir mensajes de clientes que hayan revisado tu perfil. Desde la sección de chats puedes leer, responder y continuar las conversaciones activas. Solo los clientes pueden iniciar el contacto."
                                FontSize="15"
                                TextColor="#444"
                                LineBreakMode="WordWrap"/>
@@ -44,29 +88,29 @@
                                FontAttributes="Bold"
                                TextColor="#980c0f"
                                HorizontalOptions="Center" />
-                        <Label Text="Desde tu perfil puedes consultar y editar toda tu información como proveedor: nombre comercial, página web, teléfonos, descripción del servicio que ofreces, y más. También puedes ver el tipo de servicio y el servicio específico al que estás asociado. Mantener tu perfil actualizado aumenta tus posibilidades de ser seleccionado por los clientes."
+                        <Label Text="Desde tu perfil puedes editar tu nombre comercial, teléfonos, sitio web, descripción del servicio, población y más. También puedes consultar y modificar el tipo de servicio y los servicios asociados. Mantener tu perfil completo y actualizado es clave para atraer clientes."
                                FontSize="15"
                                TextColor="#444"
                                LineBreakMode="WordWrap"/>
                     </VerticalStackLayout>
                 </Frame>
 
-                <!-- Inscripción a ofertas -->
+                <!-- Valoraciones -->
                 <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
                     <VerticalStackLayout Spacing="10">
-                        <Label Text="Inscribirse a ofertas"
+                        <Label Text="Valoraciones"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="#980c0f"
                                HorizontalOptions="Center" />
-                        <Label Text="Cuando veas una oferta abierta que te interese, puedes inscribirte para que el cliente vea tu perfil. No necesitas escribir mensajes ni negociar condiciones en este paso: el cliente verá tu información y decidirá si desea contactarte. Es importante que tengas un perfil completo y profesional para aumentar tus posibilidades."
+                        <Label Text="Puedes dejar valoraciones a los clientes con los que has trabajado y también ver las reseñas que otros usuarios han dejado sobre ti. Estas valoraciones influyen directamente en tu reputación dentro de la plataforma."
                                FontSize="15"
                                TextColor="#444"
                                LineBreakMode="WordWrap"/>
                     </VerticalStackLayout>
                 </Frame>
 
-                <!-- Cambiar de proveedor a cliente -->
+                <!-- Cambiar a cliente -->
                 <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Cambiar a perfil cliente"
@@ -74,7 +118,7 @@
                                FontAttributes="Bold"
                                TextColor="#980c0f"
                                HorizontalOptions="Center" />
-                        <Label Text="Si deseas volver a actuar como cliente, puedes cambiar tu perfil desde la sección correspondiente. Si nunca has sido cliente antes, deberás completar información básica como dirección, teléfono, etc. Si ya habías sido cliente, simplemente se reactivará tu cuenta anterior. Solo puedes usar un perfil a la vez (cliente o proveedor)."
+                        <Label Text="Si deseas solicitar servicios en lugar de ofrecerlos, puedes cambiar a perfil cliente. Si es la primera vez, deberás completar datos básicos. Si ya has sido cliente antes, se reactivará tu cuenta previa. Solo puedes tener un perfil activo a la vez."
                                FontSize="15"
                                TextColor="#444"
                                LineBreakMode="WordWrap"/>
@@ -89,12 +133,13 @@
                                FontAttributes="Bold"
                                TextColor="#980c0f"
                                HorizontalOptions="Center" />
-                        <Label Text="Desde tu perfil puedes elegir desactivar tu cuenta si ya no deseas utilizar la plataforma. Al hacerlo, tu perfil dejará de ser visible y también se desactivará tu inscripción a servicios y ofertas. Esta opción es útil si deseas tomar un descanso temporal. Podrás volver a activarla en el futuro si lo deseas."
+                        <Label Text="Puedes desactivar tu cuenta temporalmente si no deseas recibir nuevas solicitudes ni aparecer en búsquedas. Tu información se conservará por si decides volver más adelante."
                                FontSize="15"
                                TextColor="#444"
                                LineBreakMode="WordWrap"/>
                     </VerticalStackLayout>
                 </Frame>
+
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
