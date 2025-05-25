@@ -1,6 +1,8 @@
-﻿using Job_Match.Data.Models.Dtos;
+﻿using Job_Match.Data.Context;
+using Job_Match.Data.Models.Dtos;
 using Job_Match.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Job_Match.API.Controllers
 {
@@ -11,10 +13,12 @@ namespace Job_Match.API.Controllers
         #region parameters
 
         private readonly IMTaskScoreService _service;
+        private readonly job_match_context _context;
 
-        public t_task_scoreController(IMTaskScoreService service)
+        public t_task_scoreController(IMTaskScoreService service, job_match_context context)
         {
             _service = service;
+            _context = context;
         }
 
         #endregion
@@ -37,6 +41,29 @@ namespace Job_Match.API.Controllers
             }
         }
 
-        #endregion+
+        #endregion
+
+        #region methods GET
+
+        [HttpGet("received/{idUser}")]
+        public async Task<ActionResult<IEnumerable<TaskScoreDisplayDto>>> GetScoresReceivedByUser(Guid idUser)
+        {
+            var scores = await _context.t_task_scores
+                .Where(s => s.id_user_reviewed == idUser && s.active)
+                .Include(s => s.id_user_reviewerNavigation)
+                .Select(s => new TaskScoreDisplayDto
+                {
+                    Rating = s.rating,
+                    Comment = s.comment,
+                    CreatedOn = s.created_on,
+                    ReviewerName = s.id_user_reviewerNavigation.first_name + " " + s.id_user_reviewerNavigation.last_name
+                })
+                .OrderByDescending(s => s.CreatedOn)
+                .ToListAsync();
+
+            return Ok(scores);
+        }
+
+        #endregion
     }
 }

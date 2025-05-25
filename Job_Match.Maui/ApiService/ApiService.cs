@@ -643,6 +643,13 @@ namespace Job_Match.Maui.ApiService
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<List<TaskScoreDisplayDto>> GetScoresReceivedByUserAsync(Guid userId)
+        {
+            var response = await _httpClient.GetAsync($"api/task-score/received/{userId}");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<List<TaskScoreDisplayDto>>() ?? new();
+        }
+
         #endregion
 
         #region changeClientToProvider

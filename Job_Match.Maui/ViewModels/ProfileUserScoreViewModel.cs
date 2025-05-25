@@ -1,5 +1,7 @@
-﻿using Job_Match.Maui.ApiService;
+﻿using Job_Match.Data.Models.Dtos;
+using Job_Match.Maui.ApiService;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -51,6 +53,8 @@ namespace Job_Match.Maui.ViewModels
 
         public ICommand GoToProviderProfileCommand { get; }
 
+        public ObservableCollection<TaskScoreDisplayDto> ReceivedScores { get; set; } = new();
+
         public ProfileUserScoreViewModel()
         {
             GoToProviderProfileCommand = new Command(async () => await OnGoToProviderProfile());
@@ -84,6 +88,11 @@ namespace Job_Match.Maui.ViewModels
                             Service = provider.Services[0].ServiceName;
                         }
 
+                        var scores = await _apiService.GetScoresReceivedByUserAsync(userId);
+                        ReceivedScores.Clear();
+                        foreach (var score in scores)
+                            ReceivedScores.Add(score);
+
                         return;
                     }
                 }
@@ -100,6 +109,11 @@ namespace Job_Match.Maui.ViewModels
                     Phone1 = client.Phone1;
                     Phone2 = client.Phone2;
                     PostalCode = client.PostalCodeName;
+
+                    var scores = await _apiService.GetScoresReceivedByUserAsync(userId);
+                    ReceivedScores.Clear();
+                    foreach (var score in scores)
+                        ReceivedScores.Add(score);
                 }
             }
             catch (Exception ex)
