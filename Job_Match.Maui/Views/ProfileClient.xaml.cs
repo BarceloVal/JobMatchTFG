@@ -22,9 +22,10 @@ namespace Job_Match.Maui.Views
 
             var dto = await _apiService.GetClientByMailAsync(UserSessionService.Instance.Mail);
 
-            App.CurrentUser = dto;
+            var vm = new ProfileClientViewModel(dto);
+            BindingContext = vm;
 
-            BindingContext = new ProfileClientViewModel(dto);
+            await vm.LoadReceivedScoresAsync(dto.IdUser);
         }
 
         private async void btnSwitchUser_Clicked(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -56,6 +57,17 @@ namespace Job_Match.Maui.ViewModels
                 MapCoordinates = user.MapCoordinates;
                 Services = user.Services ?? new List<ServiceDto>();
             }
+        }
+
+        private readonly ApiService.ApiService _apiService = new();
+        public ObservableCollection<TaskScoreDisplayDto> ReceivedScores { get; set; } = new();
+
+        public async Task LoadReceivedScoresAsync(Guid userId)
+        {
+            var scores = await _apiService.GetScoresReceivedByUserAsync(userId);
+            ReceivedScores.Clear();
+            foreach (var score in scores)
+                ReceivedScores.Add(score);
         }
     }
 }

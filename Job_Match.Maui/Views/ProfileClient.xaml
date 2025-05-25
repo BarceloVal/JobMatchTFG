@@ -86,6 +86,22 @@
                     </VerticalStackLayout>
                 </Frame>
 
+                <Label Text="Valoraciones recibidas" FontAttributes="Bold" FontSize="18" TextColor="#980c0f" Margin="0,20,0,5"/>
+                <CollectionView ItemsSource="{Binding ReceivedScores}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="#ccc" CornerRadius="8" Padding="10" Margin="0,5">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="{Binding ReviewerName}" FontAttributes="Bold" FontSize="14"/>
+                                    <Label Text="{Binding Rating, StringFormat='⭐ {0}'}" TextColor="#980c0f"/>
+                                    <Label Text="{Binding Comment}" FontSize="13" LineBreakMode="WordWrap"/>
+                                    <Label Text="{Binding CreatedOn, StringFormat='{}{0:dd/MM/yyyy}'}" FontSize="11" TextColor="Gray" HorizontalOptions="End"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
             </VerticalStackLayout>
 
             <!-- Botón para cambiar de perfil -->
@@ -123,6 +139,7 @@
                 CornerRadius="10"
                 FontAttributes="Bold"
                 Padding="14,10"
+                Margin="0, 0, 0, 20"
                 WidthRequest="350"
                 HorizontalOptions="Center"
                 Clicked="btnDisableAccount_Clicked"/>
