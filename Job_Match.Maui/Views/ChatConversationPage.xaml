@@ -54,7 +54,12 @@
                 HorizontalTextAlignment="Center"
                 TextColor="White"
                 FontSize="20"
-                FontAttributes="Bold" />
+                FontAttributes="Bold">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToProviderProfileCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
 
             <!-- Caja invisible para equilibrar el ancho -->
             <ContentView Grid.Column="2" WidthRequest="55" />

@@ -76,6 +76,9 @@
 	  <None Remove="Resources\Images\profile.png" />
 	  <None Remove="Resources\Images\request.png" />
 	  <None Remove="Resources\Images\requestservice.png" />
+	  <None Remove="Resources\Images\starempty.png" />
+	  <None Remove="Resources\Images\starfill.png" />
+	  <None Remove="Resources\Images\trash.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -175,7 +178,13 @@
 	  <MauiXaml Update="Views\ProfileProvider.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ProfileUserScore.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\RequestServiceClient.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ScoreUser.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

@@ -19,6 +19,7 @@ namespace Job_Match.Maui
             Routing.RegisterRoute(nameof(OfferProvider), typeof(OfferProvider));
             Routing.RegisterRoute(nameof(ProfileClient), typeof(ProfileClient));
             Routing.RegisterRoute(nameof(ProfileProvider), typeof(ProfileProvider));
+            Routing.RegisterRoute(nameof(ProfileUserScore), typeof(ProfileUserScore));
             Routing.RegisterRoute(nameof(RequestServiceClient), typeof(RequestServiceClient));
             Routing.RegisterRoute(nameof(HelpProvider), typeof(HelpProvider));
             Routing.RegisterRoute(nameof(HelpClient), typeof(HelpClient));
@@ -33,7 +34,7 @@ namespace Job_Match.Maui
             Routing.RegisterRoute(nameof(ChatListClientPage), typeof(ChatListClientPage));
             Routing.RegisterRoute(nameof(ChatListProviderPage), typeof(ChatListProviderPage));
             Routing.RegisterRoute(nameof(ChatConversationPage), typeof(ChatConversationPage));
-
+            Routing.RegisterRoute(nameof(ScoreUser), typeof(ScoreUser));
         }
     }
 }

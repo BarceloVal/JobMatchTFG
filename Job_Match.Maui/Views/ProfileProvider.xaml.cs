@@ -20,7 +20,12 @@ public partial class ProfileProvider : ContentPage
 
         var updatedDto = await _apiService.GetProviderByMailAsync(UserSessionService.Instance.Mail);
         App.CurrentUser = updatedDto;
-        BindingContext = new ProfileProviderViewModel(updatedDto);
+
+        var vm = new ProfileProviderViewModel(updatedDto);
+        BindingContext = vm;
+
+        await vm.LoadReceivedScoresAsync(updatedDto.IdUser);
+
     }
 
     private async void btnSwitchUser_Clicked(object sender, EventArgs e)

@@ -3,10 +3,12 @@ using Job_Match.Maui.Models;
 using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Job_Match.Maui.ApiService;
 
 namespace Job_Match.Maui.ViewModels
 {
@@ -45,5 +47,18 @@ namespace Job_Match.Maui.ViewModels
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+
+        private readonly ApiService.ApiService _apiService = new();
+        public ObservableCollection<TaskScoreDisplayDto> ReceivedScores { get; set; } = new();
+
+        public async Task LoadReceivedScoresAsync(Guid userId)
+        {
+            var scores = await _apiService.GetScoresReceivedByUserAsync(userId);
+            ReceivedScores.Clear();
+            foreach (var score in scores)
+                ReceivedScores.Add(score);
+        }
+
     }
 }

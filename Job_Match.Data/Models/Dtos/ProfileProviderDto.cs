@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Job_Match.Data.Models.Dtos
 {
     public class ProfileProviderDto
     {
+        [JsonProperty("idUser")]
         public Guid IdUser { get; set; }
+
+        [JsonProperty("idProvider")]
         public Guid IdProvider { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

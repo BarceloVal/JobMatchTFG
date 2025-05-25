@@ -206,6 +206,16 @@ namespace Job_Match.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("by-id-with-services/{idProvider}")]
+        public async Task<ActionResult<ProfileProviderDto>> GetProviderByIdWithServices(Guid idProvider)
+        {
+            var result = await _providerService.GetProviderByIdWithServicesAsync(idProvider);
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
         #endregion
     }
 }

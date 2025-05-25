@@ -320,7 +320,7 @@ namespace Job_Match.Maui.ApiService
 
         public async Task<ProfileProviderDto?> GetProviderByIdAsync(Guid idProvider)
         {
-            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id/{idProvider}");
+            var response = await _httpClient.GetAsync($"api/m_user_provider/by-id-with-services/{idProvider}");
             if (!response.IsSuccessStatusCode)
                 return null;
 
@@ -628,6 +628,32 @@ namespace Job_Match.Maui.ApiService
             {
                 Console.WriteLine($"[MarkMessagesAsReadAsync] Error: {response.StatusCode}");
             }
+        }
+
+        #endregion
+
+        #region t_task_score
+
+        public async Task<bool> CreateTaskScoreAsync(CreateTaskScoreDto dto)
+        {
+            var json = JsonConvert.SerializeObject(dto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("api/task-score", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<List<TaskScoreDisplayDto>> GetScoresReceivedByUserAsync(Guid userId)
+        {
+            var response = await _httpClient.GetAsync($"api/task-score/received/{userId}");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<List<TaskScoreDisplayDto>>() ?? new();
+        }
+
+        public async Task<bool> DeactivateScoreAsync(Guid idReviewer, Guid idReviewed)
+        {
+            var response = await _httpClient.PutAsync($"api/task-score/deactivate/{idReviewer}/{idReviewed}", null);
+            return response.IsSuccessStatusCode;
         }
 
         #endregion
