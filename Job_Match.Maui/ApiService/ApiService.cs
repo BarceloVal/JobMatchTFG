@@ -650,6 +650,12 @@ namespace Job_Match.Maui.ApiService
             return await response.Content.ReadFromJsonAsync<List<TaskScoreDisplayDto>>() ?? new();
         }
 
+        public async Task<bool> DeactivateScoreAsync(Guid idReviewer, Guid idReviewed)
+        {
+            var response = await _httpClient.PutAsync($"api/task-score/deactivate/{idReviewer}/{idReviewed}", null);
+            return response.IsSuccessStatusCode;
+        }
+
         #endregion
 
         #region changeClientToProvider

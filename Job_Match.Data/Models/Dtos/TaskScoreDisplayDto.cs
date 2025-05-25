@@ -12,5 +12,9 @@ namespace Job_Match.Data.Models.Dtos
         public string? Comment { get; set; }
         public DateTime CreatedOn { get; set; }
         public string ReviewerName { get; set; }
+        public bool IsMine { get; set; }
+
+        public Guid IdUserReviewer { get; set; }
+        public Guid IdUserReviewed { get; set; }
     }
 }

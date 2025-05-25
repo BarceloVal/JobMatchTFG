@@ -91,7 +91,10 @@ namespace Job_Match.Maui.ViewModels
                         var scores = await _apiService.GetScoresReceivedByUserAsync(userId);
                         ReceivedScores.Clear();
                         foreach (var score in scores)
+                        {
+                            score.IsMine = score.IdUserReviewer == UserSessionService.Instance.Id;
                             ReceivedScores.Add(score);
+                        }
 
                         return;
                     }
@@ -113,7 +116,10 @@ namespace Job_Match.Maui.ViewModels
                     var scores = await _apiService.GetScoresReceivedByUserAsync(userId);
                     ReceivedScores.Clear();
                     foreach (var score in scores)
+                    {
+                        score.IsMine = score.IdUserReviewer == UserSessionService.Instance.Id;
                         ReceivedScores.Add(score);
+                    }
                 }
             }
             catch (Exception ex)
@@ -132,5 +138,12 @@ namespace Job_Match.Maui.ViewModels
                 await Shell.Current.GoToAsync($"ScoreUser?providerId={targetUserId}");
             }
         }
+
+        public async Task<bool> DeleteScoreAsync(TaskScoreDisplayDto score)
+        {
+            var success = await _apiService.DeactivateScoreAsync(score.IdUserReviewer, score.IdUserReviewed);
+            return success;
+        }
+
     }
 }

@@ -78,6 +78,7 @@
 	  <None Remove="Resources\Images\requestservice.png" />
 	  <None Remove="Resources\Images\starempty.png" />
 	  <None Remove="Resources\Images\starfill.png" />
+	  <None Remove="Resources\Images\trash.png" />
 	</ItemGroup>
 
 	<ItemGroup>

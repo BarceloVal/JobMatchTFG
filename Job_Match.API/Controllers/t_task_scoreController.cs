@@ -56,12 +56,37 @@ namespace Job_Match.API.Controllers
                     Rating = s.rating,
                     Comment = s.comment,
                     CreatedOn = s.created_on,
-                    ReviewerName = s.id_user_reviewerNavigation.first_name + " " + s.id_user_reviewerNavigation.last_name
+                    ReviewerName = s.id_user_reviewerNavigation.first_name + " " + s.id_user_reviewerNavigation.last_name,
+                    IdUserReviewer = s.id_user_reviewer,
+                    IdUserReviewed = s.id_user_reviewed
                 })
                 .OrderByDescending(s => s.CreatedOn)
                 .ToListAsync();
 
             return Ok(scores);
+        }
+
+        #endregion
+
+        #region methods PUT
+
+        [HttpPut("deactivate/{idReviewer}/{idReviewed}")]
+        public async Task<IActionResult> DeactivateScore(Guid idReviewer, Guid idReviewed)
+        {
+            var score = await _context.t_task_scores
+                .FirstOrDefaultAsync(s =>
+                    s.id_user_reviewer == idReviewer &&
+                    s.id_user_reviewed == idReviewed &&
+                    s.active);
+
+            if (score == null)
+                return NotFound();
+
+            score.active = false;
+            score.last_update = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         #endregion
