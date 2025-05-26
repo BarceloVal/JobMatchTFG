@@ -2,6 +2,7 @@ using Job_Match.Maui.Views;
 using Job_Match.Maui.ViewModels;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Maui.Controls.Shapes;
+using Microsoft.Maui.Storage;
 
 namespace Job_Match.Maui.Views;
 public partial class LoginPage : ContentPage
@@ -10,6 +11,8 @@ public partial class LoginPage : ContentPage
     {
         InitializeComponent();
         BindingContext = new LoginPageViewModel();
+
+        LoadSavedCredentials();
     }
 
     protected override void OnAppearing()
@@ -41,7 +44,17 @@ public partial class LoginPage : ContentPage
             var e_mail = eMail.Text;
             var e_password = ePassword.Text;
 
-            // Controlaría vacios
+            // Guardar o eliminar datos recordados
+            if (cbRememberPassword.IsChecked)
+            {
+                Preferences.Set("SavedPassword", e_password);
+                Preferences.Set("RememberPassword", true);
+            }
+            else
+            {
+                Preferences.Remove("SavedPassword");
+                Preferences.Set("RememberPassword", false);
+            }
 
             var api = new Job_Match.Maui.ApiService.ApiService();
             var login_response = await api.LoginAsync(e_mail, e_password);
@@ -118,5 +131,16 @@ public partial class LoginPage : ContentPage
 
         // Cambiar el ícono
         button.Source = isPasswordVisible ? "passwordon.png" : "passwordoff.png";
+    }
+
+    private void LoadSavedCredentials()
+    {
+        bool remember = Preferences.Get("RememberPassword", false);
+        cbRememberPassword.IsChecked = remember;
+
+        if (remember)
+        {
+            ePassword.Text = Preferences.Get("SavedPassword", string.Empty);
+        }
     }
 }
