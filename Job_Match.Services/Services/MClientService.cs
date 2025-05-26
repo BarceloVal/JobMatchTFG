@@ -268,10 +268,19 @@ namespace Job_Match.Services.Services
 
         public async Task<bool> UpdateClientProfileAsync(UpdateProfileClientDto dto)
         {
-            var client = await _context.m_user_clients.FirstOrDefaultAsync(c => c.id_user == dto.IdUser);
-            Console.WriteLine($"[DEBUG] dto.Id = {dto.Id}");
+            var client = await _context.m_user_clients
+                .Include(c => c.id_userNavigation)
+                .FirstOrDefaultAsync(c => c.id_user == dto.IdUser);
+
             if (client == null) return false;
 
+            // Actualizar m_user
+            var user = client.id_userNavigation;
+            user.first_name = dto.FirstName;
+            user.last_name = dto.LastName;
+            user.last_update = DateTime.UtcNow;
+
+            // Actualizar m_user_client
             client.name = dto.FirstName + " " + dto.LastName;
             client.num_doc = dto.Document;
             client.id_doc_type = dto.IdDocType;
@@ -279,6 +288,10 @@ namespace Job_Match.Services.Services
             client.id_postal_code = dto.IdPostalCode;
             client.phone_number_1 = dto.Phone1;
             client.phone_number_2 = dto.Phone2;
+            client.last_update = DateTime.UtcNow;
+
+            _context.m_users.Update(user);
+            _context.m_user_clients.Update(client);
 
             await _context.SaveChangesAsync();
             return true;

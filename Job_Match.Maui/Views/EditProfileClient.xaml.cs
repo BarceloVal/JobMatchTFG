@@ -21,7 +21,6 @@ public partial class EditProfileClient : ContentPage
             PathWin.IsVisible = true;
         }
 
-
         // Ajusta el botón de guardar cambios
 #if WINDOWS
         btnEditProfileClient.WidthRequest = 600;
@@ -64,8 +63,16 @@ public partial class EditProfileClient : ContentPage
 
         if (success)
         {
+            var api = new Job_Match.Maui.ApiService.ApiService();
+            var updatedProfile = await api.GetClientByMailAsync(((ProfileClientDto)App.CurrentUser).Mail);
+
             await DisplayAlert("Éxito", "Perfil actualizado correctamente.", "Aceptar");
-            await Shell.Current.GoToAsync("..");
+
+            if (updatedProfile != null)
+            {
+                App.CurrentUser = updatedProfile;
+                await Shell.Current.GoToAsync("..");
+            }
         }
         else
         {
