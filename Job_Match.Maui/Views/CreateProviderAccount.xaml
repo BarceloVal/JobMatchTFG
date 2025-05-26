@@ -288,7 +288,6 @@
                     <Grid ColumnDefinitions="*,Auto">
 
                         <Picker
-                            Title="Selecciona un tipo de documento"
                             ItemsSource="{Binding DocTypes}"
                             ItemDisplayBinding="{Binding name}"
                             SelectedItem="{Binding SelectedDocType}" />
@@ -427,7 +426,6 @@
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="*,Auto">
                         <Picker
-                            Title="Selecciona código postal"
                             ItemsSource="{Binding PostalCodes}"
                             SelectedItem="{Binding SelectedPostalCode}"
                             ItemDisplayBinding="{Binding DisplayText}"/>
@@ -456,8 +454,7 @@
                     <Picker
                         ItemsSource="{Binding ServiceTypes}"
                         ItemDisplayBinding="{Binding name}"
-                        SelectedItem="{Binding SelectedServiceType}"
-                        Title="Selecciona tipo de servicio" />
+                        SelectedItem="{Binding SelectedServiceType}" />
 
                     <!-- Servicio -->
                     <HorizontalStackLayout>

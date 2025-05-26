@@ -26,36 +26,47 @@ namespace Job_Match.Services.Services
             {
                 Console.WriteLine($"DTO recibido: {dto.IdTaskRequest} - {dto.IdUserProvider}");
 
-                var exists = await _context.t_offer_subscriptions
-                    .AnyAsync(x => x.id_task_request == dto.IdTaskRequest && x.id_user_provider == dto.IdUserProvider);
+                var existingSubscription = await _context.t_offer_subscriptions
+                    .FirstOrDefaultAsync(x =>
+                        x.id_task_request == dto.IdTaskRequest &&
+                        x.id_user_provider == dto.IdUserProvider);
 
-                if (exists)
+                if (existingSubscription != null)
                 {
-                    Console.WriteLine("Ya existe suscripción.");
-                    return;
+                    if (existingSubscription.active)
+                    {
+                        Console.WriteLine("Ya existe suscripción activa.");
+                        return; // Ya está activo, no hacemos nada
+                    }
+
+                    // Reactivar la suscripción existente
+                    Console.WriteLine("Reactivando suscripción existente.");
+                    existingSubscription.active = true;
+                    existingSubscription.last_update = DateTime.UtcNow;
+                    _context.t_offer_subscriptions.Update(existingSubscription);
+                }
+                else
+                {
+                    // Verificar que existan las entidades relacionadas
+                    var taskExists = await _context.t_task_requests.AnyAsync(x => x.id == dto.IdTaskRequest);
+                    var providerExists = await _context.m_user_providers.AnyAsync(x => x.id == dto.IdUserProvider);
+
+                    if (!taskExists || !providerExists)
+                        throw new Exception("El id_task_request o id_user_provider no existe.");
+
+                    var subscription = new t_offer_subscription
+                    {
+                        id_task_request = dto.IdTaskRequest,
+                        id_user_provider = dto.IdUserProvider,
+                        active = true,
+                        created_on = DateTime.UtcNow,
+                        last_update = null
+                    };
+
+                    Console.WriteLine("Creando nueva suscripción.");
+                    _context.t_offer_subscriptions.Add(subscription);
                 }
 
-                var taskExists = await _context.t_task_requests.AnyAsync(x => x.id == dto.IdTaskRequest);
-                var providerExists = await _context.m_user_providers.AnyAsync(x => x.id == dto.IdUserProvider);
-
-                if (!taskExists || !providerExists)
-                {
-                    throw new Exception("El id_task_request o id_user_provider no existe.");
-                }
-
-                var subscription = new t_offer_subscription
-                {
-                    id_task_request = dto.IdTaskRequest,
-                    id_user_provider = dto.IdUserProvider,
-                    active = true,
-                    created_on = DateTime.Now,
-                    last_update = null
-                };
-
-                Console.WriteLine($"Enviando: {dto.IdTaskRequest} - {dto.IdUserProvider}");
-                Console.WriteLine($"Guardando: active={subscription.active}");
-
-                _context.t_offer_subscriptions.Add(subscription);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -68,7 +79,10 @@ namespace Job_Match.Services.Services
         public async Task<bool> IsAlreadySubscribedAsync(OfferSubscriptionDto dto)
         {
             return await _context.t_offer_subscriptions
-                .AnyAsync(x => x.id_task_request == dto.IdTaskRequest && x.id_user_provider == dto.IdUserProvider);
+                .AnyAsync(x =>
+                    x.id_task_request == dto.IdTaskRequest &&
+                    x.id_user_provider == dto.IdUserProvider &&
+                    x.active);
         }
 
         public async Task<List<SubscribedOfferDto>> GetOffersByProviderAsync(Guid idUserProvider)
