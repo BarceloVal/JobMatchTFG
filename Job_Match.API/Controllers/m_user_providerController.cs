@@ -189,6 +189,54 @@ namespace Job_Match.API.Controllers
         }
 
 
+        [HttpGet("provider/{idProvider}")]
+        public async Task<ActionResult<List<ChatSummaryDto>>> GetChatsForProvider(Guid idProvider)
+        {
+            var contactos = await _context.t_task_contacts
+                .Where(tc => tc.id_user_provider == idProvider && tc.active)
+                .Include(tc => tc.id_user_clientNavigation)
+                .ToListAsync();
+
+            // Agrupar por cliente para evitar duplicados (por ejemplo, si un mismo cliente habló por oferta y por búsqueda directa)
+            var chats = contactos
+                 .GroupBy(tc => tc.id_user_client) // ← Asegurate que este ID sea único
+                 .Select(group =>
+                 {
+                     var primerContacto = group.First();
+                     var cliente = primerContacto.id_user_clientNavigation;
+
+                     // Obtener todos los mensajes entre proveedor y este cliente
+                     var mensajes = _context.t_task_messages
+                         .Where(m =>
+                             (m.id_user_sender == cliente.id_user && m.id_user_reciver == idProvider) ||
+                             (m.id_user_sender == idProvider && m.id_user_reciver == cliente.id_user)
+                         );
+
+                     return new ChatSummaryDto
+                     {
+                         IdUserClient = cliente.id_user,
+                         ClientName = cliente.name,
+                         IdTaskRequest = group.FirstOrDefault(x => x.id_task_request != null)?.id_task_request,
+                         LastMessage = mensajes
+                             .OrderByDescending(m => m.sent_on)
+                             .Select(m => m.message)
+                             .FirstOrDefault(),
+                         LastMessageDate = mensajes
+                             .OrderByDescending(m => m.sent_on)
+                             .Select(m => m.sent_on)
+                             .FirstOrDefault(),
+                         UnreadCount = mensajes.Count(m => m.read_on == null && m.id_user_reciver == idProvider)
+                     };
+                 })
+                 .GroupBy(x => x.IdUserClient) // <- Este es el filtro final para evitar duplicados visuales
+                 .Select(x => x.First()) // Quedate con el primer chat por cliente
+                 .OrderByDescending(c => c.UnreadCount)
+                 .ThenByDescending(c => c.LastMessageDate)
+                 .ToList();
+
+            return Ok(chats);
+        }
+
         #endregion
 
         #region methods PUT

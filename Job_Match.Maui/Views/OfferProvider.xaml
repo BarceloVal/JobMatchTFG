@@ -26,7 +26,8 @@
                     BorderColor="Black"
                     CornerRadius="10"
                     Padding="10"
-                    HasShadow="False">
+                    HasShadow="False"
+                    MaximumWidthRequest="600">
                     <VerticalStackLayout Spacing="15">
 
                         <Grid ColumnDefinitions="*, Auto">
@@ -37,11 +38,11 @@
                                 SelectedItem="{Binding SelectedPostalCode}"
                                 ItemDisplayBinding="{Binding DisplayText}" />
                             <Image
+                                x:Name="imgArrowPostalCode"
                                 Source="arrowdown.png"
                                 HeightRequest="20"
                                 WidthRequest="20"
-                                HorizontalOptions="End"
-                                Margin="0,0,10,10"/>
+                                HorizontalOptions="End"/>
                         </Grid>
 
                         <!-- Tipo de servicio -->
@@ -52,11 +53,11 @@
                                 SelectedItem="{Binding SelectedServiceType}"
                                 ItemDisplayBinding="{Binding name}" />
                             <Image
+                                x:Name="imgArrowServiceType"
                                 Source="arrowdown.png"
                                 HeightRequest="20"
                                 WidthRequest="20"
-                                HorizontalOptions="End"
-                                Margin="0,0,10,10"/>
+                                HorizontalOptions="End"/>
                         </Grid>
 
                         <!-- Servicio -->
@@ -67,11 +68,11 @@
                                 SelectedItem="{Binding SelectedService}"
                                 ItemDisplayBinding="{Binding name}" />
                             <Image
+                                x:Name="imgArrowService"
                                 Source="arrowdown.png"
                                 HeightRequest="20"
                                 WidthRequest="20"
-                                HorizontalOptions="End"
-                                Margin="0,0,10,10"/>
+                                HorizontalOptions="End"/>
                         </Grid>
 
                         <HorizontalStackLayout Spacing="15" HorizontalOptions="Center" Margin="0,10">
@@ -111,7 +112,7 @@
         <CollectionView Grid.Row="3" ItemsSource="{Binding OpenOffers}" Margin="20,10">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BorderColor="Black" CornerRadius="10" Padding="10" Margin="0,10">
+                    <Frame BorderColor="Black" CornerRadius="10" Padding="10" Margin="0,10" MaximumWidthRequest="600">
                         <VerticalStackLayout Spacing="8">
 
                             <!-- Título en rojo -->
@@ -122,6 +123,7 @@
 
                             <!-- Subtítulo: Cliente -->
                             <Label Text="{Binding ClientName}"
+                                   TextColor="Black"
                                    FontSize="14"
                                    FontAttributes="Italic" />
 
@@ -129,8 +131,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Tipo de servicio: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding ServiceTypeName}" />
+                                        <Span Text="Tipo de servicio: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding ServiceTypeName}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -139,8 +141,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Servicio: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding ServiceName}" />
+                                        <Span Text="Servicio: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding ServiceName}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -149,8 +151,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Población: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding PostalCodeName}" />
+                                        <Span Text="Población: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding PostalCodeName}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -159,8 +161,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Descripción: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding Description}" />
+                                        <Span Text="Descripción: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding Description}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -169,8 +171,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Estado: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding Status}" />
+                                        <Span Text="Estado: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding Status}" TextColor="Black" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>

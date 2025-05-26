@@ -29,6 +29,18 @@ public partial class MyOffersProvider : ContentPage
         }
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        var marginWinUI = new Thickness(0, 35, 10, 10);
+        var marginAndroid = new Thickness(0, 0, 10, 10);
+        var margin = DeviceInfo.Platform == DevicePlatform.WinUI ? marginWinUI : marginAndroid;
+
+        imgArrowState.Margin = margin;
+    }
+
+
     private async void btnQuitOffer_Clicked(object sender, EventArgs e)
     {
         if (((Button)sender).CommandParameter is SubscribedOfferDto selectedOffer)
@@ -43,11 +55,6 @@ public partial class MyOffersProvider : ContentPage
                 await _viewModel.QuitOfferAsync(idProvider, selectedOffer.IdOffer);
             }
         }
-    }
-
-    private async void btnBack_Clicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("..");
     }
 
     private async void btnClean_Clicked(object sender, EventArgs e)
@@ -65,4 +72,5 @@ public partial class MyOffersProvider : ContentPage
         if (idProvider != Guid.Empty)
             await _viewModel.LoadMyOffersAsync(idProvider);
     }
+
 }

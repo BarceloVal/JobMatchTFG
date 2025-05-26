@@ -13,20 +13,29 @@
         </Grid.RowDefinitions>
 
         <!-- Capa 1: el Path rojo -->
-        <Path
-            Grid.Row="0"
-            Stroke="#000"
-            Fill="#980c0f"
-            Data="m201.48868,122.90001c-117.40352,0 -214.48868,-62.39763 -214.48868,-137.55803c0,-75.1604 95.09685,-142.442 212.50038,-142.442c117.40352,0 211.60564,69.05002 212.50038,142.442c0.89474,73.39197 -93.10855,137.55803 -210.51207,137.55803z" />
+        <Grid HeightRequest="150">
+            <!-- Decoración para Android -->
+            <Path x:Name="PathAndroid"
+                  Stroke="#000"
+                  Fill="#980c0f"
+                  IsVisible="False"
+                  Data="m201.48868,122.90001c-117.40352,0 -214.48868,-62.39763 -214.48868,-137.55803c0,-75.1604 95.09685,-142.442 212.50038,-142.442c117.40352,0 211.60564,69.05002 212.50038,142.442c0.89474,73.39197 -93.10855,137.55803 -210.51207,137.55803z" />
 
-        <!-- Capa 2: el logo encima -->
-        <Image
-            Grid.Row="0"
-            Source="jobmatchwhite.png"
-            HeightRequest="80"
-            WidthRequest="80"
-            HorizontalOptions="Center"
-            VerticalOptions="Center" />
+            <!-- Decoración para Window -->
+            <ContentView HorizontalOptions="Center" IsVisible="{OnPlatform Android=false, WinUI=true}">
+                <Path x:Name="PathWin"
+                      Stroke="#000"
+                      Fill="#980c0f"
+                      Data="m307.33873,148.90004c-167.67898,0 -306.3387,-93.15076 -306.3387,-205.3545c0,-112.20375 135.81997,-212.64558 303.49896,-212.64558c167.67898,0 302.22106,103.08183 303.49896,212.64558c1.27789,109.56373 -132.98022,205.3545 -300.6592,205.3545l-0.00002,0l-0.00002,0l0.00002,0l0.00001,0z" />
+            </ContentView>
+            <Image
+                Source="jobmatchwhite.png"
+                HeightRequest="100"
+                WidthRequest="100"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                TranslationY="10"/>
+        </Grid>
 
         <!-- Título -->
         <StackLayout Grid.Row="1" Padding="0">
@@ -52,7 +61,8 @@
                 CornerRadius="30"
                 BorderColor="Black"
                 HasShadow="False"
-                BackgroundColor="White">
+                BackgroundColor="White"
+                MaximumWidthRequest="600">
 
                 <!-- Campos -->
                 <VerticalStackLayout>
@@ -136,7 +146,6 @@
                     <Grid ColumnDefinitions="*,Auto">
 
                         <Picker
-                            Title="Selecciona un tipo de documento"
                             ItemsSource="{Binding DocTypes}"
                             ItemDisplayBinding="{Binding name}"
                             SelectedItem="{Binding SelectedDocType}" />
@@ -220,7 +229,6 @@
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="*,Auto">
                         <Picker
-                            Title="Selecciona código postal"
                             ItemsSource="{Binding PostalCodes}"
                             SelectedItem="{Binding SelectedPostalCode}"
                             ItemDisplayBinding="{Binding DisplayText}"/>
@@ -289,7 +297,6 @@
             FontAttributes="Bold"
             FontSize="18"
             CornerRadius="10"
-            WidthRequest="350"
             Margin="0, 10, 0, 20"
             Clicked="btnChangeClient_Clicked"/>
 

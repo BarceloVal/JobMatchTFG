@@ -12,6 +12,19 @@ public partial class OfferProvider : ContentPage
         BindingContext = new OfferProviderViewModel();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        var marginWinUI = new Thickness(0, 35, 10, 10);
+        var marginAndroid = new Thickness(0, 0, 10, 10);
+        var margin = DeviceInfo.Platform == DevicePlatform.WinUI ? marginWinUI : marginAndroid;
+
+        imgArrowPostalCode.Margin = margin;
+        imgArrowServiceType.Margin = margin;
+        imgArrowService.Margin = margin;
+    }
+
     private async void btnClean_Clicked(object sender, EventArgs e)
     {
         if (BindingContext is OfferProviderViewModel vm)

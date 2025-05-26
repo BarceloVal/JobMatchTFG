@@ -4,6 +4,7 @@
        xmlns:views="clr-namespace:Job_Match.Maui.Views"
        xmlns:controls="clr-namespace:Job_Match.Maui.UserControls"
        x:Class="Job_Match.Maui.MainShellClient"
+       FlyoutBackgroundColor="White"
        Shell.FlyoutBehavior="Flyout">
 
     <Shell.FlyoutHeader>
@@ -13,7 +14,7 @@
     <!-- Menú de la página de cliente -->
     <!-- Página del inicio del cliente -->
     <FlyoutItem Title="Home" Route="HomeClient" FlyoutIcon="home.png">
-        <ShellContent ContentTemplate="{DataTemplate views:HomeClient}" />
+        <ShellContent ContentTemplate="{DataTemplate views:HomeClient}"/>
     </FlyoutItem>
 
     <!-- Página para ver el perfil del cliente -->

@@ -55,7 +55,7 @@
                                 VerticalScrollBarVisibility="Always">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame BorderColor="#ccc" CornerRadius="15" Padding="12" Margin="0, 5, 0, 5" HasShadow="True">
+                            <Frame BorderColor="#ccc" CornerRadius="15" Padding="12" Margin="0, 5, 0, 5" HasShadow="True" MaximumWidthRequest="600">
                                 <VerticalStackLayout Spacing="6">
 
                                     <!-- Nombre comercial -->

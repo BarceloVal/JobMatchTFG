@@ -264,11 +264,18 @@ namespace Job_Match.Services.Services
             provider.map_coordinates = dto.MapCoordinates;
             provider.last_update = DateTime.UtcNow;
 
+            // Marcar proveedor como modificado
+            _context.m_user_providers.Update(provider);
+
             // Actualizar datos del usuario
             var user = provider.id_userNavigation;
             user.first_name = dto.FirstName;
             user.last_name = dto.LastName;
             user.last_update = DateTime.UtcNow;
+
+            // Marcar usuario como modificado
+            _context.m_users.Update(user);
+
             // Comprobar si existe un registro de servicio
             var existingService = await _context.m_service_providers
                 .FirstOrDefaultAsync(sp => sp.id_user_provider == provider.id);
@@ -277,11 +284,9 @@ namespace Job_Match.Services.Services
             {
                 if (dto.IdService.HasValue && existingService.id_service != dto.IdService.Value)
                 {
-                    // Eliminar el existente
                     _context.m_service_providers.Remove(existingService);
-                    await _context.SaveChangesAsync(); // IMPORTANTE: guardar primero para liberar la relación
+                    await _context.SaveChangesAsync(); // Guardar antes de agregar nuevo para evitar conflictos
 
-                    // Crear uno nuevo
                     var newService = new m_service_provider
                     {
                         id_user_provider = provider.id,
@@ -297,7 +302,6 @@ namespace Job_Match.Services.Services
             }
             else if (dto.IdService.HasValue)
             {
-                // Si no existía nada antes, solo agregar
                 var newService = new m_service_provider
                 {
                     id_user_provider = provider.id,

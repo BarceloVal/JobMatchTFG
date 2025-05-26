@@ -21,6 +21,12 @@ public partial class EditProfileProvider : ContentPage
             PathWin.IsVisible = true;
         }
 
+        // Ajusta el botón de guardar cambios
+#if WINDOWS
+        btnEditProfile.WidthRequest = 600;
+#elif ANDROID
+        btnEditProfile.WidthRequest = 350;
+#endif
     }
 
     private EditProfileProviderViewModel viewModel;
@@ -55,7 +61,8 @@ public partial class EditProfileProvider : ContentPage
             var profile = await apiService.GetProviderByMailAsync(((ProfileProviderDto)App.CurrentUser).Mail);
             if (profile != null)
             {
-                await Shell.Current.GoToAsync("ProfileProvider");
+                App.CurrentUser = profile;
+                await Shell.Current.GoToAsync("..");
             }
             else
             {

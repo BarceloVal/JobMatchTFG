@@ -106,7 +106,6 @@
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="*,Auto">
                         <Picker
-                            Title="Selecciona población"
                             ItemsSource="{Binding PostalCodes}"
                             SelectedItem="{Binding SelectedPostalCode}"
                             ItemDisplayBinding="{Binding DisplayText}"/>
@@ -135,8 +134,7 @@
                     <Picker
                         ItemsSource="{Binding ServiceTypes}"
                         ItemDisplayBinding="{Binding name}"
-                        SelectedItem="{Binding SelectedServiceType}"
-                        Title="Selecciona tipo de servicio" />
+                        SelectedItem="{Binding SelectedServiceType}" />
 
                     <!-- Servicio -->
                     <HorizontalStackLayout>
@@ -229,7 +227,6 @@
                             Margin="8, 22, 0, 0"/>
                     </HorizontalStackLayout>
                     <Picker
-                        Title="Selecciona estado"
                         ItemsSource="{Binding TaskStatuses}"
                         ItemDisplayBinding="{Binding name}"
                         SelectedItem="{Binding SelectedTaskStatus}" />
@@ -289,7 +286,6 @@
             FontAttributes="Bold"
             FontSize="18"
             CornerRadius="10"
-            WidthRequest="350"
             Margin="0, 10, 0, 20"
             Clicked="btnEditOffer_Clicked"/>
 

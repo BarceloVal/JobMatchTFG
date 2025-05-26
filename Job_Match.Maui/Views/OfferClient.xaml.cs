@@ -34,6 +34,14 @@ public partial class OfferClient : ContentPage
         {
             await _viewModel.LoadActiveOffersAsync(clientId.Value);
         }
+
+        // Ajusta el botón de inicio de sesión
+#if WINDOWS
+        btnCreateOffer.WidthRequest = 600;
+
+#elif ANDROID
+        btnCreateOffer.WidthRequest = 360;
+#endif
     }
 
     private async void btnCreateOffer_Clicked(object sender, EventArgs e)
