@@ -100,7 +100,7 @@
                                FontAttributes="Bold"
                                TextColor="#980c0f"
                                HorizontalOptions="Center" />
-                        <Label Text="Consulta y edita tus datos personales, como nombre, correo, dirección y teléfonos. También puedes revisar tus valoraciones y acceder a funciones como cambiar de rol o desactivar tu cuenta."
+                        <Label Text="Consulta y edita tus datos personales, como nombre, mail, dirección y teléfonos. También puedes revisar tus valoraciones y acceder a funciones como cambiar de rol o desactivar tu cuenta."
                                FontSize="15"
                                TextColor="#444"
                                LineBreakMode="WordWrap"/>

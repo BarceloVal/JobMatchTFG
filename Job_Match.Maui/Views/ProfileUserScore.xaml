@@ -53,7 +53,7 @@
 
                         <!-- Mail -->
                         <HorizontalStackLayout>
-                            <Label Text="Correo electrónico: " FontAttributes="Bold" />
+                            <Label Text="Mail: " FontAttributes="Bold" />
                             <Label Text="{Binding Mail}" />
                         </HorizontalStackLayout>
 

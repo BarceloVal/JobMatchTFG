@@ -180,7 +180,7 @@
                         Text="{Binding Mail}"
                         TextColor="Black"
                         Keyboard="Email"
-                        Placeholder="Introduce tu correo electrónico"
+                        Placeholder="Introduce tu mail"
                         BackgroundColor="Transparent">
                         <Entry.Triggers>
                             <DataTrigger

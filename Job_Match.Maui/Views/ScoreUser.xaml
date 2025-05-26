@@ -49,7 +49,7 @@
 
                 <!-- Título -->
                 <Label
-                    Text="Valorar usuario"
+                    Text="Valoración"
                     FontSize="25"
                     FontAttributes="Bold"
                     Margin="0, 20, 0, 10"
