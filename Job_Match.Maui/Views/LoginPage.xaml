@@ -157,7 +157,7 @@
 
                 <!-- Recordar contraseña -->
                 <StackLayout MaximumWidthRequest="500" Orientation="Horizontal"  Margin="30, 10, 30, 10" Padding="0">
-                    <CheckBox IsChecked="False" />
+                    <CheckBox x:Name="cbRememberPassword" IsChecked="False"/>
                     <Label Text="Recuerdame la contraseña" TextColor="Black" FontSize="15" VerticalTextAlignment="Center" />
                 </StackLayout>
 
