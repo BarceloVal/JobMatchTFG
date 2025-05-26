@@ -26,6 +26,16 @@ public partial class ProfileProvider : ContentPage
 
         await vm.LoadReceivedScoresAsync(updatedDto.IdUser);
 
+        // Ajusta los botones
+#if WINDOWS
+        btnSwitchUser.WidthRequest = 600;
+        btnEditProfile.WidthRequest = 600;
+        btnDisableAccount.WidthRequest = 600;
+#elif ANDROID
+        btnSwitchUser.WidthRequest = 350;
+        btnEditProfile.WidthRequest = 350;
+        btnDisableAccount.WidthRequest = 350;
+#endif
     }
 
     private async void btnSwitchUser_Clicked(object sender, EventArgs e)

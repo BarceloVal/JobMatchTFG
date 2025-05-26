@@ -13,6 +13,31 @@ public partial class CreateProviderAccount : ContentPage
         BindingContext = new CreateProviderAccountViewModel();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Ajusta la decoración del Login
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            PathAndroid.IsVisible = true;
+            PathWin.IsVisible = false;
+        }
+        else if (DeviceInfo.Platform == DevicePlatform.WinUI)
+        {
+            PathAndroid.IsVisible = false;
+            PathWin.IsVisible = true;
+        }
+
+        // Ajusta el botón de crear cuenta
+#if WINDOWS
+        btnCreateProvider.WidthRequest = 600;
+#elif ANDROID
+        btnCreateProvider.WidthRequest = 350;
+#endif
+
+    }
+
     // Variable para que la primera contraseña pueda ser visible o no
     private bool isPasswordVisible1 = false;
 

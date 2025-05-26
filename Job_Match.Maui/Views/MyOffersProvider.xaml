@@ -5,43 +5,10 @@
              x:Class="Job_Match.Maui.Views.MyOffersProvider"
              Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto, *, Auto, Auto">
+    <VerticalStackLayout>
 
-        <!-- ENCABEZADO PERSONALIZADO -->
-        <Grid
-            Grid.Row="0"
-            ColumnDefinitions="Auto,*,Auto"
-            BackgroundColor="#980c0f"
-            HeightRequest="50"
-            VerticalOptions="Start">
-
-            <!-- Flecha de volver -->
-            <ImageButton
-                x:Name="btnBack"
-                Source="arrowback.png"
-                Clicked="btnBack_Clicked"
-                WidthRequest="35"
-                HeightRequest="35"
-                Margin="10, 0, 0, 0"
-                BackgroundColor="Transparent"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Grid.Column="0" />
-
-            <!-- Nombre del proveedor centrado en el espacio disponible -->
-            <Label
-                Text="Mis ofertas inscritas"
-                Grid.Column="1"
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="Center"
-                HorizontalTextAlignment="Center"
-                TextColor="White"
-                FontSize="20"
-                FontAttributes="Bold"/>
-
-            <!-- Caja invisible para equilibrar el ancho -->
-            <ContentView Grid.Column="2" WidthRequest="55" />
-        </Grid>
+        <!-- Mi encabezado personalizado -->
+        <controls:HeaderControl />
 
         <!-- Contenido con scroll -->
         <ScrollView Grid.Row="1">
@@ -52,7 +19,8 @@
                        CornerRadius="10"
                        Padding="10"
                        Margin="0, 0, 0, 15"
-                       HasShadow="False">
+                       HasShadow="False"
+                       MaximumWidthRequest="600">
                     <VerticalStackLayout Spacing="15">
 
                         <!-- Población -->
@@ -61,7 +29,8 @@
                                     ItemsSource="{Binding TaskStatuses}"
                                     SelectedItem="{Binding SelectedTaskStatus}"
                                     ItemDisplayBinding="{Binding Name}" />
-                            <Image Source="arrowdown.png"
+                            <Image x:Name="imgArrowState"
+                                   Source="arrowdown.png"
                                    HeightRequest="20"
                                    WidthRequest="20"
                                    HorizontalOptions="End"
@@ -100,7 +69,7 @@
                 <CollectionView ItemsSource="{Binding MyOffers}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame Padding="10" Margin="0, 0, 0, 10" BorderColor="#ccc" CornerRadius="10">
+                            <Frame Padding="10" Margin="0, 0, 0, 10" BorderColor="#ccc" CornerRadius="10" MaximumWidthRequest="600">
                                 <VerticalStackLayout>
 
                                     <!-- Título -->
@@ -140,6 +109,7 @@
                                     <Button
                                         x:Name="btnQuitOffer"
                                         Text="Quitarse de la oferta"
+                                        TextColor="white"
                                         BackgroundColor="#980c0f"
                                         Margin="0, 10, 0, 5"
                                         Clicked="btnQuitOffer_Clicked"
@@ -152,5 +122,5 @@
                 </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
-    </Grid>
+    </VerticalStackLayout>
 </ContentPage>

@@ -31,6 +31,13 @@ public partial class LoginPage : ContentPage
             PathWin.IsVisible = true;
         }
 
+        // Ajusta el botón de inicio de sesión
+#if WINDOWS
+        btnSesion.WidthRequest = 600;
+#elif ANDROID
+        btnSesion.WidthRequest = 350;
+#endif
+
     }
 
     /// <summary>

@@ -673,9 +673,7 @@ namespace Job_Match.Maui.ViewModels
         /// <summary>Valida la Descripción. Obligatoria, máximo 1000 caracteres.</summary>
         private void ValidateDescription()
         {
-            if (string.IsNullOrWhiteSpace(Description))
-                DescriptionError = "Campo obligatorio.";
-            else if (Description.Length > 1000)
+            if (Description.Length > 1000)
                 DescriptionError = "Máximo 1000 caracteres.";
             else
                 DescriptionError = string.Empty;

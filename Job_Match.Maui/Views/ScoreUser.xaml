@@ -68,8 +68,9 @@
                 <Label
                     Text="Opinión"
                     TextColor="Black"
-                    FontSize="15"
-                    Margin="0, 20, 0, 10"/>
+                    FontSize="25"
+                    Margin="0, 20, 0, 0"
+                    HorizontalTextAlignment="Center"/>
 
                 <Frame
                     BorderColor="Black"
@@ -78,7 +79,8 @@
                     HasShadow="False"
                     BackgroundColor="Transparent"
                     HeightRequest="100"
-                    VerticalOptions="Start">
+                    VerticalOptions="Start"
+                    MaximumWidthRequest="600">
 
                     <Editor
                         x:Name="txtComment"
@@ -90,14 +92,17 @@
                         TextChanged="txtComment_TextChanged"/>
                 </Frame>
 
-                <!-- Contador de caracteres -->
-                <Label
-                    x:Name="lblCharCount"
-                    Text="0/1000"
-                    FontSize="13"
-                    TextColor="Gray"
-                    HorizontalOptions="End"
-                    Margin="0,5,5,0"/>
+                <Grid ColumnDefinitions="Auto, *" MaximumWidthRequest="600">
+                    <!-- Contador de caracteres -->
+                    <Label
+                        Grid.Column="1"
+                        x:Name="lblCharCount"
+                        Text="0/1000"
+                        FontSize="13"
+                        TextColor="Gray"
+                        HorizontalOptions="End"
+                        Margin="0,5,5,0"/>
+                </Grid>
 
             </VerticalStackLayout>
         </ScrollView>
@@ -115,6 +120,7 @@
             <Button
                 x:Name="btnScore"
                 Text="Enviar valoración"
+                TextColor="White"
                 BackgroundColor="#980c0f"
                 Margin="0, 10, 0, 20"
                 WidthRequest="350"

@@ -27,6 +27,13 @@ public partial class ProfileUserScore : ContentPage
         {
             await DisplayAlert("Error", "El ID del proveedor no es válido.", "Aceptar");
         }
+
+        // Ajusta el botón de inicio de sesión
+#if WINDOWS
+        btnScoreUser.WidthRequest = 600;
+#elif ANDROID
+        btnScoreUser.WidthRequest = 350;
+#endif
     }
 
     private async void btnBack_Clicked(object sender, EventArgs e)

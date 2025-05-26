@@ -26,6 +26,13 @@ public partial class CreateClientAccount : ContentPage
             PathWin.IsVisible = true;
         }
 
+        // Ajusta el botón de crear cuenta
+#if WINDOWS
+        btnCreateClient.WidthRequest = 600;
+#elif ANDROID
+        btnCreateClient.WidthRequest = 350;
+#endif
+
     }
 
     // Variable para que la primera contraseña pueda ser visible o no

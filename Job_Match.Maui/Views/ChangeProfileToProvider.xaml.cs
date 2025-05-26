@@ -14,6 +14,31 @@ public partial class ChangeProfileToProvider : ContentPage
         BindingContext = _viewModel;
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Ajusta la decoración del Login
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            PathAndroid.IsVisible = true;
+            PathWin.IsVisible = false;
+        }
+        else if (DeviceInfo.Platform == DevicePlatform.WinUI)
+        {
+            PathAndroid.IsVisible = false;
+            PathWin.IsVisible = true;
+        }
+
+        // Ajusta el botón de guardar cambios
+#if WINDOWS
+        btnChangeProvider.WidthRequest = 600;
+#elif ANDROID
+        btnChangeProvider.WidthRequest = 350;
+#endif
+
+    }
+
     private void radBtnServices_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         if (!e.Value)

@@ -21,6 +21,13 @@ public partial class EditProfileProvider : ContentPage
             PathWin.IsVisible = true;
         }
 
+
+        // Ajusta el botón de guardar cambios
+#if WINDOWS
+        btnEditProfile.WidthRequest = 600;
+#elif ANDROID
+        btnEditProfile.WidthRequest = 350;
+#endif
     }
 
     private EditProfileProviderViewModel viewModel;

@@ -26,6 +26,12 @@ public partial class CreateOffer : ContentPage
             PathWin.IsVisible = true;
         }
 
+        // Ajusta el botón
+#if WINDOWS
+        btnCreateOffer.WidthRequest = 600;
+#elif ANDROID
+        btnCreateOffer.WidthRequest = 350;
+#endif
     }
 
     private async void btnCreateOffer_Clicked(object sender, EventArgs e)

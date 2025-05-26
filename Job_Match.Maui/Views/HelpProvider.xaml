@@ -21,7 +21,7 @@
                        TextColor="#980c0f" />
 
                 <!-- Buscar ofertas abiertas -->
-                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False" MaximumWidthRequest="800">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Buscar ofertas abiertas"
                                FontSize="18"
@@ -36,7 +36,7 @@
                 </Frame>
 
                 <!-- Inscribirse a ofertas -->
-                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False" MaximumWidthRequest="800">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Inscribirme a ofertas"
                                FontSize="18"
@@ -51,7 +51,7 @@
                 </Frame>
 
                 <!-- Gestionar mis ofertas inscritas -->
-                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False" MaximumWidthRequest="800">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Mis ofertas inscritas"
                                FontSize="18"
@@ -66,7 +66,7 @@
                 </Frame>
 
                 <!-- Chats con clientes -->
-                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False" MaximumWidthRequest="800">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Chats con clientes"
                                FontSize="18"
@@ -81,7 +81,7 @@
                 </Frame>
 
                 <!-- Perfil de proveedor -->
-                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False" MaximumWidthRequest="800">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Mi perfil como proveedor"
                                FontSize="18"
@@ -96,7 +96,7 @@
                 </Frame>
 
                 <!-- Valoraciones -->
-                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False" MaximumWidthRequest="800">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Valoraciones"
                                FontSize="18"
@@ -111,7 +111,7 @@
                 </Frame>
 
                 <!-- Cambiar a cliente -->
-                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False" MaximumWidthRequest="800">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Cambiar a perfil cliente"
                                FontSize="18"
@@ -126,7 +126,7 @@
                 </Frame>
 
                 <!-- Desactivar cuenta -->
-                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False">
+                <Frame BackgroundColor="#f5f5f5" Padding="15" CornerRadius="10" HasShadow="False" MaximumWidthRequest="800">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Desactivar mi cuenta"
                                FontSize="18"

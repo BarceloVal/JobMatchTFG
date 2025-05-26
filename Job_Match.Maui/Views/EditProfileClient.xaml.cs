@@ -21,6 +21,14 @@ public partial class EditProfileClient : ContentPage
             PathWin.IsVisible = true;
         }
 
+
+        // Ajusta el botón de guardar cambios
+#if WINDOWS
+        btnEditProfileClient.WidthRequest = 600;
+#elif ANDROID
+        btnEditProfileClient.WidthRequest = 350;
+#endif
+
     }
 
     private EditProfileClientViewModel viewModel;
@@ -57,7 +65,7 @@ public partial class EditProfileClient : ContentPage
         if (success)
         {
             await DisplayAlert("Éxito", "Perfil actualizado correctamente.", "Aceptar");
-            await Shell.Current.GoToAsync("ProfileClient");
+            await Shell.Current.GoToAsync("..");
         }
         else
         {

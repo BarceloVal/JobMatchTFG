@@ -34,6 +34,12 @@ public partial class EditOffer : ContentPage
             PathWin.IsVisible = true;
         }
 
+        // Ajusta el botón de inicio de sesión
+#if WINDOWS
+        btnEditOffer.WidthRequest = 600;
+#elif ANDROID
+        btnEditOffer.WidthRequest = 350;
+#endif
     }
 
     public EditOffer()

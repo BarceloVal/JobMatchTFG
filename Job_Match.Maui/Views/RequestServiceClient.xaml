@@ -26,7 +26,8 @@
                     BorderColor="Black"
                     CornerRadius="10"
                     Padding="10"
-                    HasShadow="False">
+                    HasShadow="False"
+                    MaximumWidthRequest="600">
                     <VerticalStackLayout Spacing="15">
 
                         <Grid ColumnDefinitions="*, Auto">
@@ -37,11 +38,11 @@
                                 SelectedItem="{Binding SelectedPostalCode}"
                                 ItemDisplayBinding="{Binding DisplayText}" />
                             <Image
+                                x:Name="imgArrowPostalCode"
                                 Source="arrowdown.png"
                                 HeightRequest="20"
                                 WidthRequest="20"
-                                HorizontalOptions="End"
-                                Margin="0,0,10,10"/>
+                                HorizontalOptions="End"/>
                         </Grid>
 
                         <!-- Tipo de servicio -->
@@ -52,11 +53,11 @@
                                 SelectedItem="{Binding SelectedServiceType}"
                                 ItemDisplayBinding="{Binding name}" />
                             <Image
+                                x:Name="imgArrowServiceType"
                                 Source="arrowdown.png"
                                 HeightRequest="20"
                                 WidthRequest="20"
-                                HorizontalOptions="End"
-                                Margin="0,0,10,10"/>
+                                HorizontalOptions="End"/>
                         </Grid>
 
                         <!-- Servicio -->
@@ -67,11 +68,11 @@
                                 SelectedItem="{Binding SelectedService}"
                                 ItemDisplayBinding="{Binding name}" />
                             <Image
+                                x:Name="imgArrowService"
                                 Source="arrowdown.png"
                                 HeightRequest="20"
                                 WidthRequest="20"
-                                HorizontalOptions="End"
-                                Margin="0,0,10,10"/>
+                                HorizontalOptions="End"/>
                         </Grid>
 
                         <HorizontalStackLayout Spacing="15" HorizontalOptions="Center" Margin="0,10">
@@ -121,7 +122,8 @@
                         Padding="15"
                         Margin="0,5"
                         HasShadow="True"
-                        BackgroundColor="#f9f9f9">
+                        BackgroundColor="#f9f9f9"
+                        MaximumWidthRequest="600">
 
                         <VerticalStackLayout Spacing="6">
 
@@ -133,8 +135,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Población: "  FontSize="15" FontAttributes="Bold"/>
-                                        <Span Text="{Binding PostalCodeName}"/>
+                                        <Span Text="Población: " TextColor="Black" FontSize="15" FontAttributes="Bold"/>
+                                        <Span Text="{Binding PostalCodeName}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -143,8 +145,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Teléfono 1: "  FontSize="15" FontAttributes="Bold"/>
-                                        <Span Text="{Binding PhoneNumber1}"/>
+                                        <Span Text="Teléfono 1: " TextColor="Black" FontSize="15" FontAttributes="Bold"/>
+                                        <Span Text="{Binding PhoneNumber1}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -153,8 +155,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Teléfono 2: "  FontSize="15" FontAttributes="Bold"/>
-                                        <Span Text="{Binding PhoneNumber2}"/>
+                                        <Span Text="Teléfono 2: " TextColor="Black" FontSize="15" FontAttributes="Bold"/>
+                                        <Span Text="{Binding PhoneNumber2}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -163,8 +165,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Mail: "  FontSize="15" FontAttributes="Bold"/>
-                                        <Span Text="{Binding Mail}"/>
+                                        <Span Text="Mail: " TextColor="Black" FontSize="15" FontAttributes="Bold"/>
+                                        <Span Text="{Binding Mail}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -173,8 +175,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Web: "  FontSize="15" FontAttributes="Bold"/>
-                                        <Span Text="{Binding Website}"/>
+                                        <Span Text="Web: " TextColor="Black" FontSize="15" FontAttributes="Bold"/>
+                                        <Span Text="{Binding Website}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -183,8 +185,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Descripción: "  FontSize="15" FontAttributes="Bold"/>
-                                        <Span Text="{Binding Description}"/>
+                                        <Span Text="Descripción: " TextColor="Black" FontSize="15" FontAttributes="Bold"/>
+                                        <Span Text="{Binding Description}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -205,6 +207,7 @@
                                 x:Name="btnContact"
                                 Clicked="btnContact_Clicked"
                                 Text="Contactar"
+                                TextColor="White"
                                 BackgroundColor="#980c0f"
                                 FontSize="15"
                                 HeightRequest="40"

@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Job_Match.Maui.Views"
     xmlns:controls="clr-namespace:Job_Match.Maui.UserControls"
+    FlyoutBackgroundColor="White"
     Shell.FlyoutBehavior="Flyout">
 
     <Shell.FlyoutHeader>

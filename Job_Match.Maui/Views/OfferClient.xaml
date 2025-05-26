@@ -22,8 +22,7 @@
                 CornerRadius="10"
                 WidthRequest="350"
                 Margin="30, 20, 30, 10"
-                Clicked="btnCreateOffer_Clicked"
-                MaximumWidthRequest="500"/>
+                Clicked="btnCreateOffer_Clicked"/>
 
             <!-- Línea separadora -->
             <BoxView
@@ -56,7 +55,8 @@
                         Padding="15"
                         Margin="0,5"
                         HasShadow="True"
-                        BackgroundColor="#f9f9f9">
+                        BackgroundColor="#f9f9f9"
+                        MaximumWidthRequest="600">
 
                         <VerticalStackLayout Spacing="6">
 
@@ -70,8 +70,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Tipo de servicio: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding ServiceType}"/>
+                                        <Span Text="Tipo de servicio: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding ServiceType}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -80,8 +80,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Servicio: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding Service}"/>
+                                        <Span Text="Servicio: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding Service}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -90,8 +90,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Población: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding PostalCodeName}"/>
+                                        <Span Text="Población: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding PostalCodeName}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -100,8 +100,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Descripción: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding Description}"/>
+                                        <Span Text="Descripción: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding Description}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -110,8 +110,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Estado: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding Status}"/>
+                                        <Span Text="Estado: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding Status}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -120,8 +120,8 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Fecha de inicio: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding DateStart, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                        <Span Text="Fecha de inicio: " TextColor="Black" FontAttributes="Bold"/>
+                                        <Span Text="{Binding DateStart, StringFormat='{0:dd/MM/yyyy}'}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -130,13 +130,13 @@
                             <Label>
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding DateEnd}" Value="{x:Null}">
-                                        <Setter Property="IsVisible" Value="False"/>
+                                        <Setter Property="IsVisible" Value="False" />
                                     </DataTrigger>
                                 </Label.Triggers>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Fecha de fin: " FontAttributes="Bold"/>
-                                        <Span Text="{Binding DateEnd, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                        <Span Text="Fecha de fin: " FontAttributes="Bold" TextColor="Black"/>
+                                        <Span Text="{Binding DateEnd, StringFormat='{0:dd/MM/yyyy}'}" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -157,12 +157,18 @@
                                 TextColor="White"
                                 CornerRadius="10"
                                 HeightRequest="45"
-                                WidthRequest="340"
                                 FontAttributes="Bold"
                                 HorizontalOptions="Center"
                                 Margin="0, 10, 0, 10"
                                 Clicked="btnViewProviders_Clicked"
-                                CommandParameter="{Binding}" />
+                                CommandParameter="{Binding}" >
+                                <Button.WidthRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="Android" Value="340" />
+                                        <On Platform="WinUI" Value="565" />
+                                    </OnPlatform>
+                                </Button.WidthRequest>
+                            </Button>
 
                             <HorizontalStackLayout Spacing="15" HorizontalOptions="Center" Margin="0,10">
 
@@ -174,10 +180,16 @@
                                     TextColor="White"
                                     CornerRadius="10"
                                     HeightRequest="45"
-                                    WidthRequest="160"
                                     FontAttributes="Bold"
                                     Clicked="btnEdit_Clicked"
-                                    CommandParameter="{Binding}"/>
+                                    CommandParameter="{Binding}">
+                                    <Button.WidthRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="Android" Value="160" />
+                                            <On Platform="WinUI" Value="272" />
+                                        </OnPlatform>
+                                    </Button.WidthRequest>
+                                </Button>
 
                                 <!-- Botón de eliminar oferta -->
                                 <Button
@@ -187,10 +199,16 @@
                                     TextColor="White"
                                     CornerRadius="10"
                                     HeightRequest="45"
-                                    WidthRequest="160"
                                     FontAttributes="Bold"
                                     Clicked="btnDelete_Clicked"
-                                    CommandParameter="{Binding}"/>
+                                    CommandParameter="{Binding}">
+                                    <Button.WidthRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="Android" Value="160" />
+                                            <On Platform="WinUI" Value="272" />
+                                        </OnPlatform>
+                                    </Button.WidthRequest>
+                                </Button>
 
                             </HorizontalStackLayout>
 

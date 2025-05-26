@@ -31,7 +31,8 @@
                     TextColor="White"
                     CornerRadius="10"
                     Margin="20, 0, 20, 0"
-                    Clicked="btnrequest_Clicked"/>
+                    Clicked="btnrequest_Clicked"
+                    MaximumWidthRequest="600"/>
 
             </Grid>
 
@@ -56,7 +57,8 @@
                     TextColor="White"
                     CornerRadius="10"
                     Margin="20, 20, 20, 0"
-                    Clicked="btnoffers_Clicked"/>
+                    Clicked="btnoffers_Clicked"
+                    MaximumWidthRequest="600"/>
 
             </Grid>
 
@@ -81,7 +83,8 @@
                     TextColor="White"
                     CornerRadius="10"
                     Margin="20, 0, 20, 0"
-                    Clicked="btncontact_Clicked"/>
+                    Clicked="btncontact_Clicked"
+                    MaximumWidthRequest="600"/>
 
             </Grid>
         </VerticalStackLayout>

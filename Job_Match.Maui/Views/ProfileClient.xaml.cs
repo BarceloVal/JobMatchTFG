@@ -26,6 +26,18 @@ namespace Job_Match.Maui.Views
             BindingContext = vm;
 
             await vm.LoadReceivedScoresAsync(dto.IdUser);
+
+
+            // Ajusta los botones
+#if WINDOWS
+        btnSwitchUser.WidthRequest = 600;
+        btnEditProfileClient.WidthRequest = 600;
+        btnDisableAccount.WidthRequest = 600;
+#elif ANDROID
+            btnSwitchUser.WidthRequest = 350;
+            btnEditProfileClient.WidthRequest = 350;
+            btnDisableAccount.WidthRequest = 350;
+#endif
         }
 
         private async void btnSwitchUser_Clicked(object sender, EventArgs e)
