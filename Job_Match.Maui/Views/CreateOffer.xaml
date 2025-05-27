@@ -40,7 +40,7 @@
         <!-- Título -->
         <StackLayout Grid.Row="1" Padding="0">
             <Label
-                Text="Créa una oferta"
+                Text="Crea una oferta"
                 TextColor="Black"
                 FontSize="35"
                 VerticalTextAlignment="Center"

@@ -41,7 +41,7 @@
         <!-- Título -->
         <StackLayout Grid.Row="1" Padding="0">
             <Label
-                Text="Créate una cuenta"
+                Text="Crea una cuenta"
                 TextColor="Black"
                 FontSize="35"
                 VerticalTextAlignment="Center"

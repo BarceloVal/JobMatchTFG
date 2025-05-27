@@ -41,6 +41,7 @@ namespace Job_Match.Maui.ApiService
             _httpClient = new HttpClient(handler)
             {
                 BaseAddress = new Uri("https://10.0.2.2:7010/")
+                //BaseAddress = new Uri("https://bk-jobmatch.mgta.io/")
             };
 #else
             _httpClient = new HttpClient(handler)
